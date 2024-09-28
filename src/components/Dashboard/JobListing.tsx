@@ -13,7 +13,6 @@ interface JobListingProps {
 const JobListing = (props: JobListingProps) => {
     const [sidebarOpen, setSidebarOpen] = useState(false)
     const globalContext = useContext(AppContext)
-    const userJobEntries = globalContext?.user?.jobs
     
     let jobsToDisplay = props.originalJobs
     if (props.filteredJobs.length) {
@@ -35,8 +34,11 @@ const JobListing = (props: JobListingProps) => {
                     <JobCard key={job.id || idx} job={job} />
                 )
             })}
-            
-            {jobsToDisplay?.length === 0 && <Loader />}
+            {jobsToDisplay?.length === 0 && (
+                <div className='mt-5'>
+                    <Loader />
+                </div>
+            )}
             <JobSidebar setSidebarOpen={setSidebarOpen} sidebarOpen={sidebarOpen} type='new' />
         </div>
     )

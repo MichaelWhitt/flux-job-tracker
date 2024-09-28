@@ -3,6 +3,7 @@ import { TextInputField, Textarea } from 'evergreen-ui'
 import { fireToast } from '../fireToast'
 import { createJobEntry } from '../../../utils/api'
 import { AppContext } from '../../../auth/AppContext'
+import Loader from '../Loader'
 
 interface NewJobForm {
     company: string
@@ -51,6 +52,7 @@ const NewJobSBContent: React.FC = () => {
     })
     const [showOptionalFields, setShowOptionalFields] = useState(false)
     const globalContext = useContext(AppContext)
+    const [formSubmitting, setFormSubmitting] = useState(false)
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target
@@ -70,6 +72,7 @@ const NewJobSBContent: React.FC = () => {
 
     const handleSubmit = async () => {
         // Convert applicationDate, offerDate, and lastCommunication to UNIX timestamp here
+        setFormSubmitting(true)
         const submittedData = {
             ...formData,
             applicationDate: Math.floor(new Date(formData.applicationDate).getTime() / 1000),
@@ -81,8 +84,13 @@ const NewJobSBContent: React.FC = () => {
             fireToast({type: 'error', content: 'Fill out required fields'})
         } else {
             if (globalContext?.user) {
-                const createdJob = await createJobEntry(globalContext.user?.id, {...submittedData})
-                console.log({createdJob})
+                try {
+                    await createJobEntry(globalContext.user?.id, {...submittedData})
+                    setFormSubmitting(false)
+                } catch(e) {
+                    fireToast({type: 'error', content: JSON.stringify(e)})
+                    setFormSubmitting(false)
+                }
             }
         }
     }
@@ -325,8 +333,12 @@ const NewJobSBContent: React.FC = () => {
                     </>
                 )}
 
-                <button onClick={handleSubmit} className='h-[40px] bg-green-500 hover:bg-green-700 text-black w-fit mt-4 p-2 rounded-md text-center duration-500'>
-                    Submit
+                <button
+                    onClick={formSubmitting ? () => '' : handleSubmit}
+                    className='h-[40px] bg-green-500 hover:bg-green-700 text-black w-fit mt-4 p-2 rounded-md text-center duration-500'
+                    disabled={formSubmitting}
+                >
+                    {formSubmitting ? <Loader /> : 'Submit'}
                 </button>
             </div>
         </div>

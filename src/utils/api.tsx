@@ -46,7 +46,6 @@ export const getRecaptcha = async () => {
 export const createJobEntry = async (userId: string, jobData: JobEntry) => {
     try {
         const userRef = doc(db, 'Users', userId)
-        console.log({userRef})
         await setDoc(userRef, { jobs: arrayUnion(jobData) }, { merge: true })
         fireToast({type: 'success', content: 'Job added successfully!'})
         return 'Job added successfully!'

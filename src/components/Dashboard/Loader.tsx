@@ -2,8 +2,10 @@ import { Spinner } from 'evergreen-ui'
 
 const Loader = () => {
     return (
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-            <Spinner size={32} />
+        <div
+            className='flex justify-center items-center all-items-center place-items-center h-[20px]'
+        >
+            <Spinner color='gray' />
         </div>
     )
 }
