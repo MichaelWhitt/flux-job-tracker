@@ -6,9 +6,9 @@ import firebase from 'firebase/compat/app' // Import the main Firebase module
 import 'firebase/compat/auth' // Import the Firebase Authentication module
 import 'firebase/compat/firestore' // Import the Firestore module
 import emailjs from '@emailjs/browser'
+import { fireToast } from '../components/Toasts/fireToast'
 
 const userCollection = collection(db, 'Users')
-// const watchListCollection = collection(db, 'WatchList')
 const recapCollection = collection(db, 'recaptcha')
 
 export const getAllJobs = async (c: any) => {
@@ -43,16 +43,23 @@ export const getRecaptcha = async () => {
     return await getDocs(recapCollection)
 }
 
-// export const createWatchListItem = async (userId: string, watchListItemData: WatchListItem) => {
-//     try {
-//         const userRef = doc(db, 'Users', userId)
-//         await setDoc(userRef, { watchList: arrayUnion(watchListItemData) }, { merge: true })
-//         return 'Watchlist item added successfully'
-//     } catch (error) {
-//       console.error('Error creating watchlist item:', error)
-//       throw error
-//     }
-// }
+export const createJobEntry = async (userId: string, jobData: JobEntry) => {
+    try {
+        const userRef = doc(db, 'Users', userId)
+        console.log({userRef})
+        await setDoc(userRef, { jobs: arrayUnion(jobData) }, { merge: true })
+        fireToast({type: 'success', content: 'Job added successfully!'})
+        return 'Job added successfully!'
+    } catch (error) {
+      console.error('Error creating job:', error)
+      fireToast({type: 'error', content: 'Error creating job!'})
+      throw error
+    }
+}
+
+export const getUserJobEntries = async (c) => {
+    return await getDocs(c)
+}
 
 // export const createWatchHistoryItem = async (userId: string, watchHistoryItemData: HistoryItem) => {
 //     try {

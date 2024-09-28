@@ -1,16 +1,19 @@
 import JobCard from './JobCard'
 import Loader from './Loader'
 import JobSidebar from './Sidebar/JobSidebar'
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 import { IconPlus } from '@tabler/icons-react'
+import { AppContext } from '../../auth/AppContext'
 
 interface JobListingProps {
-    originalJobs: Array<any>
-    filteredJobs: Array<any>
+    originalJobs: Array<JobEntry>
+    filteredJobs: Array<JobEntry>
 }
 
 const JobListing = (props: JobListingProps) => {
     const [sidebarOpen, setSidebarOpen] = useState(false)
+    const globalContext = useContext(AppContext)
+    const userJobEntries = globalContext?.user?.jobs
     
     let jobsToDisplay = props.originalJobs
     if (props.filteredJobs.length) {

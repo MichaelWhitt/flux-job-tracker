@@ -1,15 +1,16 @@
 import JobListing from './JobListing.js'
 import JobFilters from './JobFilters.js'
-import { useState, useEffect } from 'react'
-import NewJobForm from './NewJobForm.js'
+import { useState, useEffect, useContext } from 'react'
+import { AppContext } from '../../auth/AppContext.js'
 
 interface DashboardProps {
-    jobs: Array<any>
+    jobs: Array<JobEntry>
 }
 
 const Landing = (props: DashboardProps) => {
-    const [originalJobs, setoriginalJobs] = useState<Array<any>>([])
-    const [filteredJobs, setFilteredJobs] = useState<Array<any>>([])
+    const [originalJobs, setoriginalJobs] = useState<Array<JobEntry>>([])
+    const [filteredJobs, setFilteredJobs] = useState<Array<JobEntry>>([])
+    const globalContext = useContext(AppContext)
 
     useEffect(() => {
         if (!originalJobs.length && props.jobs?.length) {

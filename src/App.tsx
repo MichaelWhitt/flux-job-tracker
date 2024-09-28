@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useContext } from 'react'
 import './index.css'
 import { Switch, Route, Redirect } from 'wouter'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import '@mantine/core/styles.css'
-import { useAuth } from './auth/AppContext'
+import { useAuth, AppContext } from './auth/AppContext'
 import Layout from './components/Layout/Layout'
 import Landing from './components/Dashboard/Landing'
 import Test from './components/Dashboard/Test'
@@ -14,9 +14,6 @@ import SignUp from './components/UserAuth/SignUp'
 import SignUpConfirmation from './components/UserAuth/SignUpConfirmation'
 import ProtectedRoute from './auth/ProtectedRoute'
 import { MantineProvider, createTheme } from '@mantine/core'
-import { getAllJobs } from './utils/api'
-import { collection } from 'firebase/firestore'
-import { db } from './firebase-config'
 
 
 function App() {
@@ -26,29 +23,13 @@ function App() {
     // primaryColor: 'cyan',
     cursorType: 'pointer'
   })
-  const siteName = 'Flux jTracker'
+  const globalContext = useContext(AppContext)
+  const userJobEntries = globalContext?.user?.jobs
 
   useEffect(() => {
     if (isLoggedIn && !user.email && !user.id) {
       logout()
     }      
-  }, [])
-
-
-  const jobsCollections = collection(db, 'jobs')
-  const [jobs, setJobs] = useState([])
-
-  useEffect(() => {
-    const getJobs = async () => {
-     const data = await getAllJobs(jobsCollections)
-     console.log({data})
-     if (data && data.docs) {
-      setJobs(data.docs.map((d) => ({
-        ...d.data(), id: d.id
-       })))
-     }
-    }
-    getJobs()
   }, [])
 
   return (
@@ -72,7 +53,7 @@ function App() {
               <Route
                 path='/landing'
                 component={() => (
-                  <Landing jobs={jobs} />
+                  <Landing jobs={userJobEntries || []} />
                 )}
               />
               <ProtectedRoute path='/test' component={Test} />
@@ -86,7 +67,7 @@ function App() {
                 <Route
                   path='/landing'
                   component={() => (
-                    <Landing jobs={jobs} />
+                    <Landing jobs={userJobEntries || []} />
                   )}
                 />
                 <Route path='/login' component={() => <Login />} />

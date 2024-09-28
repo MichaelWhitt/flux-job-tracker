@@ -1,9 +1,9 @@
 
-interface ViewJobSidebarProps {
+interface ViewJobSBContentProps {
     job: any
 }
 
-const ViewJobSidebar = ({job}: ViewJobSidebarProps) => {
+const ViewJobSBContent = ({job}: ViewJobSBContentProps) => {
     return (
       <div className='bg-gray-900 p-6 text-gray-100'>
         <h2 className='text-3xl font-bold mb-6 text-blue-400'>{job.company} - {job.title}</h2>
@@ -55,4 +55,4 @@ const ViewJobSidebar = ({job}: ViewJobSidebarProps) => {
     )
 }
 
-export default ViewJobSidebar
+export default ViewJobSBContent

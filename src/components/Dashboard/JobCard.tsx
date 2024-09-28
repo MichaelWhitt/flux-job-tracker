@@ -1,31 +1,8 @@
 import React, { useState } from 'react'
 import JobSidebar from './Sidebar/JobSidebar'
 
-interface Job {
-  applicationDate: string
-  status: string
-  description: string
-  company: string
-  applicationSite: string
-  jobLevel: string
-  title: string
-  lastCommunication: string
-  hmContactInfo: string
-  notes: string
-  interviewRound: number
-  salary: string
-  jobLink: string
-  offerDate: string
-  hiringManager: string
-  interestLevel: string
-  location: string
-  skills: string[]
-  qualificationLevel: string
-  id: string
-}
-
 interface JobCardProps {
-  job: Job
+  job: JobEntry
 }
 
 const JobCard: React.FC<JobCardProps> = ({ job }) => {

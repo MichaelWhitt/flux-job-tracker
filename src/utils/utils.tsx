@@ -42,7 +42,7 @@ export const generateColor = (num: string | number, background?: boolean) => {
   return colorClass
 }
 
-export const generatedUnid = () => {
+export const generateUnid = () => {
     var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
     var unid = ''
     for (var i = 0; i < 16; i++) {

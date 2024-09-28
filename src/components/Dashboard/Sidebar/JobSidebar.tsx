@@ -1,7 +1,7 @@
 import { SideSheet } from 'evergreen-ui'
 import { useState, useEffect } from 'react'
-import ViewJobSidebar from './ViewJobSidebar'
-import NewJobSidebar from './NewJobSidebar'
+import ViewJobSBContent from './ViewJobSBContent'
+import NewJobSBContent from './NewJobSBContent'
 
 interface JobSidebar {
     job?: any
@@ -27,15 +27,16 @@ const JobSidebar = ({ job, sidebarOpen, setSidebarOpen, type }: JobSidebar) => {
     const renderSidebarContext = () => {
       switch (type) {
         case 'view':
-          return <ViewJobSidebar job={job} />
+          return <ViewJobSBContent job={job} />
           case 'new':
-            return <NewJobSidebar />
+            return <NewJobSBContent />
             case 'edit':
-          return <ViewJobSidebar job={job} />
+          return <ViewJobSBContent job={job} />
       }
     }
   return (
     <SideSheet
+      shouldCloseOnOverlayClick={type === 'view' ? true : false}
       isShown={sidebarOpen}
       onCloseComplete={() => setSidebarOpen(false)}
       width={isMobile ? 300 : 600}

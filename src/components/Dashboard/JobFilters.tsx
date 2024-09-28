@@ -2,9 +2,9 @@ import { useState } from 'react'
 import { fireToast } from './fireToast'
 
 interface JobFiltersProps {
-    setFilteredJobs: (jobs: Array<any>) => void
-    originalJobs: Array<any>
-    filteredJobs: Array<any>
+    setFilteredJobs: (jobs: Array<JobEntry>) => void
+    originalJobs: Array<JobEntry>
+    filteredJobs: Array<JobEntry>
 }
 
 interface StatusType {

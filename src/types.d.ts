@@ -14,7 +14,7 @@ interface AppContextType {
     email: string
     id: string
     emailVerified?: boolean
-    jobs: Array<any>,
+    jobs: Array<JobEntry>,
     notifications?: boolean
     darkMode?: boolean
     profilePic?: string
@@ -22,5 +22,28 @@ interface AppContextType {
     subscribed?: boolean,
     subscriptionStart?: string,
     subscriptionEnd?: string,
-    favJobs?: Array<string>
+    favJobs?: Array<JobEntry>
+  }
+
+  type JobEntry = {
+    applicationDate: string
+    status: string
+    description: string
+    company: string
+    applicationSite: string
+    jobLevel: string
+    title: string
+    lastCommunication: string
+    hmContactInfo: string
+    notes: string
+    interviewRound: number
+    salary: string
+    jobLink: string
+    offerDate: string
+    hiringManager: string
+    interestLevel: string
+    location: string
+    skills: string[]
+    qualificationLevel: string
+    id: string
   }

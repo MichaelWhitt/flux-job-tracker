@@ -1,6 +1,8 @@
-import React, { useState } from 'react'
-import { TextInputField, label, Textarea } from 'evergreen-ui'
+import { useState, useContext } from 'react'
+import { TextInputField, Textarea } from 'evergreen-ui'
 import { fireToast } from '../fireToast'
+import { createJobEntry } from '../../../utils/api'
+import { AppContext } from '../../../auth/AppContext'
 
 interface NewJobForm {
     company: string
@@ -24,7 +26,7 @@ interface NewJobForm {
     interviewRound: number
 }
 
-const NewJobSidebar: React.FC = () => {
+const NewJobSBContent: React.FC = () => {
     const currentDate = new Date().toISOString().split('T')[0] // Get today's date in YYYY-MM-DD format
     const [formData, setFormData] = useState<NewJobForm>({
         company: '',
@@ -48,6 +50,7 @@ const NewJobSidebar: React.FC = () => {
         interviewRound: 0,
     })
     const [showOptionalFields, setShowOptionalFields] = useState(false)
+    const globalContext = useContext(AppContext)
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target
@@ -65,7 +68,7 @@ const NewJobSidebar: React.FC = () => {
         }))
     }
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         // Convert applicationDate, offerDate, and lastCommunication to UNIX timestamp here
         const submittedData = {
             ...formData,
@@ -77,10 +80,11 @@ const NewJobSidebar: React.FC = () => {
         if (!formData.company || !formData.salary || !formData.title || !formData.status || !formData.location) {
             fireToast({type: 'error', content: 'Fill out required fields'})
         } else {
-            alert('submit')
+            if (globalContext?.user) {
+                const createdJob = await createJobEntry(globalContext.user?.id, {...submittedData})
+                console.log({createdJob})
+            }
         }
-
-        // You can call your Firebase API here
     }
 
     return (
@@ -96,7 +100,7 @@ const NewJobSidebar: React.FC = () => {
                             placeholder='Company'
                             value={formData.company}
                             onChange={handleChange}
-                            className='bg-gray-800 text-white w-fit'
+                            style={{background: '#1F2937', color: '#fff', width: 'fit-content'}}
                         />
                     </div>
                     
@@ -108,7 +112,7 @@ const NewJobSidebar: React.FC = () => {
                             placeholder='Title'
                             value={formData.title}
                             onChange={handleChange}
-                            className='bg-gray-800 text-white w-fit'
+                            style={{background: '#1F2937', color: '#fff', width: 'fit-content'}}
                         />
                     </div>
 
@@ -120,7 +124,7 @@ const NewJobSidebar: React.FC = () => {
                             placeholder='Location'
                             value={formData.location}
                             onChange={handleChange}
-                            className='bg-gray-800 text-white w-fit'
+                            style={{background: '#1F2937', color: '#fff', width: 'fit-content'}}
                         />
                     </div>
 
@@ -148,7 +152,7 @@ const NewJobSidebar: React.FC = () => {
                             name='applicationDate'
                             value={formData.applicationDate} // Keep it as string
                             onChange={handleChange}
-                            className='bg-gray-800 text-white w-fit'
+                            style={{background: '#1F2937', color: '#fff', width: 'fit-content'}}
                         />
                     </div>
                     
@@ -160,7 +164,7 @@ const NewJobSidebar: React.FC = () => {
                             placeholder='Salary'
                             value={formData.salary}
                             onChange={handleChange}
-                            className='bg-gray-800 text-white w-fit'
+                            style={{background: '#1F2937', color: '#fff', width: 'fit-content'}}
                         />
                     </div>
                 </div>
@@ -181,7 +185,7 @@ const NewJobSidebar: React.FC = () => {
                                     name='offerDate'
                                     value={formData.offerDate} // Keep it as string
                                     onChange={handleChange}
-                                    className='bg-gray-800 text-white w-fit'
+                                    style={{background: '#1F2937', color: '#fff', width: 'fit-content'}}
                                 />
                             </div>
                         )}
@@ -193,7 +197,7 @@ const NewJobSidebar: React.FC = () => {
                                 name='lastCommunication'
                                 value={formData.lastCommunication} // Keep it as string
                                 onChange={handleChange}
-                                className='bg-gray-800 text-white w-fit'
+                                style={{background: '#1F2937', color: '#fff', width: 'fit-content'}}
                             />
                         </div>
 
@@ -204,7 +208,7 @@ const NewJobSidebar: React.FC = () => {
                                 placeholder='Hiring Manager'
                                 value={formData.hiringManager}
                                 onChange={handleChange}
-                                className='bg-gray-800 text-white w-fit'
+                                style={{background: '#1F2937', color: '#fff', width: 'fit-content'}}
                             />
                         </div>
 
@@ -215,7 +219,18 @@ const NewJobSidebar: React.FC = () => {
                                 placeholder='Contact Info'
                                 value={formData.hmContactInfo}
                                 onChange={handleChange}
-                                className='bg-gray-800 text-white w-fit'
+                                style={{background: '#1F2937', color: '#fff', width: 'fit-content'}}
+                            />
+                        </div>
+
+                        <div className='flex flex-col mb-5'>
+                            <label htmlFor='description' className='text-white'>Job Description</label>
+                            <Textarea
+                                name='description'
+                                placeholder='Job Description'
+                                value={formData.description}
+                                onChange={handleChange}
+                                style={{background: '#1F2937', color: '#fff'}}
                             />
                         </div>
 
@@ -226,7 +241,7 @@ const NewJobSidebar: React.FC = () => {
                                 placeholder='Notes'
                                 value={formData.notes}
                                 onChange={handleChange}
-                                className='bg-gray-800 text-white w-full'
+                                style={{background: '#1F2937', color: '#fff'}}
                             />
                         </div>
 
@@ -237,7 +252,7 @@ const NewJobSidebar: React.FC = () => {
                                 placeholder='e.g. React, TypeScript, Git'
                                 value={formData.skills.join(', ')}
                                 onChange={handleSkillsChange}
-                                className='bg-gray-800 text-white w-fit'
+                                style={{background: '#1F2937', color: '#fff', width: 'fit-content'}}
                             />
                         </div>
 
@@ -248,7 +263,7 @@ const NewJobSidebar: React.FC = () => {
                                 placeholder='e.g. Entry, Middle, Senior'
                                 value={formData.jobLevel}
                                 onChange={handleChange}
-                                className='bg-gray-800 text-white w-fit'
+                                style={{background: '#1F2937', color: '#fff', width: 'fit-content'}}
                             />
                         </div>
 
@@ -259,7 +274,7 @@ const NewJobSidebar: React.FC = () => {
                                 placeholder='e.g. LinkedIn, Indeed, Company Website'
                                 value={formData.applicationSite}
                                 onChange={handleChange}
-                                className='bg-gray-800 text-white w-fit'
+                                style={{background: '#1F2937', color: '#fff', width: 'fit-content'}}
                             />
                         </div>
 
@@ -270,7 +285,7 @@ const NewJobSidebar: React.FC = () => {
                                 placeholder='URL to the job listing'
                                 value={formData.jobLink}
                                 onChange={handleChange}
-                                className='bg-gray-800 text-white w-fit'
+                                style={{background: '#1F2937', color: '#fff', width: 'fit-content'}}
                             />
                         </div>
 
@@ -278,10 +293,10 @@ const NewJobSidebar: React.FC = () => {
                             <label htmlFor='qualificationLevel' className='text-white'>Qualification Level</label>
                             <TextInputField
                                 name='qualificationLevel'
-                                placeholder='Qualification Level'
+                                placeholder='Qualification Level Match'
                                 value={formData.qualificationLevel}
                                 onChange={handleChange}
-                                className='bg-gray-800 text-white w-fit'
+                                style={{background: '#1F2937', color: '#fff', width: 'fit-content'}}
                             />
                         </div>
 
@@ -292,7 +307,7 @@ const NewJobSidebar: React.FC = () => {
                                 placeholder='Interest Level'
                                 value={formData.interestLevel}
                                 onChange={handleChange}
-                                className='bg-gray-800 text-white w-fit'
+                                style={{background: '#1F2937', color: '#fff', width: 'fit-content'}}
                             />
                         </div>
 
@@ -304,7 +319,7 @@ const NewJobSidebar: React.FC = () => {
                                 placeholder='Round number'
                                 value={formData.interviewRound}
                                 onChange={handleChange}
-                                className='bg-gray-800 text-white w-fit'
+                                style={{background: '#1F2937', color: '#fff', width: 'fit-content'}}
                             />
                         </div>
                     </>
@@ -318,4 +333,4 @@ const NewJobSidebar: React.FC = () => {
     )
 }
 
-export default NewJobSidebar
+export default NewJobSBContent
