@@ -52,6 +52,7 @@ export const createAccountWithEmail = async (email, password, username = '') => 
       darkMode: true,
       email: email,
       favJobs: [],
+      jobs: [],
       language: 'English',
       notifications: true,
       profilePic: '',

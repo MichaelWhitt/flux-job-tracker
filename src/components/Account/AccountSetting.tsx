@@ -128,19 +128,18 @@ const AccountSetting = (props: SettingProps) => {
           </div>
         )
       } else if (field === 'favJobs') {
-        const tierListOpts = [
-          'Actors',
-          'Anime',
-          'Gaming',
-          'Music',
-          'Politics'
+        const jobOpts = [
+          'Software Engineering',
+          'Software Development',
+          'ReactJS',
+          'Typescript'
         ]
         return (
             <MultiSelect
               label={label}
               placeholder='Pick values'
               className={`col-span-2 w-full`}
-              data={tierListOpts}
+              data={jobOpts}
               hidePickedOptions
               maxValues={5}
               value={Array.isArray(v) ? v : []}

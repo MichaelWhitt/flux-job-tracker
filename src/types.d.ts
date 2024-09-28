@@ -14,7 +14,7 @@ interface AppContextType {
     email: string
     id: string
     emailVerified?: boolean
-    favoriteLists?: array
+    jobs: Array<any>,
     notifications?: boolean
     darkMode?: boolean
     profilePic?: string
