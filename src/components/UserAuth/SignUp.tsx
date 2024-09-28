@@ -34,9 +34,8 @@ const SignUp = (props: SignUp) => {
       <h1 className='flex flex-col gap-1 text-center mb-0'>
         <h2 className={`text-3xl font-semibold ${isOnMobile ? 'my-[20px]' : 'my-[50px]' }`}>Create a FREE account</h2>
         <div className='bg-gray-800 w-[350px] min-h-[200px] rounded-lg p-2 flex flex-col gap-2 justify-center'>
-        <span className='before:content-["•"]'> Create, modify, and share tier lists</span>
-        <span className='before:content-["•"]'> Explore a robust tier list database</span>
-        <span className='before:content-["•"]'> Analyze tier list rating habits</span>
+        <span className='before:content-["•"]'> Create, modify, and share job applications</span>
+        <span className='before:content-["•"]'> Analyze job seeking habits</span>
         <span>...and much more!</span>
       </div>
       </h1>
