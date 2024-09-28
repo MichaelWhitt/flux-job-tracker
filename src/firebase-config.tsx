@@ -24,14 +24,15 @@ import { navigate } from 'wouter/use-browser-location'
 // }
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyD1WpuVSJn-ibE98DqiZ9tPNpIWrprpyyk',
-  authDomain: 'generic-template-with-auth.firebaseapp.com',
-  projectId: 'generic-template-with-auth',
-  storageBucket: 'generic-template-with-auth.appspot.com',
-  messagingSenderId: '824556618022',
-  appId: '1:824556618022:web:53a64f4fd71b1e6775c1e7',
-  measurementId: 'G-L94K6Z0522'
-};
+  apiKey: "AIzaSyDg992I1OALgTJ7nsX844CiRv_Is2ngKt0",
+  authDomain: "jtracker-823e4.firebaseapp.com",
+  projectId: "jtracker-823e4",
+  storageBucket: "jtracker-823e4.appspot.com",
+  messagingSenderId: "312257479396",
+  appId: "1:312257479396:web:ee14b3c51a53ed5cdb62f1",
+  measurementId: "G-8E2ZFRMC8R"
+}
+
 // Initialize Firebase
 const app = initializeApp(firebaseConfig)
 const analytics = getAnalytics(app)

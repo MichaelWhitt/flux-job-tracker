@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { db, logout } from '../firebase-config'
 import {collection, getDocs, updateDoc, doc, getDoc, deleteDoc, setDoc, query, where, limit, arrayUnion} from 'firebase/firestore'
 //import { successToast, failToast } from '../Components/Toasts/toasts'
@@ -11,6 +10,14 @@ import emailjs from '@emailjs/browser'
 const userCollection = collection(db, 'Users')
 // const watchListCollection = collection(db, 'WatchList')
 const recapCollection = collection(db, 'recaptcha')
+
+export const getAllJobs = async (c: any) => {
+    try {
+        return await getDocs(c)
+    } catch (e) {
+        console.log(e)
+    }
+}
 
 
 

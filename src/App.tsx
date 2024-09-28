@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import './index.css'
 import { Switch, Route, Redirect } from 'wouter'
 import { ToastContainer } from 'react-toastify'
@@ -14,6 +14,9 @@ import SignUp from './components/UserAuth/SignUp'
 import SignUpConfirmation from './components/UserAuth/SignUpConfirmation'
 import ProtectedRoute from './auth/ProtectedRoute'
 import { MantineProvider, createTheme } from '@mantine/core'
+import { getAllJobs } from './utils/api'
+import { collection } from 'firebase/firestore'
+import { db } from './firebase-config'
 
 
 function App() {
@@ -23,12 +26,29 @@ function App() {
     // primaryColor: 'cyan',
     cursorType: 'pointer'
   })
-  const siteName = 'MySite'
+  const siteName = 'Flux jTracker'
 
   useEffect(() => {
     if (isLoggedIn && !user.email && !user.id) {
       logout()
     }      
+  }, [])
+
+
+  const jobsCollections = collection(db, 'jobs')
+  const [jobs, setJobs] = useState([])
+
+  useEffect(() => {
+    const getJobs = async () => {
+     const data = await getAllJobs(jobsCollections)
+     console.log({data})
+     if (data && data.docs) {
+      setJobs(data.docs.map((d) => ({
+        ...d.data(), id: d.id
+       })))
+     }
+    }
+    getJobs()
   }, [])
 
   return (
@@ -52,7 +72,7 @@ function App() {
               <Route
                 path='/landing'
                 component={() => (
-                  <Landing />
+                  <Landing jobs={jobs} />
                 )}
               />
               <ProtectedRoute path='/test' component={Test} />
@@ -66,7 +86,7 @@ function App() {
                 <Route
                   path='/landing'
                   component={() => (
-                    <Landing />
+                    <Landing jobs={jobs} />
                   )}
                 />
                 <Route path='/login' component={() => <Login />} />

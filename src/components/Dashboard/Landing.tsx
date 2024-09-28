@@ -1,24 +1,35 @@
+import JobListing from './JobListing.js'
+import JobFilters from './JobFilters.js'
+import { useState, useEffect } from 'react'
+import NewJobForm from './NewJobForm.js'
 
-const Landing = () => {
+interface DashboardProps {
+    jobs: Array<any>
+}
+
+const Landing = (props: DashboardProps) => {
+    const [originalJobs, setoriginalJobs] = useState<Array<any>>([])
+    const [filteredJobs, setFilteredJobs] = useState<Array<any>>([])
+
+    useEffect(() => {
+        if (!originalJobs.length && props.jobs?.length) {
+            setoriginalJobs(props.jobs)
+        }
+    }, [props.jobs])
+
     return (
-        <div className=''>
-            <div className='bg-bgSecondary h-[400px]'>
-                Landing
-            </div>
-            <div className='bg-bg1'>1</div>
-            <div className='bg-bg2'>1</div>
-            <div className='bg-bg3'>1</div>
-            <div className='bg-bg4'>1</div>
-            <div className='bg-bg5'>1</div>
-            <div className='bg-bg6'>1</div>
-            <div className='bg-bg7'>1</div>
-            <div className='bg-bg8'>1</div>
-            <div className='bg-bg9'>1</div>
-            <div className='bg-bg10'>1</div>
-            <div className='text-text1'>1</div>
-            <div className='text-text2'>1</div>
-            
-           
+        <div className='p-2'>
+                <>
+                    <h1 className='text-white font-bold text-3xl flex justify-center sm:mb-[100px] mb-[40px]'>Dashboard</h1>
+                    <div className='flex w-3/4 m-auto sm:flex-row flex-col'>
+                        <div className='flex-shrink-0'> {/* Prevents JobFilters from shrinking */}
+                            <JobFilters originalJobs={originalJobs} filteredJobs={filteredJobs} setFilteredJobs={setFilteredJobs} />
+                        </div>
+                        <div className='flex-grow'> {/* Allows JobListing to take the remaining space */}
+                            <JobListing originalJobs={originalJobs} filteredJobs={filteredJobs} />
+                        </div>
+                    </div>
+                </>
         </div>
     )
 }

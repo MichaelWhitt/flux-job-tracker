@@ -12,7 +12,7 @@ const SignUpConfirmation = () => {
     return (
         <div className='min-h-screen all-center flex flex-col p-2 bg-swirl'>
             <div className='bg-gray-900 opacity-85 rounded-lg shadow-lg p-8 max-w-lg text-center'>
-                <h1 className='text-4xl font-extrabold text-white mb-6'>Welcome to My Project!</h1>
+                <h1 className='text-4xl font-extrabold text-white mb-6'>Welcome to jTracker!</h1>
                 <h2 className='text-2xl font-semibold text-gray-300 mb-4'>Getting Started</h2>
 
                 <div className='space-y-4'>

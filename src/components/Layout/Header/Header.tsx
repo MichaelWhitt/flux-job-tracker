@@ -51,7 +51,7 @@ const Header: React.FC = () => {
         <header className='bg-bg1 h-[60px] fixed top-0 left-0 w-full flex justify-between items-center z-10 px-4 '>
             <Link to='/'>
                 <div className='text-white text-[35px] font-nunito font-bold'>
-                My Project
+                jTracker
                 </div>
             </Link>
             <Link to='/account'>
@@ -62,7 +62,7 @@ const Header: React.FC = () => {
         <header className='bg-bg1 h-[60px] fixed top-0 left-0 w-full flex justify-between items-center z-10 px-4'>
         <Link to='/'>
             <div className='text-white text-[40px] md:text-[50px] font-nunito font-bold'>
-                My Project
+                jTracker
             </div>
         </Link>
 
