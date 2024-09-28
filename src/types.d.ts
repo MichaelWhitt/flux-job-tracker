@@ -22,5 +22,5 @@ interface AppContextType {
     subscribed?: boolean,
     subscriptionStart?: string,
     subscriptionEnd?: string,
-    favTierLists?: Array<string>
+    favJobs?: Array<string>
   }

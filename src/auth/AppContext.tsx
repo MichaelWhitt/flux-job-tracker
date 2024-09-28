@@ -20,7 +20,7 @@ export const AuthProvider: React.FC = ({children}) => {
   const history = createBrowserHistory()
   const auth = getAuth()
   const emailVerified = auth.currentUser?.emailVerified || false
-  const siteName = 'MySiteName'
+  const siteName = 'jTracker'
   
   useEffect(() => {
     const getRecap = async () => {

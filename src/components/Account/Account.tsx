@@ -38,21 +38,21 @@ const Settings: React.FC = () => {
   const settingsObjsAreSame = () => {
     const dbObj = userObj
     const stateObj = fieldsToUpdate
-    let favTierListsMatch = false
+    let favJobsMatch = false
     if (Object.keys(dbObj)?.length === Object.keys(stateObj)?.length) {
       // check favGenre entries
-      // stringify everything but favTierLists
-      if (dbObj.favTierLists?.length && stateObj.favTierLists?.length && dbObj.favTierLists?.length === stateObj.favTierLists?.length) {
+      // stringify everything but favJobs
+      if (dbObj.favJobs?.length && stateObj.favJobs?.length && dbObj.favJobs?.length === stateObj.favJobs?.length) {
         if (stateObj !== null && stateObj !== undefined) {
-            favTierListsMatch = dbObj.favTierLists.every((el: string) => stateObj.favTierLists?.includes(el)) && stateObj.favTierLists.every((el: string) => dbObj.favTierLists.includes(el))
+          favJobsMatch = dbObj.favJobs.every((el: string) => stateObj.favJobs?.includes(el)) && stateObj.favJobs.every((el: string) => dbObj.favJobs?.includes(el))
         }
         // arrays contain same options in any order
       }
-      if (favTierListsMatch) {
+      if (favJobsMatch) {
         const dbObjClone = structuredClone(dbObj)
         const stateObjClone = structuredClone(stateObj)
-        delete dbObjClone.favTierLists
-        delete stateObjClone.favTierLists
+        delete dbObjClone.favJobs
+        delete stateObjClone.favJobs
         delete dbObjClone.profilePic
         delete stateObjClone.profilePic
         return JSON.stringify(dbObjClone) === JSON.stringify(stateObjClone)

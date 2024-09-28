@@ -67,17 +67,7 @@ const Header: React.FC = () => {
         </Link>
 
         <div className='flex space-x-4'>
-            <Link to='/test'>
-                <Button
-                onClick={() => console.log('Button 1 clicked')}
-                tooltipText='Button 1'
-                disabled
-                >
-                    <IconPlus color='limegreen' className='bg-white rounded-lg mr-2' />
-                    New Tier List
-                </Button>
-            </Link>
-            <Link to='/test'>
+            {/* <Link to='/test'>
                 <Button
                     onClick={() => console.log('Button 1 clicked')}
                     type='danger'
@@ -85,7 +75,7 @@ const Header: React.FC = () => {
                 >
                     Button 2
                 </Button>
-            </Link>    
+            </Link>     */}
             <Link to='/account'>
                 {renderHeaderAcctImage()}
             </Link>    

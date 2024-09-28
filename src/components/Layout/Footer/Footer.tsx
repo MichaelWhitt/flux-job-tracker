@@ -13,17 +13,17 @@ const Footer = () => {
       <div className='grid grid-cols-1 md:grid-cols-4'>
         <div className='flex flex-col justify-center text-white m-2'>
           <span className='text-lg'>{appContext?.siteName || ''}</span>
-          <span className='text-sm'>Welcome, brethren.</span>
+          <span className='text-sm'>Welcome.</span>
         </div>
-        <div className='flex flex-col justify-center all-center text-white m-2'>
+        {/* <div className='flex flex-col justify-center all-center text-white m-2'>
             <span className='text-lg'>Subscribe for updates!</span>
             <SubscribeForm class={'flex-col'} />
-        </div>
-        <div className='flex flex-col justify-center text-white m-2 gap-1'>
+        </div> */}
+        {/* <div className='flex flex-col justify-center text-white m-2 gap-1'>
           <Link to='/terms' className='text-lg hover:text-bg10 ease'>Terms and Conditions</Link>
           <Link to='/privacy' className='text-lg hover:text-bg10 ease'>Privacy Policy</Link>
           <Link to='/cookiepolicy' className='text-lg hover:text-bg10 ease'>Cookie Policy</Link>
-        </div>
+        </div> */}
         <div className='flex flex-col justify-center text-white m-2'>
           <div className='text-lg'>Let's Chat!</div>
           <CopyClipboard text={'mwhittdev@gmail.com'} />

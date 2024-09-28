@@ -22,7 +22,7 @@ const SignUpConfirmation = () => {
                         <p className='text-gray-400'>Your Email:</p>
                         <CopyClipboard text={email} />
                         <p className='text-gray-400'>Our verification emails come from:</p>
-                        <CopyClipboard text='noreply@myapp.com' />
+                        <CopyClipboard text='noreply@jtracker-823e4.firebaseapp.com' />
                     </div>
 
                     <div className='bg-gray-800 p-4 rounded-lg shadow'>

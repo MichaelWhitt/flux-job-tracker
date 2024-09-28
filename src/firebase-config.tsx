@@ -51,7 +51,7 @@ export const createAccountWithEmail = async (email, password, username = '') => 
     await setDoc(doc(db, 'Users', uid), {
       darkMode: true,
       email: email,
-      favTierLists: [],
+      favJobs: [],
       language: 'English',
       notifications: true,
       profilePic: '',

@@ -127,7 +127,7 @@ const AccountSetting = (props: SettingProps) => {
             )}
           </div>
         )
-      } else if (field === 'favTierLists') {
+      } else if (field === 'favJobs') {
         const tierListOpts = [
           'Actors',
           'Anime',
