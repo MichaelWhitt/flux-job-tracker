@@ -1,0 +1,193 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.all-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.ease {
+  transition-duration: 300ms !important;
+  transition-timing-function: ease-in-out !important;
+}
+
+.link {
+  width: 50px !important;
+  min-height: 50px !important;
+  height: 100% !important;
+  border-radius: var(--mantine-radius-md) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  color: whitesmoke !important;
+}
+
+.link:hover {
+  background-color: #0c2438 !important;
+}
+
+.link:focus {
+  outline: none !important;
+}
+
+.link[data-active],
+.link[data-active]:hover {
+  background-color:#0c2438 !important;
+  color:#008dff !important;
+  outline: none !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Nunito', sans-serif;
+  font-weight: bold;
+}
+
+/*Mantine custom css*/
+.mantine-Skeleton-root::before {
+  background-color: #b9b9b9 !important; 
+}
+
+.mantine-Skeleton-root::after {
+  background-color: #3b3b3b !important; 
+}
+
+.mantine-TextInput-input {
+  background: #242424 !important;
+  border: 1px solid #353434 !important;
+  color: white !important
+}
+
+.mantine-TextInput-wrapper:focus {
+  outline: red !important
+}
+
+.mantine-Select-input {
+  background: #242424 !important;
+  border: 1px solid #353434 !important;
+  color: white !important;
+}
+
+.mantine-Select-dropdown {
+  background: #242424 !important;
+  border: 1px solid #353434 !important;
+  color: white !important;
+}
+
+.mantine-Select-option:hover {
+  background: #343434 !important;
+  color: white !important;
+}
+
+.mantine-Select-option > svg {
+  color: #00ff00 !important;
+}
+
+.mantine-MultiSelect-input {
+  background: #242424 !important;
+  border: 1px solid #353434 !important;
+  color: white !important;
+}
+
+.mantine-MultiSelect-dropdown {
+  background: #242424 !important;
+  border: 1px solid #353434 !important;
+  color: white !important;
+}
+
+.mantine-MultiSelect-option {
+  background: #242424 !important;
+  color: white !important;
+}
+
+.mantine-MultiSelect-option:hover {
+  background: #343434 !important;
+  color: white !important;
+}
+
+.mantine-MultiSelect-pill {
+  background: #545454 !important;
+  color: white !important;
+}
+
+.mantine-MultiSelect-inputField {
+  display: none !important; /* hides the 'Pick Values' text in the multiselect*/
+}
+
+.mantine-Accordion-content {
+  background: none !important;
+}
+
+.mantine-Switch-thumb {
+  background: #242424 !important;
+}
+
+.mantine-DatePicker-day {
+  color: #fff !important;
+}
+
+.mantine-DatePicker-day:hover {
+  background: #15aabf !important
+}
+
+.mantine-DatePicker-calendarHeader:hover {
+  background: none !important;
+}
+.mantine-DatePicker-calendarHeaderControl:hover {
+  background: #15aabf28 !important;
+  border-radius: 100% !important;
+}
+
+.mantine-DatePicker-calendarHeaderLevel:hover {
+  background: #15aabf !important
+}
+
+.mantine-Textarea-input {
+  background: #242424 !important ;
+  color: #fff !important;
+}
+
+
+.mantine-DatePicker-monthsListControl {
+  color: #fff !important
+}
+
+.mantine-DatePicker-monthsListControl:hover {
+  background: #15aabf !important
+}
+
+.mantine-DatePicker-yearsListControl {
+  color: #fff !important
+}
+
+.mantine-DatePicker-yearsListControl:hover {
+  background: #15aabf !important
+}
+
+.mantine-Checkbox-input {
+  background: none !important;
+}
+
+@keyframes swirl {
+  0% {
+    background-position: 0% 0%;
+  }
+  50% {
+    background-position: 100% 100%;
+  }
+  100% {
+    background-position: 0% 0%;
+  }
+}
+
+.bg-swirl, .bg-swirl-btn {
+  background: radial-gradient(circle, #4f46e5, #ec4899, #facc15);
+  background-size: 200% 200%;
+  animation: swirl 4s linear infinite;
+}
+
+.bg-swirl-btn:hover {
+  background: radial-gradient(circle, #23206b, #9d3067, #a4860d);
+}

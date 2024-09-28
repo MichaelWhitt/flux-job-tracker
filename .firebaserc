@@ -1,0 +1,8 @@
+{
+  "projects": {
+    "default": "generic-template-with-auth"
+  },
+  "targets": {},
+  "etags": {},
+  "dataconnectEmulatorConfig": {}
+}
