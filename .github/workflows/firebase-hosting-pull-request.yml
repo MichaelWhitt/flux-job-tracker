@@ -17,5 +17,5 @@ jobs:
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
-          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_GENERIC_TEMPLATE_WITH_AUTH }}
-          projectId: generic-template-with-auth
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_JTRACKER_823E4 }}
+          projectId: jtracker-823e4

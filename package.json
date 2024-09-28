@@ -1,5 +1,5 @@
 {
-  "name": "flux-tier-maker",
+  "name": "flux-job-tracker",
   "private": true,
   "version": "0.0.0",
   "type": "module",
