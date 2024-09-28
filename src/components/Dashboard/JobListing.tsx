@@ -13,11 +13,18 @@ interface JobListingProps {
 const JobListing = (props: JobListingProps) => {
     const [sidebarOpen, setSidebarOpen] = useState(false)
     const globalContext = useContext(AppContext)
+    const [mounted, setMounted] = useState(false)
     
     let jobsToDisplay = props.originalJobs
     if (props.filteredJobs.length) {
         jobsToDisplay = props.filteredJobs
     }
+
+    setTimeout(() => {
+        if (jobsToDisplay.length === 0) {
+            setMounted(true)
+        }
+    }, 1000)
 
     return (
         <div className='flex gap-3 flex-col items-center'>
@@ -34,9 +41,14 @@ const JobListing = (props: JobListingProps) => {
                     <JobCard key={job.id || idx} job={job} />
                 )
             })}
-            {jobsToDisplay?.length === 0 && (
+            {!mounted && (
                 <div className='mt-5'>
                     <Loader />
+                </div>
+            )}
+            {mounted && jobsToDisplay.length === 0 && (
+                <div>
+                    No jobs match that filter. Create a new job.
                 </div>
             )}
             <JobSidebar setSidebarOpen={setSidebarOpen} sidebarOpen={sidebarOpen} type='new' />

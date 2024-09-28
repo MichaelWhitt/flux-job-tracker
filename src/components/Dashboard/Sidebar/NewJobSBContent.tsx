@@ -87,6 +87,28 @@ const NewJobSBContent: React.FC = () => {
                 try {
                     await createJobEntry(globalContext.user?.id, {...submittedData})
                     setFormSubmitting(false)
+                    setFormData({
+                        company: '',
+                        title: '',
+                        location: '',
+                        status: 'not applied',
+                        description: '',
+                        applicationDate: currentDate, // Use string format
+                        offerDate: currentDate, // Use string format
+                        lastCommunication: currentDate, // Use string format
+                        hiringManager: '',
+                        notes: '',
+                        salary: '',
+                        skills: [],
+                        jobLevel: '',
+                        applicationSite: '',
+                        jobLink: '',
+                        qualificationLevel: '',
+                        interestLevel: '',
+                        hmContactInfo: '',
+                        interviewRound: 0,
+                    })
+                    globalContext?.getUserDataObj(globalContext.user.id)
                 } catch(e) {
                     fireToast({type: 'error', content: JSON.stringify(e)})
                     setFormSubmitting(false)
