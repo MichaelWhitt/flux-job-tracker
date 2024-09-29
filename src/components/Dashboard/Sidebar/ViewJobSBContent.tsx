@@ -39,17 +39,20 @@ const ViewJobSBContent = ({job}: ViewJobSBContentProps) => {
           <p><span className='font-medium'>HM Contact Info:</span> {job.hmContactInfo}</p>
         </div>
         
+
+        
         <div className='bg-gray-800 p-4 rounded-lg mb-6'>
+          <h3 className='text-lg font-semibold mb-2 text-blue-300'>Links</h3>
+          <p><span className='font-medium'>Job Link:</span> <a href={job.jobLink} target='_blank' rel='noopener noreferrer' className='text-blue-400 hover:underline'>Job Link</a></p>
+          <p><span className='font-medium'>Application Site:</span> <a href={job.applicationSite} target='_blank' rel='noopener noreferrer' className='text-blue-400 hover:underline'>Site Link</a></p>
+        </div>
+
+        <div className='bg-gray-800 p-4 rounded-lg'>
           <h3 className='text-lg font-semibold mb-2 text-blue-300'>Additional Information</h3>
           <p><span className='font-medium'>Offer Date:</span> {job.offerDate || 'N/A'}</p>
           <p><span className='font-medium'>Skills:</span> {job.skills?.join(', ')}</p>
           <p><span className='font-medium'>Notes:</span> {job.notes}</p>
-        </div>
-        
-        <div className='bg-gray-800 p-4 rounded-lg'>
-          <h3 className='text-lg font-semibold mb-2 text-blue-300'>Links</h3>
-          <p><span className='font-medium'>Job Link:</span> <a href={job.jobLink} target='_blank' rel='noopener noreferrer' className='text-blue-400 hover:underline'>Job Link</a></p>
-          <p><span className='font-medium'>Application Site:</span> <a href={job.applicationSite} target='_blank' rel='noopener noreferrer' className='text-blue-400 hover:underline'>Site Link</a></p>
+          <pre className='text-wrap'><span className='font-medium'>Description:</span> {job.description}</pre>
         </div>
       </div>
     )
