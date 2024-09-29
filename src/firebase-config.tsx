@@ -112,7 +112,6 @@ export const addUserToUserCollection = async (uid, email) => {
 export const monitorAuthState = async () => {
   // can hide UI based on this
   onAuthStateChanged(auth, user => {
-    console.log('Auth Changed')
     if (user) {
       // show app
     } else {

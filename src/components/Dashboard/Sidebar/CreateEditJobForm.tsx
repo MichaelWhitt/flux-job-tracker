@@ -101,7 +101,6 @@ const CreateEditJobForm: React.FC<CreateEditJobSBContentProps> = (props) => {
                 } else {
                     // is public
                     try {
-                        console.log(submittedData)
                         await createPublicJobEntry(submittedData)
                         setFormSubmitting(false)
                         setFormData(defaultFormData)

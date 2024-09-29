@@ -15,7 +15,6 @@ export const getAllJobs = async (c: any) => {
     try {
         return await getDocs(c)
     } catch (e) {
-        console.log(e)
     }
 }
 
