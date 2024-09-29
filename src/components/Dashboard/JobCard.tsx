@@ -62,7 +62,22 @@ const JobCard: React.FC<JobCardProps> = ({ job }) => {
     >
       <div className='flex justify-between items-center'>
         <h2 className='text-md sm:text-md font-bold'>{renderText(job.title, isOnMobile ? 25 : 45) || 'N/A'}</h2>
-        <p className='text-xs sm:text-md text-gray-400'>{formatDate(job.applicationDate, false, false) || 'N/A'}</p>
+        {job.lastUpdatedDate ? (
+          <p className='text-xs sm:text-md text-gray-400'>
+            
+            Updated: {formatDate(job.lastUpdatedDate, false, false) || 'N/A'}
+          </p>
+        ) : job.applicationDate ? (
+          <p className='text-xs sm:text-md text-gray-400'>
+            Applied: {formatDate(job.applicationDate, false, false) || 'N/A'}
+          </p>
+        ) : (
+          <p className='text-xs sm:text-md text-gray-400'>
+            Created: {formatDate(job.createdDate, false, false) || 'N/A'}
+          </p>
+        )}
+
+        
       </div>
       <div className='flex gap-3'>
         
@@ -74,7 +89,6 @@ const JobCard: React.FC<JobCardProps> = ({ job }) => {
           <IconMoneybag size={15} />
           <span className='flex text-xs sm:text-md text-gray-400 mb-2'>{renderText(job.salary, 8) || 'N/A'}</span>
         </div>
-        
       </div>
       <div className='flex gap-5 items-center sm:mb-2 text-xs sm:text-md mt-1'>
         <div className='flex gap-1'>

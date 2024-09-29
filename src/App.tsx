@@ -23,13 +23,30 @@ function App() {
     cursorType: 'pointer'
   })
   const globalContext = useContext(AppContext)
-  const userJobEntries = globalContext?.user?.jobs?.sort((a, b) => b.applicationDate - a.applicationDate)
 
   let jobs = []
-  if (globalContext?.isLoggedIn) {
-    jobs = globalContext?.user?.jobs?.sort((a, b) => b.applicationDate - a.applicationDate)
+  if (globalContext?.isLoggedIn && globalContext.user?.jobs) {
+    // sort by activity
+    jobs = globalContext?.user?.jobs?.sort((a, b) => {
+      if (a.lastUpdatedDate && b.lastUpdatedDate) {
+        return b.lastUpdatedDate - a.lastUpdatedDate
+      } else if (a.createdDate && b.createdDate) {
+        return b.createdDate - a.createdDate
+      } else if (a.applicationDate && b.applicationDate) {
+        return b.applicationDate - a.applicationDate
+      }
+    })
   } else {
-    jobs = globalContext?.publicJobs?.sort((a, b) => b.applicationDate - a.applicationDate)
+    // public jobs, sort by activity
+    jobs = globalContext?.publicJobs?.sort((a, b) => {
+      if (a.lastUpdatedDate && b.lastUpdatedDate) {
+        return b.lastUpdatedDate - a.lastUpdatedDate
+      } else if (a.createdDate && b.createdDate) {
+        return b.createdDate - a.createdDate
+      } else if (a.applicationDate && b.applicationDate) {
+        return b.applicationDate - a.applicationDate
+      }
+    })
   }
 
   useEffect(() => {

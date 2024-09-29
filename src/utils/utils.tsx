@@ -1,7 +1,12 @@
 import dayjs from 'dayjs'
 import type { Dayjs } from 'dayjs'
+import { Timestamp } from 'firebase/firestore'
 
 export const formatDate = (d: string | number | Date | Dayjs | null | undefined = dayjs(), short?: boolean, unix?: boolean) => {
+
+    if (d instanceof Timestamp) {
+        return dayjs(d.toDate()).format('MM/DD/YYYY')
+    }
     if (!d) {
         return 'N / A'
     }

@@ -46,7 +46,7 @@ export const getRecaptcha = async () => {
 export const createUserJobEntry = async (userId: string, jobData: JobEntry) => {
     try {
         const userRef = doc(db, 'Users', userId)
-        await setDoc(userRef, { jobs: arrayUnion(jobData) }, { merge: true })
+        await setDoc(userRef, { jobs: arrayUnion({...jobData, createdDate: new Date()}) }, { merge: true })
         fireToast({type: 'success', content: 'Job added successfully!'})
         return 'Job added successfully!'
     } catch (error) {
@@ -68,7 +68,7 @@ export const updateUserJobEntry = async (userId: string, jobEntry: JobEntry) => 
             // Filter out the item with the given meta_unid
             jobEntries = jobEntries.filter((j: JobEntry) => j.meta_unid !== jobEntry.meta_unid)
             // Add the updated item to watch history
-            jobEntries.push(jobEntry)
+            jobEntries.push({...jobEntry, lastUpdatedDate: new Date()})
             // Update the watchHistory field in Firestore
             await updateDoc(userDocRef, { jobs: jobEntries })
             fireToast({type: 'success', content: 'Job updated successfully!'})
@@ -114,7 +114,7 @@ export const createPublicJobEntry = async (jobData: JobEntry) => {
       const jobsRef = collection(db, 'jobs')
       
       // Add a new document with the jobData
-      await addDoc(jobsRef, jobData)
+      await addDoc(jobsRef, {...jobData, createdDate: new Date()}) // createdDate keeps track of when the job listing was created
       
       fireToast({ type: 'success', content: 'Job added successfully!' })
       return 'Job added successfully!'
@@ -132,7 +132,7 @@ export const createPublicJobEntry = async (jobData: JobEntry) => {
   
       if (updatedJobData) {
         // Update or overwrite the document entirely
-        await setDoc(jobDocRef, updatedJobData, { merge: true }) // `{ merge: true }` ensures partial updates if needed
+        await setDoc(jobDocRef, {...updatedJobData, lastUpdatedDate: new Date()}, { merge: true }) // `{ merge: true }` ensures partial updates if needed
         fireToast({ type: 'success', content: 'Job updated successfully!' })
       } else {
         // If no data is provided, throw an error
@@ -147,16 +147,30 @@ export const createPublicJobEntry = async (jobData: JobEntry) => {
     }
   }
   
-  export const deletePublicJobEntry = async (jobId: string) => {
+  export const deletePublicJobEntry = async (metaUnid: string) => {
     try {
-      // Get a reference to the specific job document
-      const jobDocRef = doc(db, 'jobs', jobId)
+      const publicJobsCollection = collection(db, 'jobs')
+    
+      // Create a query to find the document with the specified meta_unid
+      const q = query(publicJobsCollection, where('meta_unid', '==', metaUnid))
       
-      // Delete the document
-      await deleteDoc(jobDocRef)
+      // Execute the query
+      const querySnapshot = await getDocs(q)
       
-      fireToast({ type: 'success', content: 'Job deleted successfully!' })
-      return 'Job deleted successfully!'
+      // Check if any documents were found
+      if (!querySnapshot.empty) {
+        // Iterate through the found documents
+        for (const docSnapshot of querySnapshot.docs) {
+          // Create a document reference
+          const jobDocRef = doc(db, 'jobs', docSnapshot.id)
+          
+          // Delete the document
+          await deleteDoc(jobDocRef)
+          fireToast({type: 'success', content: 'Job deleted successfully!'})
+        }
+      } else {
+        fireToast({ type: 'error', content: `No job found with meta_unid: ${metaUnid}`})  
+      }
     } catch (error) {
       console.error('Error deleting job:', error)
       fireToast({ type: 'error', content: 'Error deleting job!' })

@@ -1,7 +1,7 @@
 import { useState, useContext } from 'react'
 import { TextInputField, Textarea, Switch } from 'evergreen-ui'
 import { fireToast } from '../fireToast'
-import { updateUserJobEntry, updatePublicJobEntry } from '../../../utils/api'
+import { updateUserJobEntry, updatePublicJobEntry, createUserJobEntry, createPublicJobEntry } from '../../../utils/api'
 import { AppContext } from '../../../auth/AppContext'
 import { collection } from 'firebase/firestore'
 import { db } from '../../../firebase-config'
@@ -50,6 +50,31 @@ const CreateEditJobForm: React.FC<CreateEditJobSBContentProps> = (props) => {
         }))
     }
 
+    const defaultFormData = {
+        company: '',
+        title: '',
+        location: '',
+        status: 'Not Applied',
+        description: '',
+        applicationDate: '',
+        offerDate: '',
+        lastCommunication: '',
+        hiringManager: '',
+        notes: '',
+        salary: '',
+        employmentType: 'Full-time',
+        skills: [],
+        jobLevel: 'Mid',
+        officeLocation: 'Office',
+        applicationSite: '',
+        jobLink: '',
+        qualificationMatch: 'Medium',
+        interestLevel: 'Medium',
+        hmContactInfo: '',
+        interviewRound: 0,
+        haveReferral: false
+    }
+
     const handleSubmit = async () => {
         setFormSubmitting(true)
 
@@ -61,44 +86,58 @@ const CreateEditJobForm: React.FC<CreateEditJobSBContentProps> = (props) => {
             fireToast({type: 'error', content: 'Fill out required fields'})
             setFormSubmitting(false)
         } else {
-            if (globalContext?.user && globalContext.isLoggedIn) {
-                try {
-                    await updateUserJobEntry(globalContext.user?.id, {...submittedData})
-                    setFormSubmitting(false)
-                    setFormData({
-                        company: '',
-                        title: '',
-                        location: '',
-                        status: 'Not Applied',
-                        description: '',
-                        applicationDate: '',
-                        offerDate: '',
-                        lastCommunication: '',
-                        hiringManager: '',
-                        notes: '',
-                        salary: '',
-                        employmentType: 'Full-time',
-                        skills: [],
-                        jobLevel: 'Mid',
-                        officeLocation: 'Office',
-                        applicationSite: '',
-                        jobLink: '',
-                        qualificationMatch: 'Medium',
-                        interestLevel: 'Medium',
-                        hmContactInfo: '',
-                        interviewRound: 0,
-                        haveReferral: false
-                    })
-                    globalContext?.getUserDataObj(globalContext.user.id)
-                } catch(e) {
-                    fireToast({type: 'error', content: JSON.stringify(e)})
-                    setFormSubmitting(false)
+            if (props.type === 'create') {
+                if (globalContext?.user && globalContext?.user?.id) {
+                    try {
+                        await createUserJobEntry(globalContext.user?.id, submittedData)
+                        setFormSubmitting(false)
+                        setFormData(defaultFormData)
+                        globalContext?.getUserDataObj(globalContext.user.id)
+                    } catch(e) {
+                        fireToast({type: 'error', content: JSON.stringify(e)})
+                        setFormSubmitting(false)
+                    }
+                    
+                } else {
+                    // is public
+                    try {
+                        console.log(submittedData)
+                        await createPublicJobEntry(submittedData)
+                        setFormSubmitting(false)
+                        setFormData(defaultFormData)
+                        globalContext?.getPublicJobs(jobsCollections)
+                    } catch (e) {
+                        fireToast({type: 'error', content: JSON.stringify(e)})
+                        setFormSubmitting(false)
+                    }
                 }
-            } else {
-                await updatePublicJobEntry(props.job?.id || '', submittedData)
-                setFormSubmitting(false) 
-                globalContext?.getPublicJobs(jobsCollections)
+                
+            } else if (props.type === 'edit') {
+                if (globalContext?.user && globalContext.isLoggedIn) {
+                    try {
+                        await updateUserJobEntry(globalContext.user?.id, submittedData)
+                        setFormSubmitting(false)
+                        setFormData(defaultFormData)
+                        globalContext?.getUserDataObj(globalContext.user.id)
+                    } catch (e) {
+                        fireToast({type: 'error', content: JSON.stringify(e)})
+                        setFormSubmitting(false)
+                    }
+                } else {
+                    // is public
+                    try {
+                        await updatePublicJobEntry(props.job?.id || '', submittedData)
+                        setFormSubmitting(false)
+                        setFormData(defaultFormData)
+                        globalContext?.getPublicJobs(jobsCollections)
+                    } catch (e) {
+                        fireToast({type: 'error', content: JSON.stringify(e)})
+                        setFormSubmitting(false)
+                    }
+                    
+                }
             }
+            
         }
     }
 

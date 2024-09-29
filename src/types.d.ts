@@ -29,6 +29,8 @@ interface AppContextType {
 
   type JobEntry = {
     applicationDate?: string | Date
+    createdDate?: string | Date
+    lastUpdatedDate?: string | Date
     status: 'Not Applied' | 'Applied' | 'Interviewing' | 'Offer' | 'Rejected' | 'Withdrawn' | 'Accepted' | 'Ghosted'
     description?: string
     company: string
