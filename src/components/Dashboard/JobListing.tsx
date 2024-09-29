@@ -30,7 +30,7 @@ const JobListing = (props: JobListingProps) => {
         <div className='flex gap-3 flex-col items-center'>
             
             <button 
-                className='mt-[40px] sm:mt-0 bg-cyan-400 text-gray-800 text-lg h-[40px] hover:bg-cyan-600 duration-500 rounded-md p-2 justify-center items-center flex'
+                className='mt-[20px] sm:mt-[-10px] bg-cyan-400 text-gray-800 text-lg h-[40px] hover:bg-cyan-600 duration-500 rounded-md p-2 justify-center items-center flex'
                 onClick={() => setSidebarOpen(true)}
             >
                 <IconPlus size={20} /> Add Job

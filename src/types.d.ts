@@ -26,20 +26,20 @@ interface AppContextType {
   }
 
   type JobEntry = {
-    applicationDate: string
+    applicationDate: number
     status: string
     description: string
     company: string
     applicationSite: string
     jobLevel: string
     title: string
-    lastCommunication: string
+    lastCommunication: number
     hmContactInfo: string
     notes: string
     interviewRound: number
     salary: string
     jobLink: string
-    offerDate: string
+    offerDate: number
     hiringManager: string
     interestLevel: string
     location: string

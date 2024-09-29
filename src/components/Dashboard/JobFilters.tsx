@@ -44,7 +44,7 @@ const JobFilters = (props: JobFiltersProps) => {
     }
 
     return (
-        <div className='max-w-[350px] w-full flex flex-wrap gap-3 p-4 mr-4 rounded-lg bg-gray-950'>
+        <div className='max-w-[350px] w-full flex flex-wrap gap-3 p-4 mr-4 rounded-lg bg-gray-950 mt-[40px]'>
             {filterOptions.map((status) => (
                 <button
                     key={status}

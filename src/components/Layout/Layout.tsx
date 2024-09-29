@@ -14,7 +14,7 @@ const Layout = (props: LayoutProps) => {
     return (
         <div className={`flex h-full w-full flex-col`}>
             <Header />
-            <div className={`text-white mt-[58px] min-h-screen p-4 ${isOnMobile ? 'mb-[50px]' : ''} `}>
+            <div className={`text-white mt-[58px] min-h-screen sm:p-4 ${isOnMobile ? 'mb-[50px]' : ''} `}>
                 {props.children}
             </div>
             <Footer />

@@ -24,7 +24,7 @@ function App() {
     cursorType: 'pointer'
   })
   const globalContext = useContext(AppContext)
-  const userJobEntries = globalContext?.user?.jobs
+  const userJobEntries = globalContext?.user?.jobs?.sort((a, b) => b.applicationDate - a.applicationDate)
 
   useEffect(() => {
     if (isLoggedIn && !user.email && !user.id) {

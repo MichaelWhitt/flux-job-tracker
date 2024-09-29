@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import JobSidebar from './Sidebar/JobSidebar'
+import { formatDate, isOnMobile } from '../../utils/utils'
 
 interface JobCardProps {
   job: JobEntry
@@ -32,6 +33,21 @@ const JobCard: React.FC<JobCardProps> = ({ job }) => {
     'closed' : 'bg-red-700',
   }
 
+  const renderDate = (d: number) => {
+    return formatDate(d * 1000)
+  }
+
+  const renderText = (t: string, cutoff: number) => {
+    const truncatedText = t.length > cutoff ? `${t.slice(0, cutoff)}...` : (t || 'N/A')
+  
+    return (
+      <div className='overflow-hidden text-ellipsis whitespace-nowrap'>
+        {truncatedText}
+      </div>
+    )
+  }
+  
+
   return (
     <div 
       className={`
@@ -45,19 +61,19 @@ const JobCard: React.FC<JobCardProps> = ({ job }) => {
       onMouseLeave={handleMouseLeave}
       onClick={handleClick}
     >
-      <div className='flex justify-between items-center mb-2'>
-        <h2 className='text-xl font-bold'>{job.title || 'N/A'}</h2>
-        <p className='text-sm text-gray-400'>{job.applicationDate || 'N/A'}</p>
+      <div className='flex justify-between items-center'>
+        <h2 className='text-md sm:text-md font-bold'>{renderText(job.title, isOnMobile ? 25 : 45) || 'N/A'}</h2>
+        <p className='text-xs sm:text-md text-gray-400'>{renderDate(job.applicationDate) || 'N/A'}</p>
       </div>
-      <div className='flex justify-between items-center sm:mb-2 text-sm'>
-        <span>{job.company || 'N/A'}</span>
-        <span>{job.location || 'N/A'}</span>
-        <span>${job.salary || 'N/A'}</span>
-        <span className={`p-1  ` + statusColorMap[job.status?.toLowerCase()]}>
-            {job.status || 'N/A'}
-        </span>
+      <div>
+        <span className='text-xs sm:text-md text-gray-400 mb-2'>{renderText(job.company, 30) || 'N/A'}</span>
       </div>
-      <p className='text-sm overflow-hidden text-ellipsis hidden sm:flex'>{job.description || 'N/A'}</p>
+      <div className='flex justify-between items-center sm:mb-2 text-xs sm:text-md mt-3'>
+        <span>{renderText(job.location, 15) || 'N/A'}</span>
+        <span className='flex'>${renderText(job.salary, 8) || 'N/A'}</span>
+        <span className={`p-1  ` + statusColorMap[job.status?.toLowerCase()]}>{renderText(job.status, 20) || 'N/A'}</span>
+      </div>
+      <p className='text-xs sm:text-md overflow-hidden text-ellipsis hidden sm:flex'>{renderText(job.description, 100) || 'N/A'}</p>
       <JobSidebar job={job} setSidebarOpen={setSidebarOpen} sidebarOpen={sidebarOpen} type={'view'} />
     </div>
   )

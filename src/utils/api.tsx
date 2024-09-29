@@ -56,9 +56,9 @@ export const createJobEntry = async (userId: string, jobData: JobEntry) => {
     }
 }
 
-export const getUserJobEntries = async (c) => {
-    return await getDocs(c)
-}
+// export const getUserJobEntries = async (c) => {
+//     return await getDocs(c)
+// }
 
 // export const createWatchHistoryItem = async (userId: string, watchHistoryItemData: HistoryItem) => {
 //     try {
