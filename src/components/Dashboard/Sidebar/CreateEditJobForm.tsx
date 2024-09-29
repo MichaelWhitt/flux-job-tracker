@@ -1,5 +1,5 @@
 import { useState, useContext } from 'react'
-import { TextInputField, Textarea, Switch, DatePicker } from 'evergreen-ui'
+import { TextInputField, Textarea, Switch } from 'evergreen-ui'
 import { fireToast } from '../fireToast'
 import { updateUserJobEntry, updatePublicJobEntry } from '../../../utils/api'
 import { AppContext } from '../../../auth/AppContext'
@@ -13,7 +13,7 @@ interface CreateEditJobSBContentProps {
 
 const CreateEditJobForm: React.FC<CreateEditJobSBContentProps> = (props) => {
     const currentDate = new Date().toISOString().split('T')[0]
-    const [formData, setFormData] = useState<JobEntry>({...props.job})
+    const [formData, setFormData] = useState<JobEntry>({...props.job, applicationDate: currentDate, lastCommunication: currentDate})
     const [showOptionalFields, setShowOptionalFields] = useState(false)
     const globalContext = useContext(AppContext)
     const [formSubmitting, setFormSubmitting] = useState(false)
@@ -21,6 +21,7 @@ const CreateEditJobForm: React.FC<CreateEditJobSBContentProps> = (props) => {
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target
+        console.log({name, value})
         setFormData((prev) => ({
             ...prev,
             [name]: value,
@@ -36,7 +37,7 @@ const CreateEditJobForm: React.FC<CreateEditJobSBContentProps> = (props) => {
     }
 
     const handleDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const selectedDate = new Date(event.target.value).getTime() / 1000 // Get time in seconds
+        const selectedDate = event.target.value 
         setFormData((prev) => ({
             ...prev,
             [event.target.name]: selectedDate,
@@ -54,15 +55,8 @@ const CreateEditJobForm: React.FC<CreateEditJobSBContentProps> = (props) => {
     const handleSubmit = async () => {
         setFormSubmitting(true)
 
-        const newApplicationDate = formData.applicationDate ? Math.floor(new Date(formData.applicationDate).getTime()) : null
-        const newOfferDate = formData.offerDate ? Math.floor(new Date(formData.offerDate).getTime()) : null
-        const newLastCommunication = formData.lastCommunication ? Math.floor(new Date(formData.lastCommunication).getTime()) : null
-
         const submittedData = {
-            ...formData,
-            applicationDate: newApplicationDate,
-            offerDate: newOfferDate,
-            lastCommunication: newLastCommunication,
+            ...formData
         }
 
         if (!formData.company || !formData.salary || !formData.title || !formData.status || !formData.location) {
@@ -79,7 +73,7 @@ const CreateEditJobForm: React.FC<CreateEditJobSBContentProps> = (props) => {
                         status: 'Not Applied',
                         description: '',
                         applicationDate: currentDate,
-                        offerDate: currentDate,
+                        offerDate: '',
                         lastCommunication: currentDate,
                         hiringManager: '',
                         notes: '',
@@ -106,10 +100,6 @@ const CreateEditJobForm: React.FC<CreateEditJobSBContentProps> = (props) => {
                 globalContext?.getPublicJobs(jobsCollections)
             }
         }
-    }
-
-    const getDate = (d) => {
-
     }
 
     return (
@@ -163,11 +153,13 @@ const CreateEditJobForm: React.FC<CreateEditJobSBContentProps> = (props) => {
                             onChange={handleChange}
                             className='h-[34px] bg-gray-800 rounded-md p-2 w-fit text-sm'
                         >
-                            <option value='not applied'>Not Applied</option>
-                            <option value='applied'>Applied</option>
-                            <option value='interviewing'>Interviewing</option>
-                            <option value='offer'>Offer</option>
-                            <option value='rejected'>Rejected</option>
+                            <option value='Not Applied'>Not Applied</option>
+                            <option value='Applied'>Applied</option>
+                            <option value='Interviewing'>Interviewing</option>
+                            <option value='Offer'>Offer</option>
+                            <option value='Rejected'>Rejected</option>
+                            <option value='Rejected'>Withdrawn</option>
+                            <option value='Rejected'>Ghosted</option>
                         </select>
                     </div>
 
@@ -177,7 +169,7 @@ const CreateEditJobForm: React.FC<CreateEditJobSBContentProps> = (props) => {
                             isInvalid={!formData.applicationDate}
                             type='date'
                             name='applicationDate'
-                            value={typeof formData.applicationDate === 'number' ? new Date(formData.applicationDate * 1000).toISOString().split('T')[0] : ''}
+                            value={formData.applicationDate} 
                             onChange={handleDateChange}
                             style={{background: '#1F2937', color: '#fff'}}
                         />
@@ -290,28 +282,30 @@ const CreateEditJobForm: React.FC<CreateEditJobSBContentProps> = (props) => {
                             <TextInputField
                                 type='date'
                                 name='lastCommunication'
-                                value={typeof formData.lastCommunication === 'number' ? new Date(formData.lastCommunication * 1000).toISOString().split('T')[0] : ''}
+                                value={formData.lastCommunication} 
                                 onChange={handleDateChange}
                                 style={{background: '#1F2937', color: '#fff'}}
                             />
                         </div>
 
-                        <div className='flex flex-col'>
-                            <label htmlFor='offerDate' className='text-white'>Offer Date</label>
-                            <TextInputField
-                                type='date'
-                                name='offerDate'
-                                value={typeof formData.offerDate === 'number' ? new Date(formData.offerDate * 1000).toISOString().split('T')[0] : ''}
-                                onChange={handleDateChange}
-                                style={{background: '#1F2937', color: '#fff'}}
-                            />
-                        </div>
+                        {formData.status?.toLowerCase() === 'offer' && (
+                            <div className='flex flex-col'>
+                                <label htmlFor='offerDate' className='text-white'>Offer Date</label>
+                                <TextInputField
+                                    type='date'
+                                    name='offerDate'
+                                    value={formData.offerDate} 
+                                    onChange={handleDateChange}
+                                    style={{background: '#1F2937', color: '#fff'}}
+                                />
+                            </div>
+                        )}
 
                         <div className='flex flex-col'>
                             <label htmlFor='skills' className='text-white'>Skills</label>
                             <TextInputField
                                 name='skills'
-                                placeholder='Comma separated skills'
+                                placeholder='React, Typescript, Git'
                                 value={formData.skills.join(', ')}
                                 onChange={handleSkillsChange}
                                 style={{background: '#1F2937', color: '#fff'}}
@@ -337,7 +331,7 @@ const CreateEditJobForm: React.FC<CreateEditJobSBContentProps> = (props) => {
                             <label htmlFor='qualificationLevel' className='text-white'>Qualification Level</label>
                             <TextInputField
                                 name='qualificationLevel'
-                                placeholder='Qualification Level'
+                                placeholder='Qualification Level (1-10)'
                                 value={formData.qualificationLevel}
                                 onChange={handleChange}
                                 style={{background: '#1F2937', color: '#fff'}}
@@ -367,7 +361,7 @@ const CreateEditJobForm: React.FC<CreateEditJobSBContentProps> = (props) => {
                             <label htmlFor='interestLevel' className='text-white'>Interest Level</label>
                             <TextInputField
                                 name='interestLevel'
-                                placeholder='Interest Level'
+                                placeholder='Interest Level (1-10)'
                                 value={formData.interestLevel}
                                 onChange={handleChange}
                                 style={{background: '#1F2937', color: '#fff'}}
