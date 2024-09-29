@@ -1,44 +1,20 @@
 import { useState, useContext } from 'react'
-import { TextInputField, Textarea } from 'evergreen-ui'
+import { TextInputField, Textarea, Switch } from 'evergreen-ui'
 import { fireToast } from '../fireToast'
-import { createJobEntry, createPublicJobEntry } from '../../../utils/api'
+import { createUserJobEntry, createPublicJobEntry } from '../../../utils/api'
 import { AppContext } from '../../../auth/AppContext'
 import Loader from '../Loader'
 import { generateUnid } from '../../../utils/utils'
 import { collection } from 'firebase/firestore'
 import { db } from '../../../firebase-config'
 
-interface NewJobForm {
-    company: string
-    title: string
-    location: string
-    status: string
-    applicationDate: string // Changed to string format
-    offerDate: string // Changed to string format
-    lastCommunication: string // Changed to string format
-    description: string
-    hiringManager: string
-    notes: string
-    meta_unid: string
-    salary: string
-    skills: string[]
-    employmentType: string
-    jobLevel: string
-    applicationSite: string
-    jobLink: string
-    qualificationLevel: string
-    interestLevel: string
-    hmContactInfo: string
-    interviewRound: number
-}
-
 const NewJobSBContent: React.FC = () => {
     const currentDate = new Date().toISOString().split('T')[0] // Get today's date in YYYY-MM-DD format
-    const [formData, setFormData] = useState<NewJobForm>({
+    const [formData, setFormData] = useState<JobEntry>({
         company: '',
         title: '',
         location: '',
-        status: 'not applied',
+        status: 'Not Applied',
         description: '',
         applicationDate: currentDate, // Use string format
         offerDate: currentDate, // Use string format
@@ -56,6 +32,7 @@ const NewJobSBContent: React.FC = () => {
         interestLevel: '',
         hmContactInfo: '',
         interviewRound: 0,
+        haveReferral: false
     })
     const [showOptionalFields, setShowOptionalFields] = useState(false)
     const globalContext = useContext(AppContext)
@@ -63,10 +40,19 @@ const NewJobSBContent: React.FC = () => {
     const jobsCollections = collection(db, 'jobs')
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-        const { name, value } = e.target
+        const { name, value} = e.target
         setFormData((prev) => ({
             ...prev,
             [name]: value,
+        }))
+    }
+
+    const handleSwitchChange = (e: {target: {name: string, checked: boolean}}) => {
+        console.log(e.target.name, e.target.checked)
+        const { name, checked } = e.target
+        setFormData((prev) => ({
+            ...prev,
+            [name]: checked,
         }))
     }
 
@@ -93,13 +79,13 @@ const NewJobSBContent: React.FC = () => {
         } else {
             if (globalContext?.user && globalContext.isLoggedIn) {
                 try {
-                    await createJobEntry(globalContext.user?.id, {...submittedData})
+                    await createUserJobEntry(globalContext.user?.id, {...submittedData})
                     setFormSubmitting(false)
                     setFormData({
                         company: '',
                         title: '',
                         location: '',
-                        status: 'not applied',
+                        status: 'Not Applied',
                         description: '',
                         applicationDate: currentDate, // Use string format
                         offerDate: currentDate, // Use string format
@@ -111,12 +97,13 @@ const NewJobSBContent: React.FC = () => {
                         skills: [],
                         employmentType: '',
                         jobLevel: '',
-                        applicationSite: '',
+                        applicationSite: 'Choose',
                         jobLink: '',
                         qualificationLevel: '',
                         interestLevel: '',
                         hmContactInfo: '',
                         interviewRound: 0,
+                        haveReferral: false
                     })
                     globalContext?.getUserDataObj(globalContext.user.id)
                 } catch(e) {
@@ -140,7 +127,7 @@ const NewJobSBContent: React.FC = () => {
         <div className='bg-gray-900 p-6 text-gray-100 min-h-full'>
             <h2 className='mb-4 text-white text-center text-2xl'>New Job</h2>
             <div className='flex flex-col'>
-                <div className='flex flex-col'>
+                <div className='grid sm:grid-cols-2 gap-2'>
                     <div className='flex flex-col'>
                         <label htmlFor='company' className='text-white'>Company</label>
                         <TextInputField
@@ -185,11 +172,12 @@ const NewJobSBContent: React.FC = () => {
                             onChange={handleChange}
                             className='h-[40px] bg-gray-800 rounded-md p-2 w-fit'
                         >
-                            <option value='not applied'>Not Applied</option>
-                            <option value='applied'>Applied</option>
-                            <option value='interviewing'>Interviewing</option>
-                            <option value='offer'>Offer</option>
-                            <option value='rejected'>Rejected</option>
+                            <option value='Not Applied'>Not Applied</option>
+                            <option value='Applied'>Applied</option>
+                            <option value='Interviewing'>Interviewing</option>
+                            <option value='Offer'>Offer</option>
+                            <option value='Rejected'>Rejected</option>
+                            <option value='Rejected'>Withdrawn</option>
                         </select>
                     </div>
 
@@ -200,6 +188,18 @@ const NewJobSBContent: React.FC = () => {
                             type='date'
                             name='applicationDate'
                             value={formData.applicationDate} // Keep it as string
+                            onChange={handleChange}
+                            style={{background: '#1F2937', color: '#fff', width: 'fit-content'}}
+                        />
+                    </div>
+
+                    <div className='flex flex-col '>
+                        <label htmlFor='jobLink' className='text-white'>Job Link</label>
+                        <TextInputField
+                            isInvalid={!formData.jobLink}
+                            name='jobLink'
+                            placeholder='URL to the job listing'
+                            value={formData.jobLink}
                             onChange={handleChange}
                             style={{background: '#1F2937', color: '#fff', width: 'fit-content'}}
                         />
@@ -230,6 +230,16 @@ const NewJobSBContent: React.FC = () => {
                             <option value='Part-time'>Part-time</option>
                             <option value='Contract'>Contract</option>
                         </select>
+                    </div>
+
+                    <div className='flex flex-col gap-2 mb-5'>
+                        <label htmlFor='haveReferral' className='text-white'>Have Referral?</label>
+                        <Switch
+                            name='haveReferral'
+                            checked={formData.haveReferral}
+                            onChange={handleSwitchChange}
+                            height={20}
+                        />
                     </div>
 
                 </div>
@@ -332,26 +342,23 @@ const NewJobSBContent: React.FC = () => {
                             />
                         </div>
 
-                        <div className='flex flex-col '>
+                        <div className='flex flex-col gap-2 mb-5'>
                             <label htmlFor='applicationSite' className='text-white'>Application Site</label>
-                            <TextInputField
+                            <select
                                 name='applicationSite'
-                                placeholder='e.g. LinkedIn, Indeed, Company Website'
                                 value={formData.applicationSite}
                                 onChange={handleChange}
-                                style={{background: '#1F2937', color: '#fff', width: 'fit-content'}}
-                            />
-                        </div>
-
-                        <div className='flex flex-col '>
-                            <label htmlFor='jobLink' className='text-white'>Job Link</label>
-                            <TextInputField
-                                name='jobLink'
-                                placeholder='URL to the job listing'
-                                value={formData.jobLink}
-                                onChange={handleChange}
-                                style={{background: '#1F2937', color: '#fff', width: 'fit-content'}}
-                            />
+                                className='h-[40px] bg-gray-800 rounded-md p-2 w-fit'
+                            >
+                                <option value='' disabled>Choose</option>
+                                <option value='LinkedIn'>LinkedIn</option>
+                                <option value='Indeed'>Indeed</option>
+                                <option value='Monster'>Monster</option>
+                                <option value='Hiring Cafe'>Hiring Cafe</option>
+                                <option value='Angel List'>Angel List</option>
+                                <option value='Company Board'>Company Board</option>
+                                <option value='Other'>Other</option>
+                            </select>
                         </div>
 
                         <div className='flex flex-col '>

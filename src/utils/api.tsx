@@ -43,7 +43,7 @@ export const getRecaptcha = async () => {
     return await getDocs(recapCollection)
 }
 
-export const createJobEntry = async (userId: string, jobData: JobEntry) => {
+export const createUserJobEntry = async (userId: string, jobData: JobEntry) => {
     try {
         const userRef = doc(db, 'Users', userId)
         await setDoc(userRef, { jobs: arrayUnion(jobData) }, { merge: true })
@@ -55,6 +55,59 @@ export const createJobEntry = async (userId: string, jobData: JobEntry) => {
       throw error
     }
 }
+
+export const updateUserJobEntry = async (userId: string, jobEntry: JobEntry) => {
+    try {
+        const userDocRef = doc(db, 'Users', userId)
+
+        // Get the current user document data
+        const userDocSnapshot = await getDoc(userDocRef)
+        const userData = userDocSnapshot.data()
+        if (userData) {
+            let jobEntries = userData.jobs || []
+            // Filter out the item with the given meta_unid
+            jobEntries = jobEntries.filter((j: JobEntry) => j.meta_unid !== jobEntry.meta_unid)
+            // Add the updated item to watch history
+            jobEntries.push(jobEntry)
+            // Update the watchHistory field in Firestore
+            await updateDoc(userDocRef, { jobs: jobEntries })
+            fireToast({type: 'success', content: 'Job updated successfully!'})
+            return 'Job updated successfully'
+        } else {
+            fireToast({type: 'error', content: 'Error updating job!'})
+            throw new Error('User not found')
+        }
+    } catch (error) {
+        throw error
+    }
+}
+
+export const deleteUserJobEntry = async (userId: string, jobId: string) => {
+    try {
+        const userRef = doc(db, 'Users', userId)
+        const userDoc = await getDoc(userRef)
+
+        if (userDoc.exists()) {
+            const userData = userDoc.data()
+            const jobs = userData?.jobs || []
+
+            // Filter out the job with the matching jobId
+            const updatedJobs = jobs.filter((job: JobEntry) => job.meta_unid !== jobId)
+            console.log({updatedJobs, jobId})
+
+            await setDoc(userRef, { jobs: updatedJobs }, { merge: true })
+
+            fireToast({type: 'success', content: 'Job deleted successfully!'})
+            return 'Job deleted successfully!'
+        } else {
+            throw new Error('User not found')
+        }
+    } catch (error) {
+        fireToast({type: 'error', content: 'Error deleting job!'})
+        throw error
+    }
+}
+
 
 export const createPublicJobEntry = async (jobData: JobEntry) => {
     try {
@@ -131,32 +184,6 @@ export const createPublicJobEntry = async (jobData: JobEntry) => {
 // export const getUserWatchListItems = async (c) => {
 //     return await getDocs(c)
 // }
-
-export const updateUserJobEntry = async (userId: string, jobEntry: JobEntry) => {
-    try {
-        const userDocRef = doc(db, 'Users', userId)
-
-        // Get the current user document data
-        const userDocSnapshot = await getDoc(userDocRef)
-        const userData = userDocSnapshot.data()
-        if (userData) {
-            let jobEntries = userData.jobs || []
-            // Filter out the item with the given meta_unid
-            jobEntries = jobEntries.filter((j: JobEntry) => j.meta_unid !== jobEntry.meta_unid)
-            // Add the updated item to watch history
-            jobEntries.push(jobEntry)
-            // Update the watchHistory field in Firestore
-            await updateDoc(userDocRef, { jobs: jobEntries })
-            fireToast({type: 'success', content: 'Job updated successfully!'})
-            return 'Job updated successfully'
-        } else {
-            fireToast({type: 'error', content: 'Error updating job!'})
-            throw new Error('User not found')
-        }
-    } catch (error) {
-        throw error
-    }
-}
 
 // export const deleteWatchItem = async (userId, itemIdToDelete) => {
 //     try {

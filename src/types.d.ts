@@ -28,14 +28,14 @@ interface AppContextType {
   }
 
   type JobEntry = {
-    applicationDate: number
+    applicationDate: number | string
     status: string
     description: string
     company: string
-    applicationSite: string
+    applicationSite: '' | 'LinkedIn' | 'Indeed' | 'Monster' | 'Hiring Cafe' | 'Angel List' | 'Company Board' | 'Other'
     jobLevel: string
     title: string
-    lastCommunication: number
+    lastCommunication: number | string
     hmContactInfo: string
     notes: string
     meta_unid: string
@@ -43,11 +43,12 @@ interface AppContextType {
     salary: string
     jobLink: string
     employmentType: string
-    offerDate: number
+    haveReferral: boolean
+    offerDate: number | string
     hiringManager: string
     interestLevel: string
     location: string
     skills: string[]
     qualificationLevel: string
-    id: string
-  }
+    id?: string
+}

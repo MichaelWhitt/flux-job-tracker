@@ -1,5 +1,5 @@
 import { useState, useContext } from 'react'
-import { TextInputField, Textarea } from 'evergreen-ui'
+import { TextInputField, Textarea, Switch } from 'evergreen-ui'
 import { fireToast } from '../fireToast'
 import { updateUserJobEntry, updatePublicJobEntry, getAllJobs } from '../../../utils/api'
 import { AppContext } from '../../../auth/AppContext'
@@ -7,36 +7,13 @@ import Loader from '../Loader'
 import { collection } from 'firebase/firestore'
 import { db } from '../../../firebase-config'
 
-interface EditJobForm {
-    company: string
-    title: string
-    location: string
-    status: string
-    applicationDate: string // Changed to string format
-    offerDate: string // Changed to string format
-    lastCommunication: string // Changed to string format
-    description: string
-    hiringManager: string
-    notes: string
-    salary: string
-    skills: string[]
-    jobLevel: string
-    employmentType: string
-    applicationSite: string
-    jobLink: string
-    qualificationLevel: string
-    interestLevel: string
-    hmContactInfo: string
-    interviewRound: number
-}
-
 interface EditJobSBContentProps {
     job: JobEntry
 }
 
 const EditJobSBContent: React.FC = (props: EditJobSBContentProps) => {
     const currentDate = new Date().toISOString().split('T')[0] // Get today's date in YYYY-MM-DD format
-    const [formData, setFormData] = useState<EditJobForm>({...props.job})
+    const [formData, setFormData] = useState<JobEntry>({...props.job})
     const [showOptionalFields, setShowOptionalFields] = useState(false)
     const globalContext = useContext(AppContext)
     const [formSubmitting, setFormSubmitting] = useState(false)
@@ -45,9 +22,18 @@ const EditJobSBContent: React.FC = (props: EditJobSBContentProps) => {
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target
+        console.log(name, value)
         setFormData((prev) => ({
             ...prev,
             [name]: value,
+        }))
+    }
+
+    const handleSwitchChange = (e: {target: {name: string, checked: boolean}}) => {
+        const { name, checked } = e.target
+        setFormData((prev) => ({
+            ...prev,
+            [name]: checked,
         }))
     }
 
@@ -74,7 +60,6 @@ const EditJobSBContent: React.FC = (props: EditJobSBContentProps) => {
         const newApplicationDate = formData.applicationDate ? Math.floor(new Date(formData.applicationDate).getTime()) : null
         const newOfferDate = formData.offerDate ? Math.floor(new Date(formData.offerDate).getTime()) : null
         const newLastCommunication = formData.lastCommunication ? Math.floor(new Date(formData.lastCommunication).getTime()) : null
-        console.log({newApplicationDate})
 
         const submittedData = {
             ...formData,
@@ -105,12 +90,13 @@ const EditJobSBContent: React.FC = (props: EditJobSBContentProps) => {
                         employmentType: '',
                         skills: [],
                         jobLevel: '',
-                        applicationSite: '',
+                        applicationSite: 'Choose',
                         jobLink: '',
                         qualificationLevel: '',
                         interestLevel: '',
                         hmContactInfo: '',
                         interviewRound: 0,
+                        haveReferral: false
                     })
                     globalContext?.getUserDataObj(globalContext.user.id)
                 } catch(e) {
@@ -193,6 +179,18 @@ const EditJobSBContent: React.FC = (props: EditJobSBContentProps) => {
                             style={{background: '#1F2937', color: '#fff'}}
                         />
                     </div>
+
+                    <div className='flex flex-col '>
+                        <label htmlFor='jobLink' className='text-white'>Job Link</label>
+                        <TextInputField
+                            isInvalid={!formData.jobLink}
+                            name='jobLink'
+                            placeholder='URL to the job listing'
+                            value={formData.jobLink}
+                            onChange={handleChange}
+                            style={{background: '#1F2937', color: '#fff'}}
+                        />
+                    </div>
                     
                     <div className='flex flex-col '>
                         <label htmlFor='salary' className='text-white'>Salary</label>
@@ -218,6 +216,16 @@ const EditJobSBContent: React.FC = (props: EditJobSBContentProps) => {
                             <option value='Part-time'>Part-time</option>
                             <option value='Contract'>Contract</option>
                         </select>
+                    </div>
+
+                    <div className='flex flex-col gap-2 mb-5'>
+                        <label htmlFor='haveReferral' className='text-white'>Have Referral?</label>
+                        <Switch
+                            name='haveReferral'
+                            checked={formData.haveReferral}
+                            onChange={handleSwitchChange}
+                            height={20}
+                        />
                     </div>
 
                 </div>
@@ -320,26 +328,23 @@ const EditJobSBContent: React.FC = (props: EditJobSBContentProps) => {
                             />
                         </div>
 
-                        <div className='flex flex-col '>
+                        <div className='flex flex-col gap-2 mb-5'>
                             <label htmlFor='applicationSite' className='text-white'>Application Site</label>
-                            <TextInputField
+                            <select
                                 name='applicationSite'
-                                placeholder='e.g. LinkedIn, Indeed, Company Website'
                                 value={formData.applicationSite}
                                 onChange={handleChange}
-                                style={{background: '#1F2937', color: '#fff'}}
-                            />
-                        </div>
-
-                        <div className='flex flex-col '>
-                            <label htmlFor='jobLink' className='text-white'>Job Link</label>
-                            <TextInputField
-                                name='jobLink'
-                                placeholder='URL to the job listing'
-                                value={formData.jobLink}
-                                onChange={handleChange}
-                                style={{background: '#1F2937', color: '#fff'}}
-                            />
+                                className='h-[40px] bg-gray-800 rounded-md p-2 w-fit'
+                            >
+                                <option value=''>Choose</option>
+                                <option value='LinkedIn'>LinkedIn</option>
+                                <option value='Indeed'>Indeed</option>
+                                <option value='Monster'>Monster</option>
+                                <option value='Hiring Cafe'>Hiring Cafe</option>
+                                <option value='Angel List'>Angel List</option>
+                                <option value='Company Board'>Company Board</option>
+                                <option value='Other'>Other</option>
+                            </select>
                         </div>
 
                         <div className='flex flex-col '>
