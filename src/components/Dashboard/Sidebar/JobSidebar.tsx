@@ -1,8 +1,8 @@
 import { SideSheet } from 'evergreen-ui'
 import { useState, useEffect } from 'react'
 import ViewJobSBContent from './ViewJobSBContent'
-import NewJobSBContent from './NewJobSBContent'
-import EditJobSBContent from './EditJobSBContent'
+// import NewJobSBContent from './NewJobSBContent'
+// import EditJobSBContent from './EditJobSBContent'
 import CreateEditJobForm from './CreateEditJobForm'
 
 interface JobSidebar {
@@ -38,14 +38,14 @@ const JobSidebar = ({ job, sidebarOpen, setSidebarOpen, type }: JobSidebar) => {
               status: 'Not Applied',
               description: '',
               applicationDate: new Date(),
-              offerDate: new Date(),
+              offerDate: '',
               lastCommunication: new Date(),
               hiringManager: '',
               notes: '',
               salary: '',
-              employmentType: '',
+              employmentType: 'Full-time',
               skills: [],
-              jobLevel: '',
+              jobLevel: 'Entry',
               applicationSite: '',
               jobLink: '',
               qualificationLevel: '',
@@ -53,7 +53,9 @@ const JobSidebar = ({ job, sidebarOpen, setSidebarOpen, type }: JobSidebar) => {
               hmContactInfo: '',
               interviewRound: 0,
               haveReferral: false
-          }} type='create' />
+            }} 
+            type='create' 
+          />
             case 'edit':
           return <CreateEditJobForm job={job} type='edit' />
       }

@@ -90,8 +90,8 @@ const ViewJobSBContent = ({job}: ViewJobSBContentProps) => {
           <h3 className='text-lg font-semibold mb-4 text-blue-300'>Application Status</h3>
           <LabeledField label='Status' value={job.status} />
           <LabeledField label='Have Referral' value={job.haveReferral ? 'Yes' : 'No'} />
-          <LabeledField label='Application Date' value={formatDate(job.applicationDate * 1000, false, false)} />
-          <LabeledField label='Last Communication' value={formatDate(job.lastCommunication * 1000, false, false)} />
+          <LabeledField label='Application Date' value={formatDate(job.applicationDate, false, false)} />
+          <LabeledField label='Last Communication' value={formatDate(job.lastCommunication, false, false)} />
           <LabeledField label='Interview Round' value={job.interviewRound} />
         </div>
       </div>
@@ -124,7 +124,7 @@ const ViewJobSBContent = ({job}: ViewJobSBContentProps) => {
 
       <div className='bg-gray-800 p-4 rounded-lg'>
         <h3 className='text-lg font-semibold mb-4 text-blue-300'>Additional Information</h3>
-        <LabeledField label='Offer Date' value={job.offerDate ? formatDate(job.offerDate * 1000, false, false) : null} />
+        <LabeledField label='Offer Date' value={job.offerDate ? formatDate(job.offerDate, false, false) : null} />
         <LabeledField label='Skills' value={job.skills?.join(', ')} />
         <div className='mb-2'>
           <div className='text-sm text-gray-400 mb-1'>Notes</div>
