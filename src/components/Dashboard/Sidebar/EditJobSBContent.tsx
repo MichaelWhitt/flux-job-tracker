@@ -27,33 +27,18 @@ interface EditJobForm {
     interviewRound: number
 }
 
-const EditJobSBContent: React.FC = () => {
+interface EditJobSBContent {
+    job: JobEntry
+}
+
+const EditJobSBContent: React.FC = (props) => {
     const currentDate = new Date().toISOString().split('T')[0] // Get today's date in YYYY-MM-DD format
-    const [formData, setFormData] = useState<EditJobForm>({
-        company: '',
-        title: '',
-        location: '',
-        status: 'not applied',
-        description: '',
-        applicationDate: currentDate, // Use string format
-        offerDate: currentDate, // Use string format
-        lastCommunication: currentDate, // Use string format
-        hiringManager: '',
-        notes: '',
-        salary: '',
-        skills: [],
-        jobLevel: '',
-        applicationSite: '',
-        jobLink: '',
-        qualificationLevel: '',
-        interestLevel: '',
-        hmContactInfo: '',
-        interviewRound: 0,
-    })
+    const [formData, setFormData] = useState<EditJobForm>({...props.job})
     const [showOptionalFields, setShowOptionalFields] = useState(false)
     const globalContext = useContext(AppContext)
     const [formSubmitting, setFormSubmitting] = useState(false)
 
+    console.log({formData})
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target
         setFormData((prev) => ({
@@ -119,7 +104,7 @@ const EditJobSBContent: React.FC = () => {
 
     return (
         <div className='bg-gray-900 p-6 text-gray-100 min-h-full'>
-            <h2 className='mb-4 text-white text-center text-2xl'>New Job</h2>
+            <h2 className='mb-4 text-white text-center text-2xl'>Edit Job</h2>
             <div className='flex flex-col'>
                 <div className='flex flex-col'>
                     <div className='flex flex-col'>
@@ -180,7 +165,7 @@ const EditJobSBContent: React.FC = () => {
                             isInvalid={!formData.applicationDate}
                             type='date'
                             name='applicationDate'
-                            value={formData.applicationDate} // Keep it as string
+                            value={formData.applicationDate ? new Date(+formData.applicationDate * 1000).toISOString().split('T')[0] : ''}
                             onChange={handleChange}
                             style={{background: '#1F2937', color: '#fff', width: 'fit-content'}}
                         />
@@ -213,19 +198,19 @@ const EditJobSBContent: React.FC = () => {
                                 <TextInputField
                                     type='date'
                                     name='offerDate'
-                                    value={formData.offerDate} // Keep it as string
+                                    value={formData.offerDate ? new Date(+formData.offerDate * 1000).toISOString().split('T')[0] : ''}
                                     onChange={handleChange}
                                     style={{background: '#1F2937', color: '#fff', width: 'fit-content'}}
                                 />
                             </div>
                         )}
 
-                        <div className='flex flex-col mt-5'>
+                        <div className={`flex flex-col ${formData.status?.toLowerCase() === 'offer' ? 'mt-0' : 'mt-5'}`}>
                             <label htmlFor='lastCommunication' className='text-white'>Last Communication</label>
                             <TextInputField
                                 type='date'
                                 name='lastCommunication'
-                                value={formData.lastCommunication} // Keep it as string
+                                value={formData.lastCommunication ? new Date(+formData.lastCommunication * 1000).toISOString().split('T')[0] : ''}
                                 onChange={handleChange}
                                 style={{background: '#1F2937', color: '#fff', width: 'fit-content'}}
                             />

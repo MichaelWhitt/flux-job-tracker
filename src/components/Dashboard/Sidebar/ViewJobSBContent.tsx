@@ -1,11 +1,21 @@
+import JobSidebar from './JobSidebar'
+import {useState} from 'react'
 
 interface ViewJobSBContentProps {
     job: any
 }
 
 const ViewJobSBContent = ({job}: ViewJobSBContentProps) => {
+  const [sideBarOpen, setSidebarOpen] = useState(false)
     return (
       <div className='bg-gray-900 p-6 text-gray-100'>
+        <JobSidebar job={job} type='edit' sidebarOpen={sideBarOpen} setSidebarOpen={setSidebarOpen} />
+        <button 
+            className='ml-auto flex bg-green-600 hover:bg-green-800 duration-500 p-1 w-[60px] items-center justify-center rounded-md relative'
+            onClick={() => setSidebarOpen(true)}
+          >
+            Edit
+        </button>
         <h2 className='text-3xl font-bold mb-6 text-blue-400'>{job.company} - {job.title}</h2>
         
         <div className='grid grid-cols-1 md:grid-cols-2 gap-4 mb-6'>

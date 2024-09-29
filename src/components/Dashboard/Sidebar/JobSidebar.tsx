@@ -2,6 +2,7 @@ import { SideSheet } from 'evergreen-ui'
 import { useState, useEffect } from 'react'
 import ViewJobSBContent from './ViewJobSBContent'
 import NewJobSBContent from './NewJobSBContent'
+import EditJobSBContent from './EditJobSBContent'
 
 interface JobSidebar {
     job?: any
@@ -31,7 +32,7 @@ const JobSidebar = ({ job, sidebarOpen, setSidebarOpen, type }: JobSidebar) => {
           case 'new':
             return <NewJobSBContent />
             case 'edit':
-          return <ViewJobSBContent job={job} />
+          return <EditJobSBContent job={job} />
       }
     }
   return (
