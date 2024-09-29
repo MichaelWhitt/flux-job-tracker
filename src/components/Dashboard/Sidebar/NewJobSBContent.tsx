@@ -178,6 +178,7 @@ const NewJobSBContent: React.FC = () => {
                             <option value='Offer'>Offer</option>
                             <option value='Rejected'>Rejected</option>
                             <option value='Rejected'>Withdrawn</option>
+                            <option value='Accepted'>Accepted</option>
                         </select>
                     </div>
 

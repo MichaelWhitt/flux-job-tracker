@@ -29,7 +29,7 @@ interface AppContextType {
 
   type JobEntry = {
     applicationDate: number | string
-    status: string
+    status: 'Not Applied' | 'Applied' | 'Interviewing' | 'Offer' | 'Rejected' | 'Withdrawn' | 'Accepted'
     description: string
     company: string
     applicationSite: '' | 'LinkedIn' | 'Indeed' | 'Monster' | 'Hiring Cafe' | 'Angel List' | 'Company Board' | 'Other'

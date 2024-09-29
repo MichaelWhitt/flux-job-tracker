@@ -160,11 +160,13 @@ const EditJobSBContent: React.FC = (props: EditJobSBContentProps) => {
                             onChange={handleChange}
                             className='h-[40px] bg-gray-800 rounded-md p-2 w-fit'
                         >
-                            <option value='not applied'>Not Applied</option>
-                            <option value='applied'>Applied</option>
-                            <option value='interviewing'>Interviewing</option>
-                            <option value='offer'>Offer</option>
-                            <option value='rejected'>Rejected</option>
+                            <option value='Not Applied'>Not Applied</option>
+                            <option value='Applied'>Applied</option>
+                            <option value='Interviewing'>Interviewing</option>
+                            <option value='Offer'>Offer</option>
+                            <option value='Rejected'>Rejected</option>
+                            <option value='Rejected'>Withdrawn</option>
+                            <option value='Accepted'>Accepted</option>
                         </select>
                     </div>
 
