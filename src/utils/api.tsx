@@ -1,5 +1,5 @@
 import { db, logout } from '../firebase-config'
-import {collection, getDocs, updateDoc, doc, getDoc, deleteDoc, setDoc, query, where, limit, arrayUnion} from 'firebase/firestore'
+import {collection, getDocs, updateDoc, doc, getDoc, deleteDoc, addDoc, setDoc, query, where, limit, arrayUnion} from 'firebase/firestore'
 //import { successToast, failToast } from '../Components/Toasts/toasts'
 //import emailjs from '@emailjs/browser'
 import firebase from 'firebase/compat/app' // Import the main Firebase module
@@ -55,6 +55,63 @@ export const createJobEntry = async (userId: string, jobData: JobEntry) => {
       throw error
     }
 }
+
+export const createPublicJobEntry = async (jobData: JobEntry) => {
+    try {
+      // Get the reference to the 'jobs' collection
+      const jobsRef = collection(db, 'jobs')
+      
+      // Add a new document with the jobData
+      await addDoc(jobsRef, jobData)
+      
+      fireToast({ type: 'success', content: 'Job added successfully!' })
+      return 'Job added successfully!'
+    } catch (error) {
+      console.error('Error creating job:', error)
+      fireToast({ type: 'error', content: 'Error creating job!' })
+      throw error
+    }
+  }
+
+  export const updatePublicJobEntry = async (jobId: string, updatedJobData?: JobEntry) => {
+    try {
+      // Get a reference to the specific job document
+      const jobDocRef = doc(db, 'jobs', jobId)
+  
+      if (updatedJobData) {
+        // Update or overwrite the document entirely
+        await setDoc(jobDocRef, updatedJobData, { merge: true }) // `{ merge: true }` ensures partial updates if needed
+        fireToast({ type: 'success', content: 'Job updated successfully!' })
+      } else {
+        // If no data is provided, throw an error
+        throw new Error('No data provided to update the job')
+      }
+  
+      return 'Job updated successfully!'
+    } catch (error) {
+      console.error('Error updating job:', error)
+      fireToast({ type: 'error', content: 'Error updating job!' })
+      throw error
+    }
+  }
+  
+  export const deletePublicJobEntry = async (jobId: string) => {
+    try {
+      // Get a reference to the specific job document
+      const jobDocRef = doc(db, 'jobs', jobId)
+      
+      // Delete the document
+      await deleteDoc(jobDocRef)
+      
+      fireToast({ type: 'success', content: 'Job deleted successfully!' })
+      return 'Job deleted successfully!'
+    } catch (error) {
+      console.error('Error deleting job:', error)
+      fireToast({ type: 'error', content: 'Error deleting job!' })
+      throw error
+    }
+  }
+  
 
 // export const getUserJobEntries = async (c) => {
 //     return await getDocs(c)

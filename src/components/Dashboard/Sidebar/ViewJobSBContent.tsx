@@ -1,6 +1,11 @@
 import JobSidebar from './JobSidebar'
-import {useState} from 'react'
+import {useState, useContext} from 'react'
 import { formatDate } from '../../../utils/utils'
+import { deletePublicJobEntry } from '../../../utils/api'
+import { AppContext } from '../../../auth/AppContext'
+import { collection } from 'firebase/firestore'
+import { db } from '../../../firebase-config'
+import ConfirmationModal from '../../Modals/ConfirmationModal'
 
 interface ViewJobSBContentProps {
     job: any
@@ -8,15 +13,48 @@ interface ViewJobSBContentProps {
 
 const ViewJobSBContent = ({job}: ViewJobSBContentProps) => {
   const [sideBarOpen, setSidebarOpen] = useState(false)
+  const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false)
+  const globalContext = useContext(AppContext)
+  const publicJobsCollection = collection(db, 'jobs')
+
+  const deletePublicJob = async (id: string) => {
+    try {
+      await deletePublicJobEntry(id)
+      setSidebarOpen(false)
+      globalContext?.getPublicJobs(publicJobsCollection)
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+
     return (
       <div className='bg-gray-900 p-6 text-gray-100'>
+        <ConfirmationModal 
+          isOpen={isConfirmationModalOpen} 
+          setIsOpen={setIsConfirmationModalOpen} 
+          title='Are you sure?' 
+          description='Removing this job will permanently delete it.'
+          onConfirm={() => deletePublicJob(job.id)}
+        />
         <JobSidebar job={job} type='edit' sidebarOpen={sideBarOpen} setSidebarOpen={setSidebarOpen} />
-        <button 
-            className='ml-auto flex bg-green-600 hover:bg-green-800 duration-500 p-1 w-[60px] items-center justify-center rounded-md relative'
-            onClick={() => setSidebarOpen(true)}
-          >
-            Edit
-        </button>
+        <div className='flex gap-2 w-fit ml-auto'>
+          <button 
+              className='ml-auto flex bg-green-600 hover:bg-green-800 duration-500 p-1 w-[60px] items-center justify-center rounded-md relative'
+              onClick={() => setSidebarOpen(true)}
+            >
+              Edit
+          </button>
+          <button 
+              className='ml-auto flex bg-red-600 hover:bg-red-800 duration-500 p-1 w-[60px] items-center justify-center rounded-md relative'
+              onClick={() => {
+                setIsConfirmationModalOpen(true)
+              }}
+            >
+              Delete
+          </button>
+        </div>
+        
         <h2 className='text-3xl font-bold mb-6 text-blue-400'>{job.company} - {job.title}</h2>
         
         <div className='grid grid-cols-1 md:grid-cols-2 gap-4 mb-6'>

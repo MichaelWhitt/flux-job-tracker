@@ -1,11 +1,13 @@
 import React, {createContext, useState, useContext, useEffect} from 'react'
 import {onAuthStateChanged, getAuth} from '@firebase/auth'
 import {loginEmailPassword, logout } from '../firebase-config.tsx'
-import {getUserData} from '../utils/api'
+import {getUserData, getAllJobs} from '../utils/api'
 import {createBrowserHistory} from 'history'
 import { fireToast } from '../components/Toasts/fireToast'
 import { useLocation } from 'wouter'
 import { getRecaptcha } from '../utils/api'
+import { collection } from 'firebase/firestore'
+import { db } from '../firebase-config.tsx'
 
 export const AppContext = createContext<AppContextType | undefined>(undefined)
 
@@ -17,10 +19,13 @@ export const AuthProvider: React.FC = ({children}) => {
   })
   const [location, setLocation] = useLocation()
   const [rKey, setRKey] = useState('')
+  const [publicJobs, setPublicJobs] = useState([])
+
   const history = createBrowserHistory()
   const auth = getAuth()
   const emailVerified = auth.currentUser?.emailVerified || false
   const siteName = 'jTracker'
+  const publicJobCollection = collection(db, 'jobs')
   
   useEffect(() => {
     const getRecap = async () => {
@@ -41,6 +46,17 @@ export const AuthProvider: React.FC = ({children}) => {
     .catch((e) => fireToast({type: 'error', content: e}))
   }
 
+  const getPublicJobs = async () => {
+    const publicJs = await getAllJobs(publicJobCollection)
+    const jobs = publicJs?.docs?.map(doc => ({
+      id: doc.id,  // jobId (document ID)
+      ...doc.data() // job data
+    }))
+    if (jobs && Array.isArray(jobs)) {
+      setPublicJobs(jobs)
+    }
+  }
+
 
   useEffect(() => {
     // Check the user's authentication status when the component mounts
@@ -54,6 +70,7 @@ export const AuthProvider: React.FC = ({children}) => {
         }
       } else {
         setIsLoggedIn(false)
+        getPublicJobs()
         setUser({
           email: '',
           id: ''
@@ -99,7 +116,7 @@ export const AuthProvider: React.FC = ({children}) => {
   }
 
   return (
-    <AppContext.Provider value={{ isLoggedIn, login, logout, user, getUserDataObj, history, emailVerified, siteName, rKey}}>
+    <AppContext.Provider value={{ isLoggedIn, login, logout, user, getUserDataObj, history, emailVerified, siteName, rKey, getPublicJobs, publicJobs}}>
       {children}
     </AppContext.Provider>
   )

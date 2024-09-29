@@ -1,10 +1,12 @@
 import { useState, useContext } from 'react'
 import { TextInputField, Textarea } from 'evergreen-ui'
 import { fireToast } from '../fireToast'
-import { createJobEntry } from '../../../utils/api'
+import { createJobEntry, createPublicJobEntry } from '../../../utils/api'
 import { AppContext } from '../../../auth/AppContext'
 import Loader from '../Loader'
 import { generateUnid } from '../../../utils/utils'
+import { collection } from 'firebase/firestore'
+import { db } from '../../../firebase-config'
 
 interface NewJobForm {
     company: string
@@ -58,6 +60,7 @@ const NewJobSBContent: React.FC = () => {
     const [showOptionalFields, setShowOptionalFields] = useState(false)
     const globalContext = useContext(AppContext)
     const [formSubmitting, setFormSubmitting] = useState(false)
+    const jobsCollections = collection(db, 'jobs')
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target
@@ -88,7 +91,7 @@ const NewJobSBContent: React.FC = () => {
         if (!formData.company || !formData.salary || !formData.title || !formData.status || !formData.location) {
             fireToast({type: 'error', content: 'Fill out required fields'})
         } else {
-            if (globalContext?.user) {
+            if (globalContext?.user && globalContext.isLoggedIn) {
                 try {
                     await createJobEntry(globalContext.user?.id, {...submittedData})
                     setFormSubmitting(false)
@@ -119,6 +122,15 @@ const NewJobSBContent: React.FC = () => {
                 } catch(e) {
                     fireToast({type: 'error', content: JSON.stringify(e)})
                     setFormSubmitting(false)
+                }
+            } else {
+                // create public job entry
+                try {
+                    await createPublicJobEntry(submittedData)
+                    setFormSubmitting(false) 
+                    globalContext?.getPublicJobs(jobsCollections)
+                } catch (e) {
+                    console.log(e)
                 }
             }
         }

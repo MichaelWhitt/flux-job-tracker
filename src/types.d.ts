@@ -3,6 +3,8 @@ interface AppContextType {
     login: (email: string, password: string) => void
     logout: () => void
     getUserDataObj: (id: string) => void
+    getPublicJobs: (collection: object) => void
+    publicJobs: Array<JobEntry>
     user: UserObject
     history: object
     emailVerified: boolean

@@ -21,7 +21,9 @@ const Landing = (props: DashboardProps) => {
     return (
         <div className='p-2'>
                 <>
-                    <h1 className='text-white font-bold text-3xl flex justify-center sm:mb-[100px] pt-5 sm:pt-0'>Dashboard</h1>
+                    <h1 className='text-white font-bold text-3xl flex justify-center sm:mb-[100px] pt-5 sm:pt-0'>
+                        {globalContext?.isLoggedIn ? 'Dashboard' : 'Public Dashboard'}
+                    </h1>
                     <div className='flex sm:w-3/4 w-4/5 m-auto sm:flex-row flex-col'>
                         <div className='flex-shrink-0'> {/* Prevents JobFilters from shrinking */}
                             <JobFilters originalJobs={originalJobs} filteredJobs={filteredJobs} setFilteredJobs={setFilteredJobs} />

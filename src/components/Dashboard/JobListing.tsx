@@ -4,6 +4,7 @@ import JobSidebar from './Sidebar/JobSidebar'
 import { useState, useContext } from 'react'
 import { IconPlus } from '@tabler/icons-react'
 import { AppContext } from '../../auth/AppContext'
+import { Link } from 'wouter'
 
 interface JobListingProps {
     originalJobs: Array<JobEntry>
@@ -35,7 +36,7 @@ const JobListing = (props: JobListingProps) => {
             >
                 <IconPlus size={20} /> Add Job
             </button>
-            
+
             {jobsToDisplay?.length > 0 && jobsToDisplay?.map((job, idx) => {
                 return (
                     <JobCard key={job.id || idx} job={job} />

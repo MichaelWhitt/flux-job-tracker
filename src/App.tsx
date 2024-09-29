@@ -7,7 +7,6 @@ import '@mantine/core/styles.css'
 import { useAuth, AppContext } from './auth/AppContext'
 import Layout from './components/Layout/Layout'
 import Landing from './components/Dashboard/Landing'
-import Test from './components/Dashboard/Test'
 import Account from './components/Account/Account'
 import Login from './components/UserAuth/Login'
 import SignUp from './components/UserAuth/SignUp'
@@ -26,11 +25,31 @@ function App() {
   const globalContext = useContext(AppContext)
   const userJobEntries = globalContext?.user?.jobs?.sort((a, b) => b.applicationDate - a.applicationDate)
 
+  let jobs = []
+  if (globalContext?.isLoggedIn) {
+    jobs = globalContext?.user?.jobs?.sort((a, b) => b.applicationDate - a.applicationDate)
+  } else {
+    jobs = globalContext?.publicJobs?.sort((a, b) => b.applicationDate - a.applicationDate)
+  }
+
   useEffect(() => {
     if (isLoggedIn && !user.email && !user.id) {
       logout()
     }      
   }, [])
+
+  // const jobsCollections = collection(db, 'jobs')
+  // const [jobs, setJobs] = useState([])
+
+  // useEffect(() => {
+  //   const getJobs = async () => {
+  //    const data = await getAllJobs(jobsCollections)
+  //    setJobs(data.docs.map((d) => ({
+  //     ...d.data(), id: d.id
+  //    })))
+  //   }
+  //   getJobs()
+  // }, [])
 
   return (
     <MantineProvider theme={theme}>
@@ -53,7 +72,7 @@ function App() {
               <Route
                 path='/landing'
                 component={() => (
-                  <Landing jobs={userJobEntries || []} />
+                  <Landing jobs={jobs} />
                 )}
               />
               {/* <ProtectedRoute path='/test' component={Test} /> */}
@@ -67,7 +86,7 @@ function App() {
                 <Route
                   path='/landing'
                   component={() => (
-                    <Landing jobs={userJobEntries || []} />
+                    <Landing jobs={jobs} />
                   )}
                 />
                 <Route path='/login' component={() => <Login />} />
