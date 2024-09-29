@@ -66,9 +66,7 @@ export const updateUserJobEntry = async (userId: string, jobEntry: JobEntry) => 
         if (userData) {
             let jobEntries = userData.jobs || []
             // Filter out the item with the given meta_unid
-            console.log({1: jobEntries})
             jobEntries = jobEntries.filter((j: JobEntry) => j.meta_unid !== jobEntry.meta_unid)
-            console.log({jobEntries})
             // Add the updated item to watch history
             jobEntries.push(jobEntry)
             // Update the watchHistory field in Firestore
@@ -95,7 +93,6 @@ export const deleteUserJobEntry = async (userId: string, jobId: string) => {
 
             // Filter out the job with the matching jobId
             const updatedJobs = jobs.filter((job: JobEntry) => job.meta_unid !== jobId)
-            console.log({updatedJobs, jobId})
 
             await setDoc(userRef, { jobs: updatedJobs }, { merge: true })
 

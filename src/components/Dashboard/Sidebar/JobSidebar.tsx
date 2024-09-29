@@ -50,8 +50,8 @@ const JobSidebar = ({ job, sidebarOpen, setSidebarOpen, type }: JobSidebar) => {
               meta_unid: generateUnid(),
               applicationSite: '',
               jobLink: '',
-              qualificationLevel: 'Mid Match',
-              interestLevel: '',
+              qualificationMatch: 'Medium Match',
+              interestLevel: 'Medium',
               hmContactInfo: '',
               interviewRound: 0,
               haveReferral: false

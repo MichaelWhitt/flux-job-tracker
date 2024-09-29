@@ -21,7 +21,6 @@ const CreateEditJobForm: React.FC<CreateEditJobSBContentProps> = (props) => {
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target
-        console.log({name, value})
         setFormData((prev) => ({
             ...prev,
             [name]: value,
@@ -78,13 +77,13 @@ const CreateEditJobForm: React.FC<CreateEditJobSBContentProps> = (props) => {
                         hiringManager: '',
                         notes: '',
                         salary: '',
-                        employmentType: '',
+                        employmentType: 'Full-time',
                         skills: [],
                         jobLevel: 'Mid',
                         applicationSite: '',
                         jobLink: '',
-                        qualificationLevel: '',
-                        interestLevel: '',
+                        qualificationMatch: 'Medium',
+                        interestLevel: 'Medium',
                         hmContactInfo: '',
                         interviewRound: 0,
                         haveReferral: false
@@ -112,6 +111,7 @@ const CreateEditJobForm: React.FC<CreateEditJobSBContentProps> = (props) => {
                     <div className='flex flex-col'>
                         <label htmlFor='company' className='text-white'>Company</label>
                         <TextInputField
+                            label=''
                             isInvalid={!formData.company}
                             name='company'
                             placeholder='Company'
@@ -124,6 +124,7 @@ const CreateEditJobForm: React.FC<CreateEditJobSBContentProps> = (props) => {
                     <div className='flex flex-col'>
                         <label htmlFor='title' className='text-white'>Job Title</label>
                         <TextInputField
+                            label=''
                             isInvalid={!formData.title}
                             name='title'
                             placeholder='Title'
@@ -136,6 +137,7 @@ const CreateEditJobForm: React.FC<CreateEditJobSBContentProps> = (props) => {
                     <div className='flex flex-col '>
                         <label htmlFor='location' className='text-white'>Job Location</label>
                         <TextInputField
+                            label=''
                             isInvalid={!formData.location}
                             name='location'
                             placeholder='Location'
@@ -166,6 +168,7 @@ const CreateEditJobForm: React.FC<CreateEditJobSBContentProps> = (props) => {
                     <div className='flex flex-col '>
                         <label htmlFor='applicationDate' className='text-white'>Application Date</label>
                         <TextInputField
+                            label=''
                             isInvalid={!formData.applicationDate}
                             type='date'
                             name='applicationDate'
@@ -178,6 +181,7 @@ const CreateEditJobForm: React.FC<CreateEditJobSBContentProps> = (props) => {
                     <div className='flex flex-col '>
                         <label htmlFor='jobLink' className='text-white'>Job Link</label>
                         <TextInputField
+                            label=''
                             isInvalid={!formData.jobLink}
                             name='jobLink'
                             placeholder='URL to the job listing'
@@ -190,6 +194,7 @@ const CreateEditJobForm: React.FC<CreateEditJobSBContentProps> = (props) => {
                     <div className='flex flex-col '>
                         <label htmlFor='salary' className='text-white'>Salary</label>
                         <TextInputField
+                            label=''
                             isInvalid={!formData.salary}
                             name='salary'
                             placeholder='Salary'
@@ -246,6 +251,7 @@ const CreateEditJobForm: React.FC<CreateEditJobSBContentProps> = (props) => {
                         <div className='flex flex-col'>
                             <label htmlFor='hiringManager' className='text-white'>Hiring Manager</label>
                             <TextInputField
+                                label=''
                                 name='hiringManager'
                                 placeholder='Hiring Manager'
                                 value={formData.hiringManager}
@@ -268,7 +274,9 @@ const CreateEditJobForm: React.FC<CreateEditJobSBContentProps> = (props) => {
                         <div className='flex flex-col '>
                             <label htmlFor='interviewRound' className='text-white'>Interview Round</label>
                             <TextInputField
+                                label=''
                                 type='number'
+                                min='0'
                                 name='interviewRound'
                                 placeholder='Interview Round'
                                 value={formData.interviewRound}
@@ -280,6 +288,7 @@ const CreateEditJobForm: React.FC<CreateEditJobSBContentProps> = (props) => {
                         <div className='flex flex-col'>
                             <label htmlFor='lastCommunication' className='text-white'>Last Communication</label>
                             <TextInputField
+                                label=''
                                 type='date'
                                 name='lastCommunication'
                                 value={formData.lastCommunication} 
@@ -292,6 +301,7 @@ const CreateEditJobForm: React.FC<CreateEditJobSBContentProps> = (props) => {
                             <div className='flex flex-col'>
                                 <label htmlFor='offerDate' className='text-white'>Offer Date</label>
                                 <TextInputField
+                                    label=''
                                     type='date'
                                     name='offerDate'
                                     value={formData.offerDate} 
@@ -304,6 +314,7 @@ const CreateEditJobForm: React.FC<CreateEditJobSBContentProps> = (props) => {
                         <div className='flex flex-col'>
                             <label htmlFor='skills' className='text-white'>Skills</label>
                             <TextInputField
+                                label=''
                                 name='skills'
                                 placeholder='React, Typescript, Git'
                                 value={formData.skills.join(', ')}
@@ -328,18 +339,18 @@ const CreateEditJobForm: React.FC<CreateEditJobSBContentProps> = (props) => {
                         </div>
 
                         <div className='flex flex-col gap-2 mb-5'>
-                            <label htmlFor='qualificationLevel' className='text-white'>Qualification Level</label>
+                            <label htmlFor='qualificationMatch' className='text-white'>Qualification Match</label>
                             <select
-                                name='qualificationLevel'
-                                value={formData.qualificationLevel || 'Mid Match'}
+                                name='qualificationMatch'
+                                value={formData.qualificationMatch || 'Medium'}
                                 onChange={handleChange}
                                 className='h-[34px] bg-gray-800 rounded-md p-2 w-fit text-sm'
                             >
-                                <option value='No Match'>No Match</option>
-                                <option value='Low Match'>Low Match</option>
-                                <option value='Mid Match'>Mid Match</option>
-                                <option value='High Match'>High Match</option>
-                                <option value='Perfect Match'>Perfect Match</option>
+                                <option value='No'>No Match</option>
+                                <option value='Low'>Low Match</option>
+                                <option value='Medium'>Medium Match</option>
+                                <option value='High'>High Match</option>
+                                <option value='Perfect'>Perfect Match</option>
                             </select>
                         </div>
 
@@ -362,15 +373,18 @@ const CreateEditJobForm: React.FC<CreateEditJobSBContentProps> = (props) => {
                             </select>
                         </div>
 
-                        <div className='flex flex-col'>
+                        <div className='flex flex-col '>
                             <label htmlFor='interestLevel' className='text-white'>Interest Level</label>
-                            <TextInputField
+                            <select
                                 name='interestLevel'
-                                placeholder='Interest Level (1-10)'
-                                value={formData.interestLevel}
+                                value={formData.interestLevel || 'Medium'}
                                 onChange={handleChange}
-                                style={{background: '#1F2937', color: '#fff'}}
-                            />
+                                className='h-[34px] bg-gray-800 rounded-md p-2 w-fit text-sm'
+                            >
+                                <option value='Low'>Low</option>
+                                <option value='Medium'>Medium</option>
+                                <option value='High'>High</option>
+                            </select>
                         </div>
 
                         <div className='flex flex-col'>
@@ -378,6 +392,7 @@ const CreateEditJobForm: React.FC<CreateEditJobSBContentProps> = (props) => {
                                 Hiring Manager Contact Info
                             </label>
                             <TextInputField
+                                label=''
                                 name='hmContactInfo'
                                 placeholder='Contact Info'
                                 value={formData.hmContactInfo}

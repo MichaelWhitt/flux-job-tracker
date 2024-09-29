@@ -87,16 +87,14 @@ const Header: React.FC = () => {
                         }
                     }}
                     className='bg-none text-white hover:bg-bg5 w-[80px]'
-                    //type='success'
                     >
                     Logout
                 </Button>
             ) : (
                 <Link to='/login'>
                     <Button
-                        onClick={() => console.log('Button 3 clicked')}
+                        onClick={() => ''}
                         className='bg-none text-white hover:bg-bg5 w-[60px]'
-                        //type='success'
                     >
                     Login
                     </Button>

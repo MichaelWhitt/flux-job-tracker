@@ -17,7 +17,6 @@ const SubscribeForm = (props) => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     setHiddenCap(false)
-    console.log(captchaRef, captchaToken, email, form.current)
     if (captchaToken && email.includes('.')) {
       const res = await sendEmail(form.current, e)
       if (res && res.status === 200) {

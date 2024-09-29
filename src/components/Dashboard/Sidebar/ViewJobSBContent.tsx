@@ -9,7 +9,7 @@ import ConfirmationModal from '../../Modals/ConfirmationModal'
 import CopyClipboard from '../../Buttons/ClipboardCopy'
 
 interface ViewJobSBContentProps {
-    job: any
+    job: JobEntry
 }
 
 const ViewJobSBContent = ({job}: ViewJobSBContentProps) => {
@@ -19,7 +19,6 @@ const ViewJobSBContent = ({job}: ViewJobSBContentProps) => {
   const publicJobsCollection = collection(db, 'jobs')
 
   const deleteJob = async (id: string) => {
-    console.log({jobId: id})
     if (globalContext?.user) {
       try {
         await deleteUserJobEntry(globalContext.user?.id, id)
@@ -83,7 +82,7 @@ const ViewJobSBContent = ({job}: ViewJobSBContentProps) => {
         <div className='bg-gray-800 p-4 rounded-lg'>
           <h3 className='text-lg font-semibold mb-4 text-blue-300'>Personal Assessment</h3>
           <LabeledField label='Interest Level' value={job.interestLevel} />
-          <LabeledField label='Qualification Level' value={job.qualificationLevel} />
+          <LabeledField label='Qualification Match' value={job.qualificationMatch} />
         </div>
         
         <div className='bg-gray-800 p-4 rounded-lg md:col-span-2'>

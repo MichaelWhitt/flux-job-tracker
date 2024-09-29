@@ -19,7 +19,6 @@ const JobCard: React.FC<JobCardProps> = ({ job }) => {
   }
 
   const handleClick = () => {
-    console.log(`Job Title: ${job.title || 'N/A'}`)
     setSidebarOpen(true)
   }
 

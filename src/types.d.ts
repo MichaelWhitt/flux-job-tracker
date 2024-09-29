@@ -28,27 +28,27 @@ interface AppContextType {
   }
 
   type JobEntry = {
-    applicationDate: number | string | Date
+    applicationDate: string | Date
     status: 'Not Applied' | 'Applied' | 'Interviewing' | 'Offer' | 'Rejected' | 'Withdrawn' | 'Accepted' | 'Ghosted'
     description: string
     company: string
     applicationSite: '' | 'LinkedIn' | 'Indeed' | 'Monster' | 'Hiring Cafe' | 'Angel List' | 'Company Board' | 'Other'
     jobLevel: 'Entry' | 'Mid' | 'Senior' | 'Other'
     title: string
-    lastCommunication: number | string | Date
+    lastCommunication: string | Date
     hmContactInfo: string
     notes: string
     meta_unid?: string
     interviewRound: number
     salary: string
     jobLink: string
-    employmentType: string
+    employmentType: 'Full-time' | 'Part-time' | 'Contract'
     haveReferral: boolean
-    offerDate: number | string | Date
+    offerDate: string | Date
     hiringManager: string
-    interestLevel: string
+    interestLevel: 'Low' | 'Medium' | 'High'
     location: string
     skills: string[]
-    qualificationLevel: 'No Match' | 'Low Match' | 'Mid Match' | 'High Match' | 'Perfect Match'
+    qualificationMatch: 'No' | 'Low' | 'Medium' | 'High' | 'Perfect'
     id?: string
 }

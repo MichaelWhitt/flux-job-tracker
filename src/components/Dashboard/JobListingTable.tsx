@@ -16,7 +16,7 @@ const JobListingTable = ({jobs}) => {
         offerDate: 'Offer Date',
         lastCommunication: 'Last Communication',
         interestLevel: 'Interest Level',
-        qualificationLevel: 'Qualification Level',
+        qualificationMatch: 'Qualification Match',
         hiringManager: 'Hiring Manager',
         jobLink: 'Job Link',
         applicationSite: 'Application Site',
@@ -45,23 +45,23 @@ const JobListingTable = ({jobs}) => {
         const val = e.target.value
 
         if (val === 'applied') {
-            setFiltered(jobs.filter(job => job.status.toLowerCase().includes('applied')))
+            setFiltered(jobs.filter(job => job.status?.toLowerCase()?.includes('applied')))
         } else if (val === 'remote') {
-            setFiltered(jobs.filter(job => job.location.toLowerCase().includes('remote')))
+            setFiltered(jobs.filter(job => job.location?.toLowerCase()?.includes('remote')))
         } else if (val === 'interviewing') {
-            setFiltered(jobs.filter(job => job.status.toLowerCase().includes('interviewing')))
+            setFiltered(jobs.filter(job => job.status?.toLowerCase()?.includes('interviewing')))
         } else if (val === 'rejected') {
-            setFiltered(jobs.filter(job => job.status.toLowerCase().includes('rejected')))
+            setFiltered(jobs.filter(job => job.status?.toLowerCase()?.includes('rejected')))
         } else if (val === 'high') {
-            setFiltered(jobs.filter(job => job.interestLevel.toLowerCase().includes('high')))
+            setFiltered(jobs.filter(job => job.interestLevel?.toLowerCase()?.includes('high')))
         } else if (val === 'qualified') {
-            setFiltered(jobs.filter(job => job.qualificationLevel.toLowerCase().includes('high')))
+            setFiltered(jobs.filter(job => job.qualificationMatch?.toLowerCase()?.includes('high')))
         } else if (val === 'entry') {
-            setFiltered(jobs.filter(job => job.jobLevel.toLowerCase().includes('entry')))
+            setFiltered(jobs.filter(job => job.jobLevel?.toLowerCase()?.includes('entry')))
         } else if (val === 'mid') {
-            setFiltered(jobs.filter(job => job.jobLevel.toLowerCase().includes('mid')))
+            setFiltered(jobs.filter(job => job.jobLevel?.toLowerCase()?.includes('mid')))
         } else if (val === 'senior') {
-            setFiltered(jobs.filter(job => job.jobLevel.toLowerCase().includes('senior')))
+            setFiltered(jobs.filter(job => job.jobLevel?.toLowerCase()?.includes('senior')))
         } else {
             setFiltered(jobs)
         }
