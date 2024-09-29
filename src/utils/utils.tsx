@@ -2,6 +2,9 @@ import dayjs from 'dayjs'
 import type { Dayjs } from 'dayjs'
 
 export const formatDate = (d: string | number | Date | Dayjs | null | undefined = dayjs(), short?: boolean, unix?: boolean) => {
+    if (!d) {
+        return 'N / A'
+    }
     if (unix) {
         return dayjs(d).unix()
     }

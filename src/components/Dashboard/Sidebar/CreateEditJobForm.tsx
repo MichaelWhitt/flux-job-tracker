@@ -12,8 +12,7 @@ interface CreateEditJobSBContentProps {
 }
 
 const CreateEditJobForm: React.FC<CreateEditJobSBContentProps> = (props) => {
-    const currentDate = new Date().toISOString().split('T')[0]
-    const [formData, setFormData] = useState<JobEntry>({...props.job, applicationDate: currentDate, lastCommunication: currentDate})
+    const [formData, setFormData] = useState<JobEntry>({...props.job})
     const [showOptionalFields, setShowOptionalFields] = useState(false)
     const globalContext = useContext(AppContext)
     const [formSubmitting, setFormSubmitting] = useState(false)
@@ -60,6 +59,7 @@ const CreateEditJobForm: React.FC<CreateEditJobSBContentProps> = (props) => {
 
         if (!formData.company || !formData.salary || !formData.title || !formData.status || !formData.location) {
             fireToast({type: 'error', content: 'Fill out required fields'})
+            setFormSubmitting(false)
         } else {
             if (globalContext?.user && globalContext.isLoggedIn) {
                 try {
@@ -71,9 +71,9 @@ const CreateEditJobForm: React.FC<CreateEditJobSBContentProps> = (props) => {
                         location: '',
                         status: 'Not Applied',
                         description: '',
-                        applicationDate: currentDate,
+                        applicationDate: '',
                         offerDate: '',
-                        lastCommunication: currentDate,
+                        lastCommunication: '',
                         hiringManager: '',
                         notes: '',
                         salary: '',
@@ -164,19 +164,6 @@ const CreateEditJobForm: React.FC<CreateEditJobSBContentProps> = (props) => {
                     </div>
 
                     <div className='flex flex-col '>
-                        <label htmlFor='applicationDate' className='text-white'>Application Date</label>
-                        <TextInputField
-                            label=''
-                            isInvalid={!formData.applicationDate}
-                            type='date'
-                            name='applicationDate'
-                            value={formData.applicationDate} 
-                            onChange={handleDateChange}
-                            style={{background: '#1F2937', color: '#fff'}}
-                        />
-                    </div>
-
-                    <div className='flex flex-col '>
                         <label htmlFor='jobLink' className='text-white'>Job Link</label>
                         <TextInputField
                             label=''
@@ -237,11 +224,27 @@ const CreateEditJobForm: React.FC<CreateEditJobSBContentProps> = (props) => {
                             <option value='Applied'>Applied</option>
                             <option value='Interviewing'>Interviewing</option>
                             <option value='Offer'>Offer</option>
+                            <option value='Closed'>Closed</option>
                             <option value='Rejected'>Rejected</option>
-                            <option value='Rejected'>Withdrawn</option>
-                            <option value='Rejected'>Ghosted</option>
+                            <option value='Withdrawn'>Withdrawn</option>
+                            <option value='Ghosted'>Ghosted</option>
                         </select>
                     </div>
+
+                    {formData.status?.toLowerCase() === 'applied' && (
+                        <div className='flex flex-col '>
+                        <label htmlFor='applicationDate' className='text-white'>Application Date</label>
+                        <TextInputField
+                            label=''
+                            isInvalid={!formData.applicationDate}
+                            type='date'
+                            name='applicationDate'
+                            value={formData.applicationDate} 
+                            onChange={handleDateChange}
+                            style={{background: '#1F2937', color: '#fff'}}
+                        />
+                    </div>
+                    )}
 
                 </div>
                 {/* Mandatory Fields Above */}

@@ -31,6 +31,7 @@ const JobCard: React.FC<JobCardProps> = ({ job }) => {
     'ghosted' : 'bg-red-700',
     'rejected' : 'bg-red-700',
     'closed' : 'bg-red-700',
+    'withdrawn' : 'bg-red-700',
   }
 
   const renderText = (t: string, cutoff: number) => {

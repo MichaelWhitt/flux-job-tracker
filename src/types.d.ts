@@ -28,28 +28,28 @@ interface AppContextType {
   }
 
   type JobEntry = {
-    applicationDate: string | Date
+    applicationDate?: string | Date
     status: 'Not Applied' | 'Applied' | 'Interviewing' | 'Offer' | 'Rejected' | 'Withdrawn' | 'Accepted' | 'Ghosted'
-    description: string
+    description?: string
     company: string
-    applicationSite: '' | 'LinkedIn' | 'Indeed' | 'Monster' | 'Hiring Cafe' | 'Angel List' | 'Company Board' | 'Other'
-    jobLevel: 'Entry' | 'Mid' | 'Senior' | 'Other'
+    applicationSite?: '' | 'LinkedIn' | 'Indeed' | 'Monster' | 'Hiring Cafe' | 'Angel List' | 'Company Board' | 'Other'
+    jobLevel?: 'Entry' | 'Mid' | 'Senior' | 'Other'
     title: string
-    lastCommunication: string | Date
-    hmContactInfo: string
-    notes: string
+    lastCommunication?: string | Date
+    hmContactInfo?: string
+    notes?: string
     meta_unid?: string
-    interviewRound: number
+    interviewRound?: number
     salary: string
     jobLink: string
     employmentType: 'Full-time' | 'Part-time' | 'Contract'
     haveReferral: boolean
-    offerDate: string | Date
-    hiringManager: string
-    interestLevel: 'Low' | 'Medium' | 'High'
+    offerDate?: string | Date
+    hiringManager?: string
+    interestLevel?: 'Low' | 'Medium' | 'High'
     location: string
     officeLocation: 'Office' | 'Hybrid' | 'Remote' | 'Unknown'
-    skills: string[]
-    qualificationMatch: 'No' | 'Low' | 'Medium' | 'High' | 'Perfect'
+    skills?: string[]
+    qualificationMatch?: 'No' | 'Low' | 'Medium' | 'High' | 'Perfect'
     id?: string
 }
