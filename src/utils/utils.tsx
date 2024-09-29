@@ -141,4 +141,14 @@ export const truthy = (x) => {
 
 export const mergeTWClasses = (...classes: String[]) => {
     return classes.filter(Boolean).join(' ')
-  }
+}
+
+export const copyText = (text: string) => {
+    navigator.clipboard.writeText(text)
+        .then(() => {
+            alert('Text copied to clipboard!')
+        })
+        .catch(err => {
+            console.error('Failed to copy: ', err)
+        })
+}

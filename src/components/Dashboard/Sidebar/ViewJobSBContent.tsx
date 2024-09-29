@@ -1,11 +1,12 @@
 import JobSidebar from './JobSidebar'
-import {useState, useContext} from 'react'
+import {useState, useContext, useEffect} from 'react'
 import { formatDate } from '../../../utils/utils'
 import { deletePublicJobEntry, deleteUserJobEntry } from '../../../utils/api'
 import { AppContext } from '../../../auth/AppContext'
 import { collection } from 'firebase/firestore'
 import { db } from '../../../firebase-config'
 import ConfirmationModal from '../../Modals/ConfirmationModal'
+import CopyClipboard from '../../Buttons/ClipboardCopy'
 
 interface ViewJobSBContentProps {
     job: any
@@ -97,7 +98,10 @@ const ViewJobSBContent = ({job}: ViewJobSBContentProps) => {
         <div className='bg-gray-800 p-4 rounded-lg mb-6'>
           <h3 className='text-lg font-semibold mb-2 text-blue-300'>Contact Information</h3>
           <p><span className='font-medium'>Hiring Manager:</span> {job.hiringManager || ' -'}</p>
-          <p><span className='font-medium'>Hiring Manager Contact Info:</span> <a href={job.hmContactInfo || ' -'} target='_blank' rel='noopener noreferrer' className='text-blue-400 hover:underline'>Link</a></p>
+          <div className='flex gap-3 items-center'>
+            <span className='font-medium'>Hiring Manager Contact Info:</span>
+            <CopyClipboard text={job.hmContactInfo} textClass='bg-none mr-2'/>
+          </div>
         </div>
         
 

@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import ViewJobSBContent from './ViewJobSBContent'
 import NewJobSBContent from './NewJobSBContent'
 import EditJobSBContent from './EditJobSBContent'
+import CreateEditJobForm from './CreateEditJobForm'
 
 interface JobSidebar {
     job?: any
@@ -30,9 +31,31 @@ const JobSidebar = ({ job, sidebarOpen, setSidebarOpen, type }: JobSidebar) => {
         case 'view':
           return <ViewJobSBContent job={job} />
           case 'new':
-            return <NewJobSBContent />
+            return <CreateEditJobForm job={{
+              company: '',
+              title: '',
+              location: '',
+              status: 'Not Applied',
+              description: '',
+              applicationDate: new Date(),
+              offerDate: new Date(),
+              lastCommunication: new Date(),
+              hiringManager: '',
+              notes: '',
+              salary: '',
+              employmentType: '',
+              skills: [],
+              jobLevel: '',
+              applicationSite: '',
+              jobLink: '',
+              qualificationLevel: '',
+              interestLevel: '',
+              hmContactInfo: '',
+              interviewRound: 0,
+              haveReferral: false
+          }} type='create' />
             case 'edit':
-          return <EditJobSBContent job={job} />
+          return <CreateEditJobForm job={job} type='edit' />
       }
     }
   return (

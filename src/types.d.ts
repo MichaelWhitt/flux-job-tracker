@@ -28,23 +28,23 @@ interface AppContextType {
   }
 
   type JobEntry = {
-    applicationDate: number | string
+    applicationDate: number | string | Date
     status: 'Not Applied' | 'Applied' | 'Interviewing' | 'Offer' | 'Rejected' | 'Withdrawn' | 'Accepted'
     description: string
     company: string
     applicationSite: '' | 'LinkedIn' | 'Indeed' | 'Monster' | 'Hiring Cafe' | 'Angel List' | 'Company Board' | 'Other'
-    jobLevel: string
+    jobLevel: 'Entry' | 'Mid' | 'Senior' | 'Other'
     title: string
-    lastCommunication: number | string
+    lastCommunication: number | string | Date
     hmContactInfo: string
     notes: string
-    meta_unid: string
+    meta_unid?: string
     interviewRound: number
     salary: string
     jobLink: string
     employmentType: string
     haveReferral: boolean
-    offerDate: number | string
+    offerDate: number | string | Date
     hiringManager: string
     interestLevel: string
     location: string
