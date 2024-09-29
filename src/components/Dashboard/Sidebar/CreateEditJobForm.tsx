@@ -1,5 +1,5 @@
 import { useState, useContext } from 'react'
-import { TextInputField, Textarea, Switch } from 'evergreen-ui'
+import { TextInputField, Textarea, Switch, DatePicker } from 'evergreen-ui'
 import { fireToast } from '../fireToast'
 import { updateUserJobEntry, updatePublicJobEntry } from '../../../utils/api'
 import { AppContext } from '../../../auth/AppContext'
@@ -86,7 +86,7 @@ const CreateEditJobForm: React.FC<CreateEditJobSBContentProps> = (props) => {
                         salary: '',
                         employmentType: '',
                         skills: [],
-                        jobLevel: '',
+                        jobLevel: 'Mid',
                         applicationSite: '',
                         jobLink: '',
                         qualificationLevel: '',
@@ -106,6 +106,10 @@ const CreateEditJobForm: React.FC<CreateEditJobSBContentProps> = (props) => {
                 globalContext?.getPublicJobs(jobsCollections)
             }
         }
+    }
+
+    const getDate = (d) => {
+
     }
 
     return (
@@ -202,7 +206,6 @@ const CreateEditJobForm: React.FC<CreateEditJobSBContentProps> = (props) => {
                             style={{background: '#1F2937', color: '#fff'}}
                         />
                     </div>
-
                     <div className='flex flex-col gap-2 mb-5'>
                         <label htmlFor='employmentType' className='text-white'>Employment Type</label>
                         <select

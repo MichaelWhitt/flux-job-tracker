@@ -1,8 +1,8 @@
 import { SideSheet } from 'evergreen-ui'
 import { useState, useEffect } from 'react'
 import ViewJobSBContent from './ViewJobSBContent'
-import NewJobSBContent from './NewJobSBContent'
-import EditJobSBContent from './EditJobSBContent'
+// import NewJobSBContent from './NewJobSBContent'
+// import EditJobSBContent from './EditJobSBContent'
 import CreateEditJobForm from './CreateEditJobForm'
 
 interface JobSidebar {
@@ -43,9 +43,9 @@ const JobSidebar = ({ job, sidebarOpen, setSidebarOpen, type }: JobSidebar) => {
               hiringManager: '',
               notes: '',
               salary: '',
-              employmentType: '',
+              employmentType: 'Full-time',
               skills: [],
-              jobLevel: '',
+              jobLevel: 'Entry',
               applicationSite: '',
               jobLink: '',
               qualificationLevel: '',
