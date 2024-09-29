@@ -1,5 +1,6 @@
 import JobSidebar from './JobSidebar'
 import {useState} from 'react'
+import { formatDate } from '../../../utils/utils'
 
 interface ViewJobSBContentProps {
     job: any
@@ -25,6 +26,7 @@ const ViewJobSBContent = ({job}: ViewJobSBContentProps) => {
             <p><span className='font-medium'>Location:</span> {job.location}</p>
             <p><span className='font-medium'>Salary:</span> ${job.salary}</p>
             <p><span className='font-medium'>Job Level:</span> {job.jobLevel}</p>
+            <p><span className='font-medium'>Employment Type:</span> {job.employmentType}</p>
           </div>
 
                   
@@ -37,8 +39,8 @@ const ViewJobSBContent = ({job}: ViewJobSBContentProps) => {
           <div className='bg-gray-800 p-4 rounded-lg sm:col-span-2'>
             <h3 className='text-lg font-semibold mb-2 text-blue-300'>Application Status</h3>
             <p><span className='font-medium'>Status:</span> {job.status}</p>
-            <p><span className='font-medium'>Application Date:</span> {job.applicationDate}</p>
-            <p><span className='font-medium'>Last Communication:</span> {job.lastCommunication}</p>
+            <p><span className='font-medium'>Application Date:</span> {formatDate(job.applicationDate * 1000, false, false)}</p>
+            <p><span className='font-medium'>Last Communication:</span> {formatDate(job.lastCommunication * 1000, false, false)}</p>
             <p><span className='font-medium'>Interview Round:</span> {job.interviewRound}</p>
           </div>
         </div>
@@ -46,7 +48,7 @@ const ViewJobSBContent = ({job}: ViewJobSBContentProps) => {
         <div className='bg-gray-800 p-4 rounded-lg mb-6'>
           <h3 className='text-lg font-semibold mb-2 text-blue-300'>Contact Information</h3>
           <p><span className='font-medium'>Hiring Manager:</span> {job.hiringManager}</p>
-          <p><span className='font-medium'>HM Contact Info:</span> {job.hmContactInfo}</p>
+          <p><span className='font-medium'>Hiring Manager Contact Info:</span> <a href={job.hmContactInfo} target='_blank' rel='noopener noreferrer' className='text-blue-400 hover:underline'>Link</a></p>
         </div>
         
 

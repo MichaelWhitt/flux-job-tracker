@@ -40,6 +40,7 @@ interface AppContextType {
     interviewRound: number
     salary: string
     jobLink: string
+    employmentType: string
     offerDate: number
     hiringManager: string
     interestLevel: string

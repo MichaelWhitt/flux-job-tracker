@@ -20,6 +20,7 @@ interface NewJobForm {
     meta_unid: string
     salary: string
     skills: string[]
+    employmentType: string
     jobLevel: string
     applicationSite: string
     jobLink: string
@@ -45,6 +46,7 @@ const NewJobSBContent: React.FC = () => {
         meta_unid: generateUnid(),
         salary: '',
         skills: [],
+        employmentType: '',
         jobLevel: '',
         applicationSite: '',
         jobLink: '',
@@ -104,6 +106,7 @@ const NewJobSBContent: React.FC = () => {
                         notes: '',
                         salary: '',
                         skills: [],
+                        employmentType: '',
                         jobLevel: '',
                         applicationSite: '',
                         jobLink: '',
@@ -201,6 +204,22 @@ const NewJobSBContent: React.FC = () => {
                             style={{background: '#1F2937', color: '#fff', width: 'fit-content'}}
                         />
                     </div>
+
+
+                    <div className='flex flex-col gap-2 mb-5'>
+                        <label htmlFor='employmentType' className='text-white'>Employment Type</label>
+                        <select
+                            name='employmentType'
+                            value={formData.employmentType}
+                            onChange={handleChange}
+                            className='h-[40px] bg-gray-800 rounded-md p-2 w-fit'
+                        >
+                            <option value='Full-time'>Full-time</option>
+                            <option value='Part-time'>Part-time</option>
+                            <option value='Contract'>Contract</option>
+                        </select>
+                    </div>
+
                 </div>
                 {/*Mandatory Fields Above*/}
 

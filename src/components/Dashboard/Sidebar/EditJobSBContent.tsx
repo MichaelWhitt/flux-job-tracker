@@ -19,6 +19,7 @@ interface EditJobForm {
     salary: string
     skills: string[]
     jobLevel: string
+    employmentType: string
     applicationSite: string
     jobLink: string
     qualificationLevel: string
@@ -85,7 +86,6 @@ const EditJobSBContent: React.FC = (props) => {
                 try {
                     await updateUserJobEntry(globalContext.user?.id, {...submittedData})
                     setFormSubmitting(false)
-                    console.log("SET", currentDate)
                     setFormData({
                         company: '',
                         title: '',
@@ -98,6 +98,7 @@ const EditJobSBContent: React.FC = (props) => {
                         hiringManager: '',
                         notes: '',
                         salary: '',
+                        employmentType: '',
                         skills: [],
                         jobLevel: '',
                         applicationSite: '',
@@ -120,7 +121,7 @@ const EditJobSBContent: React.FC = (props) => {
         <div className='bg-gray-900 p-6 text-gray-100 min-h-full'>
             <h2 className='mb-4 text-white text-center text-2xl'>Edit Job</h2>
             <div className='flex flex-col'>
-                <div className='flex flex-col'>
+                <div className='grid sm:grid-cols-2 gap-2'>
                     <div className='flex flex-col'>
                         <label htmlFor='company' className='text-white'>Company</label>
                         <TextInputField
@@ -129,7 +130,7 @@ const EditJobSBContent: React.FC = (props) => {
                             placeholder='Company'
                             value={formData.company}
                             onChange={handleChange}
-                            style={{background: '#1F2937', color: '#fff', width: 'fit-content'}}
+                            style={{background: '#1F2937', color: '#fff'}}
                         />
                     </div>
                     
@@ -141,7 +142,7 @@ const EditJobSBContent: React.FC = (props) => {
                             placeholder='Title'
                             value={formData.title}
                             onChange={handleChange}
-                            style={{background: '#1F2937', color: '#fff', width: 'fit-content'}}
+                            style={{background: '#1F2937', color: '#fff'}}
                         />
                     </div>
 
@@ -153,7 +154,7 @@ const EditJobSBContent: React.FC = (props) => {
                             placeholder='Location'
                             value={formData.location}
                             onChange={handleChange}
-                            style={{background: '#1F2937', color: '#fff', width: 'fit-content'}}
+                            style={{background: '#1F2937', color: '#fff'}}
                         />
                     </div>
 
@@ -181,7 +182,7 @@ const EditJobSBContent: React.FC = (props) => {
                             name='applicationDate'
                             value={typeof formData.applicationDate === 'number' ? new Date(formData.applicationDate * 1000).toISOString().split('T')[0] : ''}
                             onChange={handleDateChange}
-                            style={{background: '#1F2937', color: '#fff', width: 'fit-content'}}
+                            style={{background: '#1F2937', color: '#fff'}}
                         />
                     </div>
                     
@@ -193,9 +194,24 @@ const EditJobSBContent: React.FC = (props) => {
                             placeholder='Salary'
                             value={formData.salary}
                             onChange={handleChange}
-                            style={{background: '#1F2937', color: '#fff', width: 'fit-content'}}
+                            style={{background: '#1F2937', color: '#fff'}}
                         />
                     </div>
+
+                    <div className='flex flex-col gap-2 mb-5'>
+                        <label htmlFor='employmentType' className='text-white'>Employment Type</label>
+                        <select
+                            name='employmentType'
+                            value={formData.employmentType}
+                            onChange={handleChange}
+                            className='h-[40px] bg-gray-800 rounded-md p-2 w-fit'
+                        >
+                            <option value='Full-time'>Full-time</option>
+                            <option value='Part-time'>Part-time</option>
+                            <option value='Contract'>Contract</option>
+                        </select>
+                    </div>
+
                 </div>
                 {/*Mandatory Fields Above*/}
 
@@ -205,28 +221,28 @@ const EditJobSBContent: React.FC = (props) => {
                 {showOptionalFields && <hr />}
 
                 {showOptionalFields && (
-                    <>
+                    <div className='grid sm:grid-cols-2 gap-2 mt-5'>
                         {formData.status?.toLowerCase() === 'offer' && (
-                            <div className='flex flex-col mt-5'>
+                            <div className='flex flex-col'>
                                 <label htmlFor='offerDate' className='text-white'>Offer Date</label>
                                 <TextInputField
                                     type='date'
                                     name='offerDate'
                                     value={typeof formData.offerDate === 'number' ? new Date(formData.offerDate * 1000).toISOString().split('T')[0] : ''}
                                     onChange={handleDateChange}
-                                    style={{background: '#1F2937', color: '#fff', width: 'fit-content'}}
+                                    style={{background: '#1F2937', color: '#fff'}}
                                 />
                             </div>
                         )}
 
-                        <div className={`flex flex-col ${formData.status?.toLowerCase() === 'offer' ? 'mt-0' : 'mt-5'}`}>
+                        <div className={`flex flex-col ${formData.status?.toLowerCase() === 'offer' ? 'mt-0' : ''}`}>
                             <label htmlFor='lastCommunication' className='text-white'>Last Communication</label>
                             <TextInputField
                                 type='date'
                                 name='lastCommunication'
                                 value={typeof formData.lastCommunication === 'number' ? new Date(+formData.lastCommunication * 1000).toISOString().split('T')[0] : ''}
                                 onChange={handleDateChange}
-                                style={{background: '#1F2937', color: '#fff', width: 'fit-content'}}
+                                style={{background: '#1F2937', color: '#fff'}}
                             />
                         </div>
 
@@ -237,7 +253,7 @@ const EditJobSBContent: React.FC = (props) => {
                                 placeholder='Hiring Manager'
                                 value={formData.hiringManager}
                                 onChange={handleChange}
-                                style={{background: '#1F2937', color: '#fff', width: 'fit-content'}}
+                                style={{background: '#1F2937', color: '#fff'}}
                             />
                         </div>
 
@@ -248,7 +264,7 @@ const EditJobSBContent: React.FC = (props) => {
                                 placeholder='Contact Info'
                                 value={formData.hmContactInfo}
                                 onChange={handleChange}
-                                style={{background: '#1F2937', color: '#fff', width: 'fit-content'}}
+                                style={{background: '#1F2937', color: '#fff'}}
                             />
                         </div>
 
@@ -281,7 +297,7 @@ const EditJobSBContent: React.FC = (props) => {
                                 placeholder='e.g. React, TypeScript, Git'
                                 value={formData.skills.join(', ')}
                                 onChange={handleSkillsChange}
-                                style={{background: '#1F2937', color: '#fff', width: 'fit-content'}}
+                                style={{background: '#1F2937', color: '#fff'}}
                             />
                         </div>
 
@@ -292,7 +308,7 @@ const EditJobSBContent: React.FC = (props) => {
                                 placeholder='e.g. Entry, Middle, Senior'
                                 value={formData.jobLevel}
                                 onChange={handleChange}
-                                style={{background: '#1F2937', color: '#fff', width: 'fit-content'}}
+                                style={{background: '#1F2937', color: '#fff'}}
                             />
                         </div>
 
@@ -303,7 +319,7 @@ const EditJobSBContent: React.FC = (props) => {
                                 placeholder='e.g. LinkedIn, Indeed, Company Website'
                                 value={formData.applicationSite}
                                 onChange={handleChange}
-                                style={{background: '#1F2937', color: '#fff', width: 'fit-content'}}
+                                style={{background: '#1F2937', color: '#fff'}}
                             />
                         </div>
 
@@ -314,7 +330,7 @@ const EditJobSBContent: React.FC = (props) => {
                                 placeholder='URL to the job listing'
                                 value={formData.jobLink}
                                 onChange={handleChange}
-                                style={{background: '#1F2937', color: '#fff', width: 'fit-content'}}
+                                style={{background: '#1F2937', color: '#fff'}}
                             />
                         </div>
 
@@ -325,7 +341,7 @@ const EditJobSBContent: React.FC = (props) => {
                                 placeholder='Qualification Level Match'
                                 value={formData.qualificationLevel}
                                 onChange={handleChange}
-                                style={{background: '#1F2937', color: '#fff', width: 'fit-content'}}
+                                style={{background: '#1F2937', color: '#fff'}}
                             />
                         </div>
 
@@ -336,7 +352,7 @@ const EditJobSBContent: React.FC = (props) => {
                                 placeholder='Interest Level'
                                 value={formData.interestLevel}
                                 onChange={handleChange}
-                                style={{background: '#1F2937', color: '#fff', width: 'fit-content'}}
+                                style={{background: '#1F2937', color: '#fff'}}
                             />
                         </div>
 
@@ -348,10 +364,10 @@ const EditJobSBContent: React.FC = (props) => {
                                 placeholder='Round number'
                                 value={formData.interviewRound}
                                 onChange={handleChange}
-                                style={{background: '#1F2937', color: '#fff', width: 'fit-content'}}
+                                style={{background: '#1F2937', color: '#fff'}}
                             />
                         </div>
-                    </>
+                    </div>
                 )}
 
                 <button
