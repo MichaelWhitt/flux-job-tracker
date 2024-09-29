@@ -327,15 +327,20 @@ const CreateEditJobForm: React.FC<CreateEditJobSBContentProps> = (props) => {
                             </select>
                         </div>
 
-                        <div className='flex flex-col'>
+                        <div className='flex flex-col gap-2 mb-5'>
                             <label htmlFor='qualificationLevel' className='text-white'>Qualification Level</label>
-                            <TextInputField
+                            <select
                                 name='qualificationLevel'
-                                placeholder='Qualification Level (1-10)'
-                                value={formData.qualificationLevel}
+                                value={formData.qualificationLevel || 'Mid Match'}
                                 onChange={handleChange}
-                                style={{background: '#1F2937', color: '#fff'}}
-                            />
+                                className='h-[34px] bg-gray-800 rounded-md p-2 w-fit text-sm'
+                            >
+                                <option value='No Match'>No Match</option>
+                                <option value='Low Match'>Low Match</option>
+                                <option value='Mid Match'>Mid Match</option>
+                                <option value='High Match'>High Match</option>
+                                <option value='Perfect Match'>Perfect Match</option>
+                            </select>
                         </div>
 
                         <div className='flex flex-col gap-2 mb-5'>

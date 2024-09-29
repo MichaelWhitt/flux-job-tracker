@@ -49,6 +49,6 @@ interface AppContextType {
     interestLevel: string
     location: string
     skills: string[]
-    qualificationLevel: string
+    qualificationLevel: 'No Match' | 'Low Match' | 'Mid Match' | 'High Match' | 'Perfect Match'
     id?: string
 }

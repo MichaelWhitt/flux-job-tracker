@@ -33,10 +33,6 @@ const JobCard: React.FC<JobCardProps> = ({ job }) => {
     'closed' : 'bg-red-700',
   }
 
-  const renderDate = (d: number) => {
-    return formatDate(d * 1000)
-  }
-
   const renderText = (t: string, cutoff: number) => {
     if (t) {
       const truncatedText = t.length > cutoff ? `${t.slice(0, cutoff)}...` : (t || 'N/A')
@@ -65,7 +61,7 @@ const JobCard: React.FC<JobCardProps> = ({ job }) => {
     >
       <div className='flex justify-between items-center'>
         <h2 className='text-md sm:text-md font-bold'>{renderText(job.title, isOnMobile ? 25 : 45) || 'N/A'}</h2>
-        <p className='text-xs sm:text-md text-gray-400'>{renderDate(job.applicationDate) || 'N/A'}</p>
+        <p className='text-xs sm:text-md text-gray-400'>{formatDate(job.applicationDate, false, false) || 'N/A'}</p>
       </div>
       <div>
         <span className='text-xs sm:text-md text-gray-400 mb-2'>{renderText(job.company, 30) || 'N/A'}</span>

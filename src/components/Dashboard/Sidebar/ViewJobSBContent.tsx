@@ -1,5 +1,5 @@
 import JobSidebar from './JobSidebar'
-import {useState, useContext, useEffect} from 'react'
+import {useState, useContext} from 'react'
 import { formatDate } from '../../../utils/utils'
 import { deletePublicJobEntry, deleteUserJobEntry } from '../../../utils/api'
 import { AppContext } from '../../../auth/AppContext'
@@ -102,9 +102,9 @@ const ViewJobSBContent = ({job}: ViewJobSBContentProps) => {
         <div className='mb-2'>
           <div className='text-sm text-gray-400'>Hiring Manager Contact Info</div>
           <div className='flex items-center mt-1'>
-            <div className='bg-gray-700 p-2 rounded flex-grow flex mr-auto'>
-              <CopyClipboard text={job.hmContactInfo} textClass='bg-none ml-2 flex mr-2'/>
-            </div>
+              <div className='bg-gray-700 p-2 rounded flex-grow flex mr-auto'>
+                {job.hmContactinfo ? <CopyClipboard text={job.hmContactInfo} textClass='bg-none ml-2 flex mr-2'/> : '-'}
+              </div>
           </div>
         </div>
       </div>
@@ -139,7 +139,7 @@ const ViewJobSBContent = ({job}: ViewJobSBContentProps) => {
     )
 }
 
-const LabeledField = ({ label, value }) => (
+const LabeledField = ({ label, value }: {label: string, value: string}) => (
   <div className='mb-2'>
     <div className='text-sm text-gray-400'>{label}</div>
     <div className='bg-gray-700 p-2 rounded mt-1'>{value || '-'}</div>

@@ -4,6 +4,7 @@ import ViewJobSBContent from './ViewJobSBContent'
 // import NewJobSBContent from './NewJobSBContent'
 // import EditJobSBContent from './EditJobSBContent'
 import CreateEditJobForm from './CreateEditJobForm'
+import { generateUnid } from '../../../utils/utils'
 
 interface JobSidebar {
     job?: any
@@ -46,9 +47,10 @@ const JobSidebar = ({ job, sidebarOpen, setSidebarOpen, type }: JobSidebar) => {
               employmentType: 'Full-time',
               skills: [],
               jobLevel: 'Entry',
+              meta_unid: generateUnid(),
               applicationSite: '',
               jobLink: '',
-              qualificationLevel: '',
+              qualificationLevel: 'Mid Match',
               interestLevel: '',
               hmContactInfo: '',
               interviewRound: 0,
