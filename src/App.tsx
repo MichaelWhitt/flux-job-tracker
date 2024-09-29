@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from 'react'
+import { useEffect, useContext } from 'react'
 import './index.css'
 import { Switch, Route, Redirect } from 'wouter'
 import { ToastContainer } from 'react-toastify'
@@ -24,29 +24,44 @@ function App() {
   })
   const globalContext = useContext(AppContext)
 
+  const sortJobsByActivity = (jobs: Array<JobEntry>) => {
+    return jobs.sort((a: JobEntry, b: JobEntry) => {
+      // Compare last updated dates first
+      if (a.lastUpdatedDate && b.lastUpdatedDate) {
+        return b.lastUpdatedDate - a.lastUpdatedDate // Sort by last updated date
+      } else if (a.lastUpdatedDate) {
+        return -1 // `a` has a last updated date, `b` does not, so `a` comes first
+      } else if (b.lastUpdatedDate) {
+        return 1 // `b` has a last updated date, `a` does not, so `b` comes first
+      }
+  
+      // If last updated dates are the same or both are absent, compare created dates
+      if (a.createdDate && b.createdDate) {
+        return b.createdDate - a.createdDate // Sort by created date
+      } else if (a.createdDate) {
+        return -1 // `a` has a created date, `b` does not, so `a` comes first
+      } else if (b.createdDate) {
+        return 1 // `b` has a created date, `a` does not, so `b` comes first
+      }
+  
+      // If created dates are the same or both are absent, compare application dates
+      if (a.applicationDate && b.applicationDate) {
+        return b.applicationDate - a.applicationDate // Sort by application date
+      } else if (a.applicationDate) {
+        return -1 // `a` has an application date, `b` does not, so `a` comes first
+      } else if (b.applicationDate) {
+        return 1 // `b` has an application date, `a` does not, so `b` comes first
+      }
+  
+      return 0 // If all dates are the same or both are absent, keep the order unchanged
+    })
+  }
+  
   let jobs = []
   if (globalContext?.isLoggedIn && globalContext.user?.jobs) {
-    // sort by activity
-    jobs = globalContext?.user?.jobs?.sort((a, b) => {
-      if (a.lastUpdatedDate && b.lastUpdatedDate) {
-        return b.lastUpdatedDate - a.lastUpdatedDate
-      } else if (a.createdDate && b.createdDate) {
-        return b.createdDate - a.createdDate
-      } else if (a.applicationDate && b.applicationDate) {
-        return b.applicationDate - a.applicationDate
-      }
-    })
+    jobs = sortJobsByActivity(globalContext.user.jobs) // Sort user jobs
   } else {
-    // public jobs, sort by activity
-    jobs = globalContext?.publicJobs?.sort((a, b) => {
-      if (a.lastUpdatedDate && b.lastUpdatedDate) {
-        return b.lastUpdatedDate - a.lastUpdatedDate
-      } else if (a.createdDate && b.createdDate) {
-        return b.createdDate - a.createdDate
-      } else if (a.applicationDate && b.applicationDate) {
-        return b.applicationDate - a.applicationDate
-      }
-    })
+    jobs = sortJobsByActivity(globalContext?.publicJobs) // Sort public jobs
   }
 
   useEffect(() => {
@@ -72,7 +87,7 @@ function App() {
     <MantineProvider theme={theme}>
       <div className='bg-bg2'>
         <ToastContainer
-            position='top-right'
+            position='bottom-right'
             autoClose={5000}
             hideProgressBar={false}
             newestOnTop={false}
