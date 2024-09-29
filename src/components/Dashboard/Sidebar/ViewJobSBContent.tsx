@@ -72,8 +72,9 @@ const ViewJobSBContent = ({job}: ViewJobSBContentProps) => {
       
       <div className='grid grid-cols-1 md:grid-cols-2 gap-6 mb-6'>
         <div className='bg-gray-800 p-4 rounded-lg'>
-          <h3 className='text-lg font-semibold mb-4 text-blue-300'>Company Details</h3>
+          <h3 className='text-lg font-semibold mb-4 text-blue-300'>Job Details</h3>
           <LabeledField label='Location' value={job.location} />
+          <LabeledField label='Office Location' value={job.officeLocation} />
           <LabeledField label='Salary' value={job.salary ? `$${job.salary}` : null} />
           <LabeledField label='Job Level' value={job.jobLevel} />
           <LabeledField label='Employment Type' value={job.employmentType} />
@@ -102,7 +103,7 @@ const ViewJobSBContent = ({job}: ViewJobSBContentProps) => {
           <div className='text-sm text-gray-400'>Hiring Manager Contact Info</div>
           <div className='flex items-center mt-1'>
               <div className='bg-gray-700 p-2 rounded flex-grow flex mr-auto'>
-                {job.hmContactinfo ? <CopyClipboard text={job.hmContactInfo} textClass='bg-none ml-2 flex mr-2'/> : '-'}
+                {job.hmContactInfo ? <CopyClipboard text={job.hmContactInfo} textClass='bg-none ml-2 flex mr-2'/> : '-'}
               </div>
           </div>
         </div>

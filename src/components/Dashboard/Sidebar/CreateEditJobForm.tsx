@@ -80,6 +80,7 @@ const CreateEditJobForm: React.FC<CreateEditJobSBContentProps> = (props) => {
                         employmentType: 'Full-time',
                         skills: [],
                         jobLevel: 'Mid',
+                        officeLocation: 'Office',
                         applicationSite: '',
                         jobLink: '',
                         qualificationMatch: 'Medium',
@@ -148,20 +149,17 @@ const CreateEditJobForm: React.FC<CreateEditJobSBContentProps> = (props) => {
                     </div>
 
                     <div className='flex flex-col gap-2 mb-5'>
-                        <label htmlFor='status' className='text-white'>Application Status</label>
+                        <label htmlFor='officeLocation' className='text-white'>Office Location</label>
                         <select
-                            name='status'
-                            value={formData.status}
+                            name='officeLocation'
+                            value={formData.officeLocation}
                             onChange={handleChange}
                             className='h-[34px] bg-gray-800 rounded-md p-2 w-fit text-sm'
                         >
-                            <option value='Not Applied'>Not Applied</option>
-                            <option value='Applied'>Applied</option>
-                            <option value='Interviewing'>Interviewing</option>
-                            <option value='Offer'>Offer</option>
-                            <option value='Rejected'>Rejected</option>
-                            <option value='Rejected'>Withdrawn</option>
-                            <option value='Rejected'>Ghosted</option>
+                            <option value='Office'>Office</option>
+                            <option value='Hybrid'>Hybrid</option>
+                            <option value='Remote'>Remote</option>
+                            <option value='Unknown'>Unknown</option>
                         </select>
                     </div>
 
@@ -227,6 +225,24 @@ const CreateEditJobForm: React.FC<CreateEditJobSBContentProps> = (props) => {
                         />
                     </div>
 
+                    <div className='flex flex-col gap-2 mb-5'>
+                        <label htmlFor='status' className='text-white'>Application Status</label>
+                        <select
+                            name='status'
+                            value={formData.status}
+                            onChange={handleChange}
+                            className='h-[34px] bg-gray-800 rounded-md p-2 w-fit text-sm'
+                        >
+                            <option value='Not Applied'>Not Applied</option>
+                            <option value='Applied'>Applied</option>
+                            <option value='Interviewing'>Interviewing</option>
+                            <option value='Offer'>Offer</option>
+                            <option value='Rejected'>Rejected</option>
+                            <option value='Rejected'>Withdrawn</option>
+                            <option value='Rejected'>Ghosted</option>
+                        </select>
+                    </div>
+
                 </div>
                 {/* Mandatory Fields Above */}
 
@@ -243,18 +259,6 @@ const CreateEditJobForm: React.FC<CreateEditJobSBContentProps> = (props) => {
                                 name='description'
                                 placeholder='Description'
                                 value={formData.description}
-                                onChange={handleChange}
-                                style={{background: '#1F2937', color: '#fff'}}
-                            />
-                        </div>
-
-                        <div className='flex flex-col'>
-                            <label htmlFor='hiringManager' className='text-white'>Hiring Manager</label>
-                            <TextInputField
-                                label=''
-                                name='hiringManager'
-                                placeholder='Hiring Manager'
-                                value={formData.hiringManager}
                                 onChange={handleChange}
                                 style={{background: '#1F2937', color: '#fff'}}
                             />
@@ -385,6 +389,18 @@ const CreateEditJobForm: React.FC<CreateEditJobSBContentProps> = (props) => {
                                 <option value='Medium'>Medium</option>
                                 <option value='High'>High</option>
                             </select>
+                        </div>
+
+                        <div className='flex flex-col'>
+                            <label htmlFor='hiringManager' className='text-white'>Hiring Manager</label>
+                            <TextInputField
+                                label=''
+                                name='hiringManager'
+                                placeholder='Hiring Manager'
+                                value={formData.hiringManager}
+                                onChange={handleChange}
+                                style={{background: '#1F2937', color: '#fff'}}
+                            />
                         </div>
 
                         <div className='flex flex-col'>

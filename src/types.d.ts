@@ -48,6 +48,7 @@ interface AppContextType {
     hiringManager: string
     interestLevel: 'Low' | 'Medium' | 'High'
     location: string
+    officeLocation: 'Office' | 'Hybrid' | 'Remote' | 'Unknown'
     skills: string[]
     qualificationMatch: 'No' | 'Low' | 'Medium' | 'High' | 'Perfect'
     id?: string
