@@ -1,7 +1,7 @@
 import { useState, useContext } from 'react'
 import { TextInputField, Textarea } from 'evergreen-ui'
 import { fireToast } from '../fireToast'
-import { createJobEntry } from '../../../utils/api'
+import { updateUserJobEntry } from '../../../utils/api'
 import { AppContext } from '../../../auth/AppContext'
 import Loader from '../Loader'
 
@@ -38,12 +38,19 @@ const EditJobSBContent: React.FC = (props) => {
     const globalContext = useContext(AppContext)
     const [formSubmitting, setFormSubmitting] = useState(false)
 
-    console.log({formData})
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target
         setFormData((prev) => ({
             ...prev,
             [name]: value,
+        }))
+    }
+
+    const handleDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const selectedDate = new Date(event.target.value).getTime() / 1000 // Get time in seconds
+        setFormData((prev) => ({
+            ...prev,
+            [event.target.name]: selectedDate,
         }))
     }
 
@@ -58,11 +65,17 @@ const EditJobSBContent: React.FC = (props) => {
     const handleSubmit = async () => {
         // Convert applicationDate, offerDate, and lastCommunication to UNIX timestamp here
         setFormSubmitting(true)
+
+        const newApplicationDate = formData.applicationDate ? Math.floor(new Date(formData.applicationDate).getTime()) : null
+        const newOfferDate = formData.offerDate ? Math.floor(new Date(formData.offerDate).getTime()) : null
+        const newLastCommunication = formData.lastCommunication ? Math.floor(new Date(formData.lastCommunication).getTime()) : null
+        console.log({newApplicationDate})
+
         const submittedData = {
             ...formData,
-            applicationDate: Math.floor(new Date(formData.applicationDate).getTime() / 1000),
-            offerDate: Math.floor(new Date(formData.offerDate).getTime() / 1000),
-            lastCommunication: Math.floor(new Date(formData.lastCommunication).getTime() / 1000),
+            applicationDate: newApplicationDate,
+            offerDate: newOfferDate,
+            lastCommunication: newLastCommunication,
         }
 
         if (!formData.company || !formData.salary || !formData.title || !formData.status || !formData.location) {
@@ -70,8 +83,9 @@ const EditJobSBContent: React.FC = (props) => {
         } else {
             if (globalContext?.user) {
                 try {
-                    await createJobEntry(globalContext.user?.id, {...submittedData})
+                    await updateUserJobEntry(globalContext.user?.id, {...submittedData})
                     setFormSubmitting(false)
+                    console.log("SET", currentDate)
                     setFormData({
                         company: '',
                         title: '',
@@ -165,8 +179,8 @@ const EditJobSBContent: React.FC = (props) => {
                             isInvalid={!formData.applicationDate}
                             type='date'
                             name='applicationDate'
-                            value={formData.applicationDate ? new Date(+formData.applicationDate * 1000).toISOString().split('T')[0] : ''}
-                            onChange={handleChange}
+                            value={typeof formData.applicationDate === 'number' ? new Date(formData.applicationDate * 1000).toISOString().split('T')[0] : ''}
+                            onChange={handleDateChange}
                             style={{background: '#1F2937', color: '#fff', width: 'fit-content'}}
                         />
                     </div>
@@ -198,8 +212,8 @@ const EditJobSBContent: React.FC = (props) => {
                                 <TextInputField
                                     type='date'
                                     name='offerDate'
-                                    value={formData.offerDate ? new Date(+formData.offerDate * 1000).toISOString().split('T')[0] : ''}
-                                    onChange={handleChange}
+                                    value={typeof formData.offerDate === 'number' ? new Date(formData.offerDate * 1000).toISOString().split('T')[0] : ''}
+                                    onChange={handleDateChange}
                                     style={{background: '#1F2937', color: '#fff', width: 'fit-content'}}
                                 />
                             </div>
@@ -210,8 +224,8 @@ const EditJobSBContent: React.FC = (props) => {
                             <TextInputField
                                 type='date'
                                 name='lastCommunication'
-                                value={formData.lastCommunication ? new Date(+formData.lastCommunication * 1000).toISOString().split('T')[0] : ''}
-                                onChange={handleChange}
+                                value={typeof formData.lastCommunication === 'number' ? new Date(+formData.lastCommunication * 1000).toISOString().split('T')[0] : ''}
+                                onChange={handleDateChange}
                                 style={{background: '#1F2937', color: '#fff', width: 'fit-content'}}
                             />
                         </div>

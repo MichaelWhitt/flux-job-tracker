@@ -64,9 +64,9 @@ const MobileNav = (props) => {
       return (
         <>
           <NavbarLink label='Home' icon={IconHome2} linkURL='/landing' active={location.includes('landing')} />
-          <NavbarLink label='Test' icon={IconHistory } linkURL='/test' active={location.includes('test')} />
+          {/* <NavbarLink label='Test' icon={IconHistory } linkURL='/test' active={location.includes('test')} /> */}
           <NavbarLink label='Analytics' icon={IconDeviceDesktopAnalytics } linkURL='/analytics' active={location.includes('analytics')}/>
-          <NavbarLink label='Example' icon={IconTextPlus } linkURL='/example' active={location.includes('example')}/>
+          {/* <NavbarLink label='Example' icon={IconTextPlus } linkURL='/example' active={location.includes('example')}/> */}
           {moreMenuOpen ? (
             <NavbarLink label='More' icon={IconX} linkURL='' onClick={() => {
               setMoreMenuOpen(false)

@@ -56,7 +56,7 @@ function App() {
                   <Landing jobs={userJobEntries || []} />
                 )}
               />
-              <ProtectedRoute path='/test' component={Test} />
+              {/* <ProtectedRoute path='/test' component={Test} /> */}
               <ProtectedRoute path='/account' component={Account} />
               <ProtectedRoute path='/signup-confirmation' component={SignUpConfirmation} />
               <ProtectedRoute path='*' component={() => <Redirect to='/landing' />} />

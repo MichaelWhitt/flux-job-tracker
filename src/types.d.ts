@@ -36,6 +36,7 @@ interface AppContextType {
     lastCommunication: number
     hmContactInfo: string
     notes: string
+    meta_unid: string
     interviewRound: number
     salary: string
     jobLink: string

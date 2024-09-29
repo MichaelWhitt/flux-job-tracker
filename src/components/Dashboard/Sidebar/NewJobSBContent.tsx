@@ -4,6 +4,7 @@ import { fireToast } from '../fireToast'
 import { createJobEntry } from '../../../utils/api'
 import { AppContext } from '../../../auth/AppContext'
 import Loader from '../Loader'
+import { generateUnid } from '../../../utils/utils'
 
 interface NewJobForm {
     company: string
@@ -16,6 +17,7 @@ interface NewJobForm {
     description: string
     hiringManager: string
     notes: string
+    meta_unid: string
     salary: string
     skills: string[]
     jobLevel: string
@@ -40,6 +42,7 @@ const NewJobSBContent: React.FC = () => {
         lastCommunication: currentDate, // Use string format
         hiringManager: '',
         notes: '',
+        meta_unid: generateUnid(),
         salary: '',
         skills: [],
         jobLevel: '',
@@ -96,6 +99,7 @@ const NewJobSBContent: React.FC = () => {
                         applicationDate: currentDate, // Use string format
                         offerDate: currentDate, // Use string format
                         lastCommunication: currentDate, // Use string format
+                        meta_unid: generateUnid(),
                         hiringManager: '',
                         notes: '',
                         salary: '',
