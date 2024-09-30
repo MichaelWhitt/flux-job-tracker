@@ -4,7 +4,6 @@ import JobSidebar from './Sidebar/JobSidebar'
 import { useState, useContext } from 'react'
 import { IconPlus } from '@tabler/icons-react'
 import { AppContext } from '../../auth/AppContext'
-import { Link } from 'wouter'
 
 interface JobListingProps {
     originalJobs: Array<JobEntry>
@@ -29,13 +28,21 @@ const JobListing = (props: JobListingProps) => {
 
     return (
         <div className='flex gap-3 flex-col items-center'>
+            <div className='flex gap-3 w-full items-center mt-[20px] sm:mt-[-10px]'>
+                <span className='flex gap-1 text-gray-400 font-bold'>
+                    <span>
+                        Total: {props.filteredJobs?.length || props.originalJobs.length} Job(s)
+                    </span>
+                </span>
+                <button 
+                    className='bg-cyan-400 text-gray-800 text-lg h-[40px] hover:bg-cyan-600 duration-500 rounded-md p-2 justify-center items-center flex ml-auto'
+                    onClick={() => setSidebarOpen(true)}
+                >
+                    <IconPlus size={20} /> Add Job
+                </button>
+                
+            </div>
             
-            <button 
-                className='mt-[20px] sm:mt-[-10px] bg-cyan-400 text-gray-800 text-lg h-[40px] hover:bg-cyan-600 duration-500 rounded-md p-2 justify-center items-center flex'
-                onClick={() => setSidebarOpen(true)}
-            >
-                <IconPlus size={20} /> Add Job
-            </button>
 
             {jobsToDisplay?.length > 0 && jobsToDisplay?.map((job, idx) => {
                 return (
