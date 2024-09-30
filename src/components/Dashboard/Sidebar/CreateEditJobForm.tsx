@@ -293,7 +293,7 @@ const CreateEditJobForm: React.FC<CreateEditJobSBContentProps> = (props) => {
                 {showOptionalFields && <hr />}
 
                 {showOptionalFields && (
-                    <div className='grid sm:grid-cols-2 gap-2'>
+                    <div className='grid sm:grid-cols-2 gap-2 mt-2'>
                         <div className='flex flex-col'>
                             <label htmlFor='description' className='text-white'>Job Description</label>
                             <Textarea
@@ -463,7 +463,7 @@ const CreateEditJobForm: React.FC<CreateEditJobSBContentProps> = (props) => {
                 <button
                     onClick={handleSubmit}
                     disabled={formSubmitting}
-                    className='mt-4 bg-green-500 p-2 rounded hover:bg-green-700 duration-300 text-white'
+                    className='mt-4 bg-green-500 p-2 rounded hover:bg-green-700 duration-300 text-black mb-10 font-bold'
                 >
                     {formSubmitting ? 'Submitting...' : 'Submit'}
                 </button>
