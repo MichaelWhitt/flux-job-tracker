@@ -413,6 +413,9 @@ const CreateEditJobForm: React.FC<CreateEditJobSBContentProps> = (props) => {
                                 <option value='Monster'>Monster</option>
                                 <option value='Hiring Cafe'>Hiring Cafe</option>
                                 <option value='Angel List'>Angel List</option>
+                                <option value='Robert Half'>Robert Half</option>
+                                <option value='Tek Systems'>Tek Systems</option>
+                                <option value='Cyber Coders'>Cyber Coders</option>
                                 <option value='Company Board'>Company Board</option>
                                 <option value='Other'>Other</option>
                             </select>
