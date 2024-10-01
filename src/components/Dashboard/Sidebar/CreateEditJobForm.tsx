@@ -5,6 +5,7 @@ import { updateUserJobEntry, updatePublicJobEntry, createUserJobEntry, createPub
 import { AppContext } from '../../../auth/AppContext'
 import { collection } from 'firebase/firestore'
 import { db } from '../../../firebase-config'
+import RegionSelect from '../../Inputs/RegionSelect'
 
 interface CreateEditJobSBContentProps {
     job: JobEntry
@@ -18,12 +19,58 @@ const CreateEditJobForm: React.FC<CreateEditJobSBContentProps> = (props) => {
     const [formSubmitting, setFormSubmitting] = useState(false)
     const jobsCollections = collection(db, 'jobs')
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-        const { name, value } = e.target
-        setFormData((prev) => ({
-            ...prev,
-            [name]: value,
-        }))
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement> | string, type?: 'jobRegion' | 'jobCountry' | 'jobState' | 'jobCity') => {    
+        if (type) {
+
+            if (!e) {
+                switch (type) {
+                    case 'jobRegion':
+                        setFormData((prev) => ({
+                            ...prev,
+                            jobRegion: '',
+                            jobCountry: '',
+                            jobState: '',
+                            jobCity: '',
+                        }))
+                        break
+                    case 'jobCountry':
+                        setFormData((prev) => ({
+                            ...prev,
+                            jobCountry: '',
+                            jobState: '',
+                            jobCity: '',
+                        }))
+                        break
+                    case 'jobState':
+                        setFormData((prev) => ({
+                            ...prev,
+                            jobState: '',
+                            jobCity: '',
+                        }))
+                        break
+                    case 'jobCity':
+                        setFormData((prev) => ({
+                            ...prev,
+                            jobCity: '',
+                        }))
+                        break;
+                }
+                
+            } else {
+                setFormData((prev) => ({
+                    ...prev,
+                    [type]: e,
+                }))
+            }
+            
+        } else {
+            const { name, value } = e.target
+            setFormData((prev) => ({
+                ...prev,
+                [name]: value,
+            }))
+        }
+        
     }
 
     const handleSwitchChange = (e: {target: {name: string, checked: boolean}}) => {
@@ -173,7 +220,7 @@ const CreateEditJobForm: React.FC<CreateEditJobSBContentProps> = (props) => {
                         />
                     </div>
 
-                    <div className='flex flex-col '>
+                    {/* <div className='flex flex-col '>
                         <label htmlFor='location' className='text-white'>Job Location</label>
                         <TextInputField
                             label=''
@@ -184,7 +231,9 @@ const CreateEditJobForm: React.FC<CreateEditJobSBContentProps> = (props) => {
                             onChange={handleChange}
                             style={{background: '#1F2937', color: '#fff'}}
                         />
-                    </div>
+                    </div> */}
+
+                    <RegionSelect handleChange={handleChange} formData={formData} />
 
                     <div className='flex flex-col gap-2 mb-5'>
                         <label htmlFor='officeLocation' className='text-white'>Office Location</label>
@@ -362,7 +411,7 @@ const CreateEditJobForm: React.FC<CreateEditJobSBContentProps> = (props) => {
                                 label=''
                                 name='skills'
                                 placeholder='React, Typescript, Git'
-                                value={formData.skills.join(', ')}
+                                value={formData.skills?.join(', ')}
                                 onChange={handleSkillsChange}
                                 style={{background: '#1F2937', color: '#fff'}}
                             />

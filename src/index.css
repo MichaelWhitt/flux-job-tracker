@@ -170,6 +170,14 @@ h1, h2, h3, h4, h5, h6 {
   background: none !important;
 }
 
+.mantine-autocomplete-option {
+  color: #fff !important
+}
+
+.mantine-autocomplete-option:hover {
+  background: #228be6 !important
+}
+
 @keyframes swirl {
   0% {
     background-position: 0% 0%;
