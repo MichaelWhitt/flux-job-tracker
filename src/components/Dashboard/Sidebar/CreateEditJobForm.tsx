@@ -129,7 +129,7 @@ const CreateEditJobForm: React.FC<CreateEditJobSBContentProps> = (props) => {
             ...formData
         }
 
-        if (!formData.company || !formData.salary || !formData.title || !formData.status || !formData.location) {
+        if (!formData.company || !formData.salary || !formData.title || !formData.status || !formData.jobRegion) {
             fireToast({type: 'error', content: 'Fill out required fields'})
             setFormSubmitting(false)
         } else {

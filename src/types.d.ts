@@ -36,6 +36,10 @@ interface AppContextType {
     company: string
     applicationSite?: '' | 'LinkedIn' | 'Indeed' | 'Monster' | 'Hiring Cafe' | 'Angel List' | 'Company Board' | 'Other'
     jobLevel?: 'Entry' | 'Mid' | 'Senior' | 'Other'
+    jobRegion: string
+    jobCountry?: string
+    jobState?: string
+    jobCity?: string
     title: string
     lastCommunication?: string | Date
     hmContactInfo?: string
