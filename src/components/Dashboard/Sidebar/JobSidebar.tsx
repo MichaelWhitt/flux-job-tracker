@@ -47,6 +47,7 @@ const JobSidebar = ({ job, sidebarOpen, setSidebarOpen, type }: JobSidebar) => {
               employmentType: 'Full-time',
               skills: [],
               jobLevel: 'Entry',
+              jobRegion: 'All',
               meta_unid: generateUnid(),
               applicationSite: '',
               jobLink: '',

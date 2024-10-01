@@ -1,6 +1,6 @@
 import JobSidebar from './JobSidebar'
 import {useState, useContext} from 'react'
-import { formatDate } from '../../../utils/utils'
+import { formatDate, renderLocation } from '../../../utils/utils'
 import { deletePublicJobEntry, deleteUserJobEntry } from '../../../utils/api'
 import { AppContext } from '../../../auth/AppContext'
 import { collection } from 'firebase/firestore'
@@ -42,6 +42,8 @@ const ViewJobSBContent = ({job}: ViewJobSBContentProps) => {
       }
     }
   }
+
+  console.log({l: job.location})
 
   if (isDeleting) {
     return (
@@ -88,7 +90,7 @@ const ViewJobSBContent = ({job}: ViewJobSBContentProps) => {
         <div className='grid grid-cols-1 md:grid-cols-2 gap-6 mb-6'>
           <div className='bg-gray-800 p-4 rounded-lg'>
             <h3 className='text-lg font-semibold mb-4 text-blue-300'>Job Details</h3>
-            <LabeledField label='Location' value={job.location} />
+            <LabeledField label='Location' value={renderLocation(job.jobCountry, job.jobState, job.jobCity, job.jobRegion)} />
             <LabeledField label='Office Location' value={job.officeLocation} />
             <LabeledField label='Salary' value={job.salary ? `$${job.salary}` : null} />
             <LabeledField label='Job Level' value={job.jobLevel} />

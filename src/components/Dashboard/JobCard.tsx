@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import JobSidebar from './Sidebar/JobSidebar'
-import { formatDate, isOnMobile } from '../../utils/utils'
+import { formatDate, isOnMobile, renderLocation} from '../../utils/utils'
 import { IconArmchair, IconMapPin, IconMoneybag, IconBuilding } from '@tabler/icons-react'
 
 interface JobCardProps {
@@ -61,7 +61,7 @@ const JobCard: React.FC<JobCardProps> = ({ job }) => {
       onClick={handleClick}
     >
       <div className='flex justify-between items-center'>
-        <h2 className='text-md sm:text-md font-bold'>{renderText(job.title, isOnMobile ? 25 : 45) || 'N/A'}</h2>
+        <h2 className='text-md sm:text-md font-bold'>{renderText(job.title, isOnMobile ? 20 : 45) || 'N/A'}</h2>
         {job.lastUpdatedDate ? (
           <p className='text-xs sm:text-md text-gray-400'>
             
@@ -89,19 +89,19 @@ const JobCard: React.FC<JobCardProps> = ({ job }) => {
           <IconMoneybag size={15} />
           <span className='flex text-xs sm:text-md text-gray-400 mb-2'>{renderText(job.salary, 14) || 'N/A'}</span>
         </div>
+        <div className={`ml-auto p-1 text-xs sm: text-md  ` + statusColorMap[job.status?.toLowerCase()]}>{renderText(job.status, 20) || 'N/A'}</div>
       </div>
       <div className='flex gap-5 items-center sm:mb-2 text-xs sm:text-md mt-1'>
         <div className='flex gap-1'>
           <IconMapPin size={15} />
-          {renderText(job.location, 20) || 'N/A'}
+          {renderText(renderLocation(job.jobCountry, job.jobState, job.jobCity, job.jobRegion), isOnMobile ? 30 : 100) || 'N/A'}
         </div>
         
-        <div className='flex gap-1'>
+        <div className='flex gap-1 ml-auto'>
           <IconArmchair size={15} />
           [{renderText(job.officeLocation, 20) || 'N/A'}]
         </div>
-        
-        <div className={`ml-auto p-1  ` + statusColorMap[job.status?.toLowerCase()]}>{renderText(job.status, 20) || 'N/A'}</div>
+  
       </div>
       <p className='text-xs sm:text-md overflow-hidden text-ellipsis hidden sm:flex'>{renderText(job.description, 100) || 'N/A'}</p>
       <JobSidebar job={job} setSidebarOpen={setSidebarOpen} sidebarOpen={sidebarOpen} type={'view'} />

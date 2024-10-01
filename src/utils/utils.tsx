@@ -19,6 +19,18 @@ export const formatDate = (d: string | number | Date | Dayjs | null | undefined 
     return dayjs(d).format('MM/DD/YYYY')
 }
 
+export const renderLocation = (country: string, state: string, city: string, region: string) => {
+    if (country && state && city) {
+        return `${city}, ${state} (${country})`
+    } else if (country && state) {
+        return `${state} (${country})`
+    } else if (country && region) {
+        return `${region} (${country})`
+    } else {
+        return ''
+    }
+}
+
 export const generateColor = (num: string | number, background?: boolean) => {
   const n = Math.round(+num)
   
