@@ -156,6 +156,9 @@ const CreateEditJobForm: React.FC<CreateEditJobSBContentProps> = (props) => {
         } else {
             if (props.type === 'create') {
                 if (globalContext?.user && globalContext?.user?.id) {
+                    if (submittedData.status?.toLowerCase() === 'not applied') {
+                        submittedData.applicationDate = ''
+                    }
                     try {
                         await createUserJobEntry(globalContext.user?.id, submittedData)
                         setFormSubmitting(false)
@@ -181,6 +184,9 @@ const CreateEditJobForm: React.FC<CreateEditJobSBContentProps> = (props) => {
                 
             } else if (props.type === 'edit') {
                 if (globalContext?.user && globalContext.isLoggedIn) {
+                    if (submittedData.status?.toLowerCase() === 'not applied') {
+                        submittedData.applicationDate = ''
+                    }
                     try {
                         await updateUserJobEntry(globalContext.user?.id, submittedData)
                         setFormSubmitting(false)
@@ -204,7 +210,6 @@ const CreateEditJobForm: React.FC<CreateEditJobSBContentProps> = (props) => {
                     
                 }
             }
-            
         }
     }
 

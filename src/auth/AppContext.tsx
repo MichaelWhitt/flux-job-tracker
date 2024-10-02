@@ -25,6 +25,7 @@ export const AuthProvider: React.FC = ({children}) => {
     sortMethod: 'Created Date',
     sortType: 'dsc'
   })
+  const [mounted, setMounted] = useState(false)
 
   const history = createBrowserHistory()
   const auth = getAuth()
@@ -42,29 +43,31 @@ export const AuthProvider: React.FC = ({children}) => {
     getRecap()}, [])
 
     useEffect(() => {
-      console.log('type change', sortOptions)
-      if (isLoggedIn && !user.id) {
-        console.log('priv')
-        setPublicJobs(sortJobsBy(sortOptions.sortMethod, sortOptions.sortType, user.jobs))
-      } else if (!isLoggedIn && !user.id) {
-        console.log('pub')
+      if (isLoggedIn && user.id && mounted) {
+        setUser({...user, jobs: sortJobsBy(sortOptions.sortMethod, sortOptions.sortType, user.jobs)})
+      } else if (!isLoggedIn && !user.id && mounted) {
         setPublicJobs(sortJobsBy(sortOptions.sortMethod, sortOptions.sortType, publicJobs))
       }
       
-    }, [sortOptions.sortMethod, sortOptions.sortType])
+    }, [sortOptions.sortMethod, sortOptions.sortType, isLoggedIn, mounted])
 
   const getUserDataObj = (id: string) => {
+    setMounted(false)
     getUserData(id)
     .then((dbUser: any) => {
       if (dbUser) {
         setUser(dbUser)
       }
+    }).then(() =>{
+      setMounted(true)
     })
     .catch((e) => fireToast({type: 'error', content: e}))
   }
 
   const getPublicJobs = async () => {
+    setMounted(false)
     const publicJs = await getAllJobs(publicJobCollection)
+    setMounted(true)
     const jobs = publicJs?.docs?.map(doc => ({
       id: doc.id,  // jobId (document ID)
       ...doc.data() // job data

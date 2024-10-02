@@ -31,6 +31,9 @@ export const getUserData = async (userId: string) => {
         }
     
         const userDoc = querySnapshot.docs[0]
+        //userDoc.data().jobs.forEach(j => {
+          //fixDeprecationIssues(userDoc.data(), j)
+        //})
         return { id: userDoc.id, ...userDoc.data() }
       } catch (error) {
         console.error('Error getting user:', error)
@@ -42,6 +45,19 @@ export const getUserData = async (userId: string) => {
 export const getRecaptcha = async () => {
     return await getDocs(recapCollection)
 }
+
+// const fixDeprecationIssues = (u, j) => {
+// can safely run this fn to clean up data but be careful about logic!
+//   if (!j.createdDate && j.applicationDate) {
+//     console.log('no created date', j.createdDate, j.applicationDate)
+//     updateUserJobEntry(u.id, {...j, createdDate: j.applicationDate})
+//   } else if (!j.createdDate && !j.applicationDate) {
+//     //console.log("HAS NEITER", j)
+//     //updateUserJobEntry(u.id, {...j, createdDate: new Date(), applicationDate: new Date()})
+//   } else {
+//     //console.log('neither', j)
+//   }
+// }
 
 export const createUserJobEntry = async (userId: string, jobData: JobEntry) => {
     try {
