@@ -51,7 +51,6 @@ export const createUserJobEntry = async (userId: string, jobData: JobEntry) => {
         jobEntryDates.forEach((d) => {
           if (typeof newJobData[d] === 'string' && newJobData[d]) {
             newJobData[d] = convertToFirebaseTimestamp(newJobData[d])
-            console.log({newJobData})
           }
         })
         

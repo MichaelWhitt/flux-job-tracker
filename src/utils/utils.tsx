@@ -188,21 +188,15 @@ export const convertToFirebaseTimestamp = (d: string) => {
     const inputDateTimestamp = Timestamp.fromDate(inputDate)
     const todaysDateTimestamp = Timestamp.fromDate(todaysDate)
     // if today, use date time. if not, use new Date(selectedDate)
-
-    console.log({isToday, todaysDateTimestamp, inputDateTimestamp})
     return isToday ? todaysDateTimestamp : inputDateTimestamp
 }
 
 export const convertToDateStringFromFBTimestamp = (d: any): string | null => {
     // Check if d is a Firebase Timestamp
-    console.log(1, new Date(d), d)
     if (d instanceof Timestamp) {
-        console.log('is')
         const dateObject = d.toDate()// Convert Timestamp to Date
-        console.log({dateObject})
         // Format the Date to MM/DD/YYYY
         const formattedDate = `${dateObject.getFullYear()}-${String(dateObject.getMonth() + 1).padStart(2, '0')}-${String(dateObject.getDate()).padStart(2, '0')}` 
-                               console.log({formattedDate})
         return formattedDate // Return formatted date string
     }
     return d

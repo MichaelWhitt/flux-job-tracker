@@ -26,10 +26,6 @@ export const AuthProvider: React.FC = ({children}) => {
     sortType: 'asc'
   })
 
-  useEffect(() => {
-    console.log(sortOptions)
-  }, [sortOptions.sortMethod, sortOptions.sortType])
-
   const history = createBrowserHistory()
   const auth = getAuth()
   const emailVerified = auth.currentUser?.emailVerified || false

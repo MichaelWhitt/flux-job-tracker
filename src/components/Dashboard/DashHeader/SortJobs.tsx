@@ -12,7 +12,6 @@ const SortJobs = (props: SortJobsProps) => {
     const [opened, setOpened] = useState(false)
     const sortMethod = globalContext?.sortOptions.sortMethod
     const sortType = globalContext?.sortOptions.sortType
-    console.log({old: globalContext?.publicJobs})
 
     const renderSortMethod = () => {
         if (sortType === 'asc') {
