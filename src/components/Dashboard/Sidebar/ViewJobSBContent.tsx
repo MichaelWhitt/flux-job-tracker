@@ -43,8 +43,6 @@ const ViewJobSBContent = ({job}: ViewJobSBContentProps) => {
     }
   }
 
-  console.log({l: job.location})
-
   if (isDeleting) {
     return (
       <div className='bg-gray-900 p-6 text-gray-100 h-full'>

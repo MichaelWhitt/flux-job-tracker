@@ -7,6 +7,7 @@ import 'firebase/compat/auth' // Import the Firebase Authentication module
 import 'firebase/compat/firestore' // Import the Firestore module
 import emailjs from '@emailjs/browser'
 import { fireToast } from '../components/Toasts/fireToast'
+import {convertToFirebaseTimestamp} from './utils'
 
 const userCollection = collection(db, 'Users')
 const recapCollection = collection(db, 'recaptcha')
@@ -45,7 +46,16 @@ export const getRecaptcha = async () => {
 export const createUserJobEntry = async (userId: string, jobData: JobEntry) => {
     try {
         const userRef = doc(db, 'Users', userId)
-        await setDoc(userRef, { jobs: arrayUnion({...jobData, createdDate: new Date()}) }, { merge: true })
+        const jobEntryDates = ['applicationDate', 'offerDate', 'lastCommunication']
+        const newJobData = structuredClone(jobData)
+        jobEntryDates.forEach((d) => {
+          if (typeof newJobData[d] === 'string' && newJobData[d]) {
+            newJobData[d] = convertToFirebaseTimestamp(newJobData[d])
+            console.log({newJobData})
+          }
+        })
+        
+        await setDoc(userRef, { jobs: arrayUnion({...newJobData, createdDate: new Date()}) }, { merge: true })
         fireToast({type: 'success', content: 'Job added successfully!'})
         return 'Job added successfully!'
     } catch (error) {

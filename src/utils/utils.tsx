@@ -172,3 +172,42 @@ export const copyText = (text: string) => {
             console.error('Failed to copy: ', err)
         })
 }
+
+export const convertToFirebaseTimestamp = (d: string) => {
+    const inputDate = new Date(d)
+    const todaysDate = new Date()
+
+    const isToday = inputDate.getFullYear() === todaysDate.getFullYear() &&
+    inputDate.getMonth() === todaysDate.getMonth() && // Months are 0-indexed
+    inputDate.getDate() === todaysDate.getDate()
+
+    const inputDateTimestamp = Timestamp.fromDate(inputDate)
+    const todaysDateTimestamp = Timestamp.fromDate(todaysDate)
+    // if today, use date time. if not, use new Date(selectedDate)
+
+    console.log({isToday, todaysDateTimestamp, inputDateTimestamp})
+    return isToday ? todaysDateTimestamp : inputDateTimestamp
+}
+
+export const convertToDateStringFromFBTimestamp = (d: any): string | null => {
+    // Check if d is a Firebase Timestamp
+    console.log(1, new Date(d), d)
+    if (d instanceof Timestamp) {
+        console.log('is')
+        const dateObject = d.toDate()// Convert Timestamp to Date
+        console.log({dateObject})
+        // Format the Date to MM/DD/YYYY
+        const formattedDate = `${dateObject.getFullYear()}-${String(dateObject.getMonth() + 1).padStart(2, '0')}-${String(dateObject.getDate()).padStart(2, '0')}` 
+                               console.log({formattedDate})
+        return formattedDate // Return formatted date string
+    }
+    return d
+}
+
+export const getCurrentDateStringForInput = () => {
+    const today = new Date()
+    const year = today.getFullYear()
+    const month = String(today.getMonth() + 1).padStart(2, '0')
+    const day = String(today.getDate()).padStart(2, '0')
+    return `${year}-${month}-${day}`
+}

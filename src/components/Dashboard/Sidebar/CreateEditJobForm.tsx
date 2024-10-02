@@ -6,6 +6,7 @@ import { AppContext } from '../../../auth/AppContext'
 import { collection } from 'firebase/firestore'
 import { db } from '../../../firebase-config'
 import RegionSelect from '../../Inputs/RegionSelect'
+import { convertToDateStringFromFBTimestamp, getCurrentDateStringForInput } from '../../../utils/utils'
 
 interface CreateEditJobSBContentProps {
     job: JobEntry
@@ -21,7 +22,6 @@ const CreateEditJobForm: React.FC<CreateEditJobSBContentProps> = (props) => {
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement> | string, type?: 'jobRegion' | 'jobCountry' | 'jobState' | 'jobCity') => {    
         if (type) {
-
             if (!e) {
                 switch (type) {
                     case 'jobRegion':
@@ -65,10 +65,30 @@ const CreateEditJobForm: React.FC<CreateEditJobSBContentProps> = (props) => {
             
         } else {
             const { name, value } = e.target
-            setFormData((prev) => ({
-                ...prev,
-                [name]: value,
-            }))
+            if (
+                name === 'status' && value?.toLowerCase() === 'applied' ||
+                name === 'status' && value?.toLowerCase() === 'offer'
+            ) {
+                if (value.toLowerCase() === 'applied') {
+                    setFormData((prev) => ({
+                        ...prev,
+                        [name]: value,
+                        applicationDate: !formData.applicationDate ? getCurrentDateStringForInput() : formData.applicationDate
+                    }))
+                } else if (value.toLowerCase() === 'offer' && !formData.offerDate) {
+                    setFormData((prev) => ({
+                        ...prev,
+                        [name]: value,
+                        offerDate: !formData.offerDate ? getCurrentDateStringForInput() : formData.offerDate
+                    }))
+                }
+            } else {
+                setFormData((prev) => ({
+                    ...prev,
+                    [name]: value,
+                }))
+            }
+            
         }
         
     }
@@ -82,7 +102,8 @@ const CreateEditJobForm: React.FC<CreateEditJobSBContentProps> = (props) => {
     }
 
     const handleDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const selectedDate = event.target.value 
+        const selectedDate = event.target.value
+            
         setFormData((prev) => ({
             ...prev,
             [event.target.name]: selectedDate,
@@ -326,11 +347,24 @@ const CreateEditJobForm: React.FC<CreateEditJobSBContentProps> = (props) => {
                             isInvalid={!formData.applicationDate}
                             type='date'
                             name='applicationDate'
-                            value={formData.applicationDate} 
+                            value={convertToDateStringFromFBTimestamp(formData.applicationDate)} 
                             onChange={handleDateChange}
                             style={{background: '#1F2937', color: '#fff'}}
                         />
                     </div>
+                    )}
+                    {formData.status?.toLowerCase() === 'offer' && (
+                        <div className='flex flex-col'>
+                            <label htmlFor='offerDate' className='text-white'>Offer Date</label>
+                            <TextInputField
+                                label=''
+                                type='date'
+                                name='offerDate'
+                                value={formData.offerDate} 
+                                onChange={handleDateChange}
+                                style={{background: '#1F2937', color: '#fff'}}
+                            />
+                        </div>
                     )}
 
                 </div>
@@ -390,20 +424,6 @@ const CreateEditJobForm: React.FC<CreateEditJobSBContentProps> = (props) => {
                                 style={{background: '#1F2937', color: '#fff'}}
                             />
                         </div>
-
-                        {formData.status?.toLowerCase() === 'offer' && (
-                            <div className='flex flex-col'>
-                                <label htmlFor='offerDate' className='text-white'>Offer Date</label>
-                                <TextInputField
-                                    label=''
-                                    type='date'
-                                    name='offerDate'
-                                    value={formData.offerDate} 
-                                    onChange={handleDateChange}
-                                    style={{background: '#1F2937', color: '#fff'}}
-                                />
-                            </div>
-                        )}
 
                         <div className='flex flex-col'>
                             <label htmlFor='skills' className='text-white'>Skills</label>
