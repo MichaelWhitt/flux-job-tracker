@@ -30,83 +30,7 @@ const SortJobs = (props: SortJobsProps) => {
     }
 
     const sortByFn = (m: string, t: string) => {
-        let newJs = []
-        const sortJs = (njs: JobEntry[]) => {
-            njs.sort((a, b) => {
-                if (t === 'asc') {
-                    switch (m) {
-                        case 'Created Date':
-                            if (a.createdDate && b.createdDate) {
-                                return a.createdDate.seconds - b.createdDate.seconds
-                            }
-                            break
-                        case 'Last Comms':
-                            if (a.lastCommunication  && b.lastCommunication ) {
-                                return a.lastCommunication.seconds - b.lastCommunication.seconds
-                            }
-                            break
-                        case 'Last Updated':
-                            if (a.lastUpdatedDate  && b.lastUpdatedDate ) {
-                                return a.lastUpdatedDate.seconds - b.lastUpdatedDate.seconds
-                            }
-                            break
-                        case 'Application Date':
-                            if (a.applicationDate  && b.applicationDate ) {
-                                return a.applicationDate.seconds - b.applicationDate.seconds
-                            }
-                            break
-                        case 'Offer Date':
-                            if (a.offerDate  && b.offerDate ) {
-                                return a.offerDate.seconds - b.offerDate.seconds
-                            }
-                            break
-                    }
-                } else if (t === 'dsc') {
-                    switch (m) {
-                        case 'Created Date':
-                            if (a.createdDate  && b.createdDate ) {
-                                return b.createdDate.seconds - a.createdDate.seconds
-                            }
-                            break
-                        case 'Last Comms':
-                            if (a.lastCommunication  && b.lastCommunication ) {
-                                return b.lastCommunication.seconds - a.lastCommunication.seconds
-                            }
-                            break
-                        case 'Last Updated':
-                            if (a.lastUpdatedDate  && b.lastUpdatedDate ) {
-                                return b.lastUpdatedDate.seconds - a.lastUpdatedDate.seconds
-                            }
-                            break
-                        case 'Application Date':
-                            if (a.applicationDate  && b.applicationDate ) {
-                                return b.applicationDate.seconds - a.applicationDate.seconds
-                            }
-                            break
-                        case 'Offer Date':
-                            if (a.offerDate  && b.offerDate ) {
-                                return b.offerDate.seconds - a.offerDate.seconds
-                            }
-                            break
-                    }
-                }
-                return 0 // Return 0 if no conditions matched (to keep original order)
-            })
-        }
-    
-        if (globalContext?.isLoggedIn && globalContext?.user?.jobs) {
-            const newJs = structuredClone(globalContext.user.jobs)
-            sortJs(newJs)
-    
-            // Update global context
-            globalContext.setUser({ ...globalContext.user, jobs: newJs})
-            globalContext?.setSortOptions({...globalContext.sortOptions, sortType: t, sortMethod: m})
-        } else if (globalContext?.publicJobs && !globalContext?.isLoggedIn) {
-            const newPublicJobs = structuredClone(globalContext?.publicJobs || [])
-            sortJs(newPublicJobs)
-            globalContext?.setPublicJobs(newPublicJobs)
-            globalContext?.setSortOptions({...globalContext.sortOptions, sortType: t, sortMethod: m})
-        }
+        globalContext?.setSortOptions({...globalContext.sortOptions, sortType: t, sortMethod: m})
     }
     
 
@@ -116,7 +40,7 @@ const SortJobs = (props: SortJobsProps) => {
             <Menu 
                 opened={opened} 
                 onChange={setOpened} 
-                shadow='md' 
+                shadow='md'
                 classNames={{
                     dropdown: 'sort-jobs-dropdown',
                     item: 'sort-jobs-item',

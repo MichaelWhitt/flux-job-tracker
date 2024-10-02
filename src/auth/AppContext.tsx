@@ -1,13 +1,13 @@
 import React, {createContext, useState, useContext, useEffect} from 'react'
 import {onAuthStateChanged, getAuth} from '@firebase/auth'
 import {loginEmailPassword, logout } from '../firebase-config.tsx'
-import {getUserData, getAllJobs} from '../utils/api'
+import {getUserData, getAllJobs, getRecaptcha} from '../utils/api'
 import {createBrowserHistory} from 'history'
 import { fireToast } from '../components/Toasts/fireToast'
 import { useLocation } from 'wouter'
-import { getRecaptcha } from '../utils/api'
 import { collection } from 'firebase/firestore'
 import { db } from '../firebase-config.tsx'
+import { sortJobsBy } from '../utils/utils.tsx'
 
 export const AppContext = createContext<AppContextType | undefined>(undefined)
 
@@ -22,8 +22,8 @@ export const AuthProvider: React.FC = ({children}) => {
   const [rKey, setRKey] = useState('')
   const [publicJobs, setPublicJobs] = useState<Array<JobEntry>>([])
   const [sortOptions, setSortOptions] = useState<AppContextType['sortOptions']>({
-    sortMethod: 'Sort By',
-    sortType: 'asc'
+    sortMethod: 'Created Date',
+    sortType: 'dsc'
   })
 
   const history = createBrowserHistory()
@@ -40,6 +40,18 @@ export const AuthProvider: React.FC = ({children}) => {
       }
     }
     getRecap()}, [])
+
+    useEffect(() => {
+      console.log('type change', sortOptions)
+      if (isLoggedIn && !user.id) {
+        console.log('priv')
+        setPublicJobs(sortJobsBy(sortOptions.sortMethod, sortOptions.sortType, user.jobs))
+      } else if (!isLoggedIn && !user.id) {
+        console.log('pub')
+        setPublicJobs(sortJobsBy(sortOptions.sortMethod, sortOptions.sortType, publicJobs))
+      }
+      
+    }, [sortOptions.sortMethod, sortOptions.sortType])
 
   const getUserDataObj = (id: string) => {
     getUserData(id)
@@ -58,7 +70,7 @@ export const AuthProvider: React.FC = ({children}) => {
       ...doc.data() // job data
     }))
     if (jobs && Array.isArray(jobs)) {
-      setPublicJobs(jobs)
+      setPublicJobs(sortJobsBy(sortOptions.sortMethod, sortOptions.sortType, jobs))
     }
   }
 
