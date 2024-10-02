@@ -16,6 +16,10 @@ export const formatDate = (d: string | number | Date | Dayjs | null | undefined 
     if (short) {
         return dayjs(d).format('YYYY')
     }
+
+    if (typeof d?.seconds === 'number') {
+        return dayjs(d.seconds * 1000).format('MM/DD/YYYY')
+    }
     return dayjs(d).format('MM/DD/YYYY')
 }
 

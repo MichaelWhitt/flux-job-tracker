@@ -5,11 +5,18 @@ interface AppContextType {
     getUserDataObj: (id: string) => void
     getPublicJobs: (collection: object) => void
     publicJobs: Array<JobEntry>
+    setPublicJobs: (jobs: Array<JobEntry>) => void
     user: UserObject
+    setUser: (user: UserObject) => void
     history: object
     emailVerified: boolean
     siteName: string
     rKey: string
+    sortOptions: {
+      sortMethod: 'Sort By' | 'Created Date' | 'Last Comms'| 'Last Updated' | 'Application Date' | 'Offer Date',
+      sortType: 'asc' | 'dsc'
+    }
+    setSortOptions: (opts: any) => void
   }
   
   type UserObject = {

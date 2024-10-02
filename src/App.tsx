@@ -57,11 +57,11 @@ function App() {
     })
   }
   
-  let jobs = []
+  let jobs : Array<JobEntry> = []
   if (globalContext?.isLoggedIn && globalContext.user?.jobs) {
-    jobs = sortJobsByActivity(globalContext.user.jobs) // Sort user jobs
-  } else {
-    jobs = sortJobsByActivity(globalContext?.publicJobs) // Sort public jobs
+    jobs = globalContext.user.jobs // Sort user jobs
+  } else if (globalContext?.publicJobs) {
+    jobs = globalContext.publicJobs // Sort public jobs
   }
 
   useEffect(() => {
@@ -69,19 +69,6 @@ function App() {
       logout()
     }      
   }, [])
-
-  // const jobsCollections = collection(db, 'jobs')
-  // const [jobs, setJobs] = useState([])
-
-  // useEffect(() => {
-  //   const getJobs = async () => {
-  //    const data = await getAllJobs(jobsCollections)
-  //    setJobs(data.docs.map((d) => ({
-  //     ...d.data(), id: d.id
-  //    })))
-  //   }
-  //   getJobs()
-  // }, [])
 
   return (
     <MantineProvider theme={theme}>

@@ -39,9 +39,9 @@ const JobCard: React.FC<JobCardProps> = ({ job }) => {
       const truncatedText = t.length > cutoff ? `${t.slice(0, cutoff)}...` : (t || 'N/A')
   
       return (
-        <div className='overflow-hidden text-ellipsis whitespace-nowrap'>
+        <span className='overflow-hidden text-ellipsis whitespace-nowrap'>
           {truncatedText}
-        </div>
+        </span>
       )
     }
   }

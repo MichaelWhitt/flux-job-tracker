@@ -15,11 +15,20 @@ export const AuthProvider: React.FC = ({children}) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [user, setUser] = useState<UserObject>({
     email: '',
-    id: ''
+    id: '',
+    jobs: []
   })
   const [location, setLocation] = useLocation()
   const [rKey, setRKey] = useState('')
-  const [publicJobs, setPublicJobs] = useState([])
+  const [publicJobs, setPublicJobs] = useState<Array<JobEntry>>([])
+  const [sortOptions, setSortOptions] = useState<AppContextType['sortOptions']>({
+    sortMethod: 'Sort By',
+    sortType: 'asc'
+  })
+
+  useEffect(() => {
+    console.log(sortOptions)
+  }, [sortOptions.sortMethod, sortOptions.sortType])
 
   const history = createBrowserHistory()
   const auth = getAuth()
@@ -73,7 +82,8 @@ export const AuthProvider: React.FC = ({children}) => {
         getPublicJobs()
         setUser({
           email: '',
-          id: ''
+          id: '',
+          jobs: []
         })
       }
     })
@@ -107,7 +117,8 @@ export const AuthProvider: React.FC = ({children}) => {
       setIsLoggedIn(false)
       setUser({
         email: '',
-        id: ''
+        id: '',
+        jobs: []
       })
     } catch (error) {
       console.error('Error signing out:', error)
@@ -116,7 +127,24 @@ export const AuthProvider: React.FC = ({children}) => {
   }
 
   return (
-    <AppContext.Provider value={{ isLoggedIn, login, logout, user, getUserDataObj, history, emailVerified, siteName, rKey, getPublicJobs, publicJobs}}>
+    <AppContext.Provider 
+      value={{ 
+        isLoggedIn,
+        login,
+        logout,
+        user,
+        setUser,
+        getUserDataObj,
+        history,
+        emailVerified,
+        siteName,
+        rKey,
+        getPublicJobs,
+        setPublicJobs,
+        publicJobs,
+        sortOptions,
+        setSortOptions
+      }}>
       {children}
     </AppContext.Provider>
   )

@@ -178,6 +178,29 @@ h1, h2, h3, h4, h5, h6 {
   background: #228be6 !important
 }
 
+
+.sort-jobs-label {
+  display: flex !important;
+  width: 100% !important;
+  margin-right: auto !important
+}
+
+.sort-jobs-dropdown {
+  background: #020617 !important;
+  width: 250px !important;
+}
+
+.sort-jobs-item {
+  padding-left: 20px !important;
+  color: #fff !important;
+  background: #020617 !important;
+  transition-duration: 500ms;
+}
+
+.sort-jobs-item:hover {
+  background: #050d32 !important
+}
+
 @keyframes swirl {
   0% {
     background-position: 0% 0%;

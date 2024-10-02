@@ -65,20 +65,27 @@ export const createUserJobEntry = async (userId: string, jobData: JobEntry) => {
     }
 }
 
-export const updateUserJobEntry = async (userId: string, jobEntry: JobEntry) => {
+export const updateUserJobEntry = async (userId: string, jobData: JobEntry) => {
     try {
         const userDocRef = doc(db, 'Users', userId)
-
-        // Get the current user document data
         const userDocSnapshot = await getDoc(userDocRef)
         const userData = userDocSnapshot.data()
+
+        const jobEntryDates = ['applicationDate', 'offerDate', 'lastCommunication']
+        const newJobData = structuredClone(jobData)
+        jobEntryDates.forEach((d) => {
+          if (typeof newJobData[d] === 'string' && newJobData[d]) {
+            newJobData[d] = convertToFirebaseTimestamp(newJobData[d])
+          }
+        })
+
         if (userData) {
             let jobEntries = userData.jobs || []
             // Filter out the item with the given meta_unid
-            jobEntries = jobEntries.filter((j: JobEntry) => j.meta_unid !== jobEntry.meta_unid)
-            // Add the updated item to watch history
-            jobEntries.push({...jobEntry, lastUpdatedDate: new Date()})
-            // Update the watchHistory field in Firestore
+            jobEntries = jobEntries.filter((j: JobEntry) => j.meta_unid !== newJobData.meta_unid)
+            // Add the updated item to job history
+            jobEntries.push({...newJobData, lastUpdatedDate: new Date()})
+            // Update the job field in Firestore
             await updateDoc(userDocRef, { jobs: jobEntries })
             fireToast({type: 'success', content: 'Job updated successfully!'})
             return 'Job updated successfully'
@@ -121,9 +128,16 @@ export const createPublicJobEntry = async (jobData: JobEntry) => {
     try {
       // Get the reference to the 'jobs' collection
       const jobsRef = collection(db, 'jobs')
+      const jobEntryDates = ['applicationDate', 'offerDate', 'lastCommunication']
+      const newJobData = structuredClone(jobData)
+      jobEntryDates.forEach((d) => {
+        if (typeof newJobData[d] === 'string' && newJobData[d]) {
+          newJobData[d] = convertToFirebaseTimestamp(newJobData[d])
+        }
+      })
       
       // Add a new document with the jobData
-      await addDoc(jobsRef, {...jobData, createdDate: new Date()}) // createdDate keeps track of when the job listing was created
+      await addDoc(jobsRef, {...newJobData, createdDate: new Date()}) // createdDate keeps track of when the job listing was created
       
       fireToast({ type: 'success', content: 'Job added successfully!' })
       return 'Job added successfully!'
@@ -141,7 +155,14 @@ export const createPublicJobEntry = async (jobData: JobEntry) => {
   
       if (updatedJobData) {
         // Update or overwrite the document entirely
-        await setDoc(jobDocRef, {...updatedJobData, lastUpdatedDate: new Date()}, { merge: true }) // `{ merge: true }` ensures partial updates if needed
+        const newJobData = structuredClone(updatedJobData)
+        const jobEntryDates = ['applicationDate', 'offerDate', 'lastCommunication']
+        jobEntryDates.forEach((d) => {
+          if (typeof newJobData[d] === 'string' && newJobData[d]) {
+            newJobData[d] = convertToFirebaseTimestamp(newJobData[d])
+          }
+        })
+        await setDoc(jobDocRef, {...newJobData, lastUpdatedDate: new Date()}, { merge: true }) // `{ merge: true }` ensures partial updates if needed
         fireToast({ type: 'success', content: 'Job updated successfully!' })
       } else {
         // If no data is provided, throw an error
