@@ -406,8 +406,8 @@ const CreateEditJobForm: React.FC<CreateEditJobSBContentProps> = (props) => {
                             />
                         </div>
                     )}
-
                 </div>
+
                 {/* Mandatory Fields Above */}
 
                 <button className='bg-cyan-400 h-[40px] hover:bg-cyan-600 text-black w-fit  p-2 rounded-md text-center duration-500' onClick={() => setShowOptionalFields(!showOptionalFields)}>

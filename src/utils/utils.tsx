@@ -30,6 +30,8 @@ export const renderLocation = (country: string, state: string, city: string, reg
         return `${state} (${country})`
     } else if (country && region) {
         return `${region} (${country})`
+    } else if (region) {
+        return region
     } else {
         return ''
     }

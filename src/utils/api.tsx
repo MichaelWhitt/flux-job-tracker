@@ -60,6 +60,7 @@ export const getRecaptcha = async () => {
 // }
 
 export const createUserJobEntry = async (userId: string, jobData: JobEntry) => {
+  console.log({jobData})
     try {
         const userRef = doc(db, 'Users', userId)
         const jobEntryDates = ['applicationDate', 'offerDate', 'lastCommunication']
