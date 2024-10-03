@@ -87,7 +87,14 @@ const JobCard: React.FC<JobCardProps> = ({ job }) => {
         </div>
         <div className='flex gap-1'>
           <IconMoneybag size={15} />
-          <span className='flex text-xs sm:text-md text-gray-400 mb-2'>{renderText(job.salary, 14) || 'N/A'}</span>
+          <span className='flex text-xs sm:text-md text-gray-400 mb-2'>
+            {renderText(job.salary, 14) || '0'}
+          </span>
+          {job.salaryFrequency && (
+              <span className='flex text-xs sm:text-md text-gray-400 mb-2'>
+                {' '}{'/ ' + job.salaryFrequency}
+              </span>
+            )}
         </div>
         <div className={`ml-auto p-1 text-xs sm: text-md  ` + statusColorMap[job.status?.toLowerCase()]}>{renderText(job.status, 20) || 'N/A'}</div>
       </div>

@@ -154,7 +154,7 @@ const CreateEditJobForm: React.FC<CreateEditJobSBContentProps> = (props) => {
         jobRegion: 'North America',
         notes: '',
         salary: '',
-        salaryFrequency: 'yearly',
+        salaryFrequency: 'yr',
         employmentType: 'Full-time',
         skills: [],
         jobLevel: 'Mid',
@@ -322,8 +322,8 @@ const CreateEditJobForm: React.FC<CreateEditJobSBContentProps> = (props) => {
                             onChange={handleChange}
                             className='h-[34px] bg-gray-800 rounded-md p-2 w-fit text-sm'
                         >
-                            <option value='yearly'>Yearly</option>
-                            <option value='hourly'>Hourly</option>
+                            <option value='yr'>Yearly</option>
+                            <option value='hr'>Hourly</option>
                             <option value='once'>Once</option>
                         </select>
                     </div>

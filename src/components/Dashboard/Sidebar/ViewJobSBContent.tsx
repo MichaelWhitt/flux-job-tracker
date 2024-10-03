@@ -1,6 +1,6 @@
 import JobSidebar from './JobSidebar'
 import {useState, useContext} from 'react'
-import { formatDate, renderLocation } from '../../../utils/utils'
+import { formatDate, renderLocation, renderSalary } from '../../../utils/utils'
 import { deletePublicJobEntry, deleteUserJobEntry } from '../../../utils/api'
 import { AppContext } from '../../../auth/AppContext'
 import { collection } from 'firebase/firestore'
@@ -43,6 +43,12 @@ const ViewJobSBContent = ({job}: ViewJobSBContentProps) => {
     }
   }
 
+  const handleRenderSalary = (s: string) => {
+    let newSalary
+
+    newSalary = job.salary ? renderSalary(s) + ' / ' + job.salaryFrequency : '0'
+    return '$' + newSalary
+  }
   if (isDeleting) {
     return (
       <div className='bg-gray-900 p-6 text-gray-100 h-full'>
@@ -90,7 +96,7 @@ const ViewJobSBContent = ({job}: ViewJobSBContentProps) => {
             <h3 className='text-lg font-semibold mb-4 text-blue-300'>Job Details</h3>
             <LabeledField label='Location' value={renderLocation(job.jobCountry, job.jobState, job.jobCity, job.jobRegion)} />
             <LabeledField label='Office Location' value={job.officeLocation} />
-            <LabeledField label='Salary' value={job.salary ? `$${job.salary}` : null} />
+            <LabeledField label='Salary' value={handleRenderSalary(job.salary)} />
             <LabeledField label='Job Level' value={job.jobLevel} />
             <LabeledField label='Employment Type' value={job.employmentType} />
           </div>

@@ -217,6 +217,14 @@ export const getCurrentDateStringForInput = () => {
     return `${year}-${month}-${day}`
 }
 
+export const renderSalary = (s: string): string => {
+    // Convert the salary string to a float
+    const salaryNumber = parseFloat(s)
+    
+    // Format the salary with commas for thousands and ensure two decimal places
+    return salaryNumber.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 2 })
+}
+
 export const sortJobsBy = (m: string, t: string, js: JobEntry[]) => {
         return js.sort((a, b) => {
             if (t === 'asc') {
