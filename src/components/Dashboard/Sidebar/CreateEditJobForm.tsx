@@ -244,8 +244,8 @@ const CreateEditJobForm: React.FC<CreateEditJobSBContentProps> = (props) => {
                 {props.type === 'create' ? 'Create Job' : 'Edit Job'}
             </h2>
             <div className='flex flex-col'>
-                <div className='grid sm:grid-cols-2 gap-2'>
-                    <div className='flex flex-col'>
+                <div className='grid sm:grid-cols-2 gap-4'>
+                    <div className='flex flex-col mb-[-24px]'>
                         <label htmlFor='company' className='text-white'>Company</label>
                         <TextInputField
                             label=''
@@ -258,7 +258,7 @@ const CreateEditJobForm: React.FC<CreateEditJobSBContentProps> = (props) => {
                         />
                     </div>
 
-                    <div className='flex flex-col'>
+                    <div className='flex flex-col mb-[-24px]'>
                         <label htmlFor='title' className='text-white'>Job Title</label>
                         <TextInputField
                             label=''
@@ -271,9 +271,12 @@ const CreateEditJobForm: React.FC<CreateEditJobSBContentProps> = (props) => {
                         />
                     </div>
 
-                    <RegionSelect handleChange={handleChange} formData={formData} />
+                    <div>
+                        <RegionSelect handleChange={handleChange} formData={formData} />
+                    </div>
+                    
 
-                    <div className='flex flex-col gap-2 mb-5'>
+                    <div className='flex flex-col gap-2'>
                         <label htmlFor='officeLocation' className='text-white'>Office Location</label>
                         <select
                             name='officeLocation'
@@ -288,7 +291,7 @@ const CreateEditJobForm: React.FC<CreateEditJobSBContentProps> = (props) => {
                         </select>
                     </div>
 
-                    <div className='flex flex-col '>
+                    <div className='flex flex-col col-span-2 mb-[-24px]'>
                         <label htmlFor='jobLink' className='text-white'>Job Link</label>
                         <TextInputField
                             label=''
@@ -301,33 +304,38 @@ const CreateEditJobForm: React.FC<CreateEditJobSBContentProps> = (props) => {
                         />
                     </div>
 
-                    <div className='flex flex-col '>
-                        <label htmlFor='salary' className='text-white'>Salary</label>
-                        <TextInputField
-                            label=''
-                            isInvalid={!formData.salary}
-                            name='salary'
-                            placeholder='Salary'
-                            value={formData.salary}
-                            onBlur={handleSalaryBlur}
-                            onChange={handleChange}
-                            style={{background: '#1F2937', color: '#fff'}}
-                        />
+                    <div className='grid sm:grid-cols-2 col-span-2 gap-2'>
+                        <div className='flex flex-col mb-[-24px]'>
+                            <label htmlFor='salary' className='text-white'>Salary</label>
+                            <TextInputField
+                                label=''
+                                isInvalid={!formData.salary}
+                                name='salary'
+                                placeholder='Salary'
+                                value={formData.salary}
+                                onBlur={handleSalaryBlur}
+                                onChange={handleChange}
+                                style={{background: '#1F2937', color: '#fff'}}
+                            />
+                        </div>
+                        <div className='flex flex-col gap-2'>
+                            <label htmlFor='salaryFrequency' className='text-white'>Salary Frequency</label>
+                            <select
+                                name='salaryFrequency'
+                                value={formData.salaryFrequency}
+                                onChange={handleChange}
+                                className='h-[34px] bg-gray-800 rounded-md p-2 w-full text-sm'
+                            >
+                                <option value='yr'>Yearly</option>
+                                <option value='hr'>Hourly</option>
+                                <option value='once'>Once</option>
+                            </select>
+                        </div>
+
                     </div>
-                    <div className='flex flex-col '>
-                        <label htmlFor='salaryFrequency' className='text-white'>Salary Frequency</label>
-                        <select
-                            name='salaryFrequency'
-                            value={formData.salaryFrequency}
-                            onChange={handleChange}
-                            className='h-[34px] bg-gray-800 rounded-md p-2 w-fit text-sm'
-                        >
-                            <option value='yr'>Yearly</option>
-                            <option value='hr'>Hourly</option>
-                            <option value='once'>Once</option>
-                        </select>
-                    </div>
-                    <div className='flex flex-col gap-2 mb-5'>
+
+                    
+                    <div className='flex flex-col gap-2'>
                         <label htmlFor='employmentType' className='text-white'>Employment Type</label>
                         <select
                             name='employmentType'
@@ -342,7 +350,7 @@ const CreateEditJobForm: React.FC<CreateEditJobSBContentProps> = (props) => {
                         </select>
                     </div>
 
-                    <div className='flex flex-col gap-2 mb-5'>
+                    <div className='flex flex-col gap-2'>
                         <label htmlFor='haveReferral' className='text-white'>Have Referral?</label>
                         <Switch
                             name='haveReferral'
@@ -372,7 +380,7 @@ const CreateEditJobForm: React.FC<CreateEditJobSBContentProps> = (props) => {
                     </div>
 
                     {formData.status?.toLowerCase() === 'applied' && (
-                        <div className='flex flex-col '>
+                        <div className='flex flex-col'>
                         <label htmlFor='applicationDate' className='text-white'>Application Date</label>
                         <TextInputField
                             label=''
@@ -402,13 +410,13 @@ const CreateEditJobForm: React.FC<CreateEditJobSBContentProps> = (props) => {
                 </div>
                 {/* Mandatory Fields Above */}
 
-                <button className='mb-5 bg-cyan-400 h-[40px] hover:bg-cyan-600 text-black w-fit  p-2 rounded-md text-center duration-500' onClick={() => setShowOptionalFields(!showOptionalFields)}>
+                <button className='bg-cyan-400 h-[40px] hover:bg-cyan-600 text-black w-fit  p-2 rounded-md text-center duration-500' onClick={() => setShowOptionalFields(!showOptionalFields)}>
                     {showOptionalFields ? 'Hide Optional Fields' : 'Show Optional Fields'}
                 </button>
-                {showOptionalFields && <hr />}
+                {showOptionalFields && <hr className='mt-5'/>}
 
                 {showOptionalFields && (
-                    <div className='grid sm:grid-cols-2 gap-2 mt-2'>
+                    <div className='grid sm:grid-cols-2 gap-4 mt-2'>
                         <div className='flex flex-col'>
                             <label htmlFor='description' className='text-white'>Job Description</label>
                             <Textarea
@@ -431,7 +439,7 @@ const CreateEditJobForm: React.FC<CreateEditJobSBContentProps> = (props) => {
                             />
                         </div>
 
-                        <div className='flex flex-col '>
+                        <div className='flex flex-col mb-[-24px]'>
                             <label htmlFor='interviewRound' className='text-white'>Interview Round</label>
                             <TextInputField
                                 label=''
@@ -445,7 +453,7 @@ const CreateEditJobForm: React.FC<CreateEditJobSBContentProps> = (props) => {
                             />
                         </div>
 
-                        <div className='flex flex-col'>
+                        <div className='flex flex-col mb-[-24px]'>
                             <label htmlFor='lastCommunication' className='text-white'>Last Communication</label>
                             <TextInputField
                                 label=''
@@ -457,7 +465,7 @@ const CreateEditJobForm: React.FC<CreateEditJobSBContentProps> = (props) => {
                             />
                         </div>
 
-                        <div className='flex flex-col'>
+                        <div className='flex flex-col mb-[-24px]'>
                             <label htmlFor='skills' className='text-white'>Skills</label>
                             <TextInputField
                                 label=''
@@ -469,7 +477,7 @@ const CreateEditJobForm: React.FC<CreateEditJobSBContentProps> = (props) => {
                             />
                         </div>
 
-                        <div className='flex flex-col gap-2 mb-5'>
+                        <div className='flex flex-col gap-2'>
                             <label htmlFor='jobLevel' className='text-white'>Job Level</label>
                             <select
                                 name='jobLevel'
@@ -484,7 +492,7 @@ const CreateEditJobForm: React.FC<CreateEditJobSBContentProps> = (props) => {
                             </select>
                         </div>
 
-                        <div className='flex flex-col gap-2 mb-5'>
+                        <div className='flex flex-col gap-2'>
                             <label htmlFor='qualificationMatch' className='text-white'>Qualification Match</label>
                             <select
                                 name='qualificationMatch'
@@ -500,7 +508,7 @@ const CreateEditJobForm: React.FC<CreateEditJobSBContentProps> = (props) => {
                             </select>
                         </div>
 
-                        <div className='flex flex-col gap-2 mb-5'>
+                        <div className='flex flex-col gap-2'>
                             <label htmlFor='applicationSite' className='text-white'>Application Site</label>
                             <select
                                 name='applicationSite'
@@ -522,7 +530,7 @@ const CreateEditJobForm: React.FC<CreateEditJobSBContentProps> = (props) => {
                             </select>
                         </div>
 
-                        <div className='flex flex-col '>
+                        <div className='flex flex-col'>
                             <label htmlFor='interestLevel' className='text-white'>Interest Level</label>
                             <select
                                 name='interestLevel'
@@ -536,7 +544,7 @@ const CreateEditJobForm: React.FC<CreateEditJobSBContentProps> = (props) => {
                             </select>
                         </div>
 
-                        <div className='flex flex-col'>
+                        <div className='flex flex-col mb-[-24px]'>
                             <label htmlFor='hiringManager' className='text-white'>Hiring Manager</label>
                             <TextInputField
                                 label=''
@@ -548,7 +556,7 @@ const CreateEditJobForm: React.FC<CreateEditJobSBContentProps> = (props) => {
                             />
                         </div>
 
-                        <div className='flex flex-col'>
+                        <div className='flex flex-col mb-[-24px]'>
                             <label htmlFor='hmContactInfo' className='text-white'>
                                 Hiring Manager Contact Info
                             </label>

@@ -192,11 +192,9 @@ export const convertToFirebaseTimestamp = (d: string) => {
 }
 
 export const convertToDateStringFromFBTimestamp = (d: any): string | null => {
-    console.log({d})
     
     // Check if d is a Firebase Timestamp
     if (d instanceof Timestamp) {
-        console.log('is timestamp')
         return dayjs(d.toDate()).format('YYYY-MM-DD')
     } else if (d && typeof d === 'object' && 'seconds' in d) {
         return dayjs(d.seconds * 1000).format('YYYY-MM-DD')

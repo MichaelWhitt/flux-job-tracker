@@ -81,7 +81,6 @@ export const createUserJobEntry = async (userId: string, jobData: JobEntry) => {
 }
 
 export const updateUserJobEntry = async (userId: string, jobData: JobEntry) => {
-  console.log({jobData})
     try {
         const userDocRef = doc(db, 'Users', userId)
         const userDocSnapshot = await getDoc(userDocRef)
