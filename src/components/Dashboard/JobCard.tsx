@@ -104,9 +104,9 @@ const JobCard: React.FC<JobCardProps> = ({ job }) => {
           {renderText(renderLocation(job.jobCountry, job.jobState, job.jobCity, job.jobRegion), isOnMobile ? 30 : 100) || 'N/A'}
         </div>
         
-        <div className='flex gap-1 ml-auto'>
+        <div className='flex gap-1'>
           <IconArmchair size={15} />
-          [{renderText(job.officeLocation, 20) || 'N/A'}]
+          {renderText(job.officeLocation, 20) || 'N/A'}
         </div>
   
       </div>
