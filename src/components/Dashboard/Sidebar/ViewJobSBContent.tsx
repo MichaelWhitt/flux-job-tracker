@@ -91,23 +91,49 @@ const ViewJobSBContent = ({job}: ViewJobSBContentProps) => {
           <div className='bg-gray-800 p-2 rounded'>{job.title}</div>
         </h2>
         
-        <div className='grid grid-cols-1 md:grid-cols-2 gap-6 mb-6'>
-          <div className='bg-gray-800 p-4 rounded-lg'>
+        <div className='grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6'>
+          <div className='bg-gray-800 p-4 rounded-lg grid grid-cols-2 sm:col-span-2 gap-1'>
             <h3 className='text-lg font-semibold mb-4 text-blue-300'>Job Details</h3>
-            <LabeledField label='Location' value={renderLocation(job.jobCountry, job.jobState, job.jobCity, job.jobRegion)} />
+            <div className='col-span-2'>
+              <LabeledField label='Location' value={renderLocation(job.jobCountry, job.jobState, job.jobCity, job.jobRegion)} />
+            </div>
+            
             <LabeledField label='Office Location' value={job.officeLocation} />
             <LabeledField label='Salary' value={handleRenderSalary(job.salary)} />
             <LabeledField label='Job Level' value={job.jobLevel} />
             <LabeledField label='Employment Type' value={job.employmentType} />
+            <LabeledField 
+              label='Job Link' 
+              value={
+                <a href={job.jobLink} target='_blank' rel='noopener noreferrer' className='text-blue-400 hover:underline'>
+                  Job Link
+                </a>
+              } 
+            />
+            <LabeledField label='Application Site' value={job.applicationSite} />
           </div>
           
-          <div className='bg-gray-800 p-4 rounded-lg'>
+          <div className='bg-gray-800 p-4 rounded-lg sm:col-span-2'>
             <h3 className='text-lg font-semibold mb-4 text-blue-300'>Personal Assessment</h3>
             <LabeledField label='Interest Level' value={job.interestLevel} />
             <LabeledField label='Qualification Match' value={job.qualificationMatch} />
           </div>
+
+                  
+          <div className='bg-gray-800 p-4 rounded-lg mb-6 sm:col-span-2 h-full'>
+            <h3 className='text-lg font-semibold mb-4 text-blue-300'>Contact Information</h3>
+            <LabeledField label='Hiring Manager' value={job.hiringManager} />
+            <div className='mb-2'>
+              <div className='text-sm text-gray-400'>Hiring Manager Contact Info</div>
+              <div className='flex items-center mt-1'>
+                  <div className='bg-gray-700 p-2 rounded flex-grow flex mr-auto'>
+                    {job.hmContactInfo ? <CopyClipboard text={job.hmContactInfo} textClass='bg-none ml-2 flex mr-2'/> : '-'}
+                  </div>
+              </div>
+            </div>
+          </div>
           
-          <div className='bg-gray-800 p-4 rounded-lg md:col-span-2'>
+          <div className='bg-gray-800 p-4 rounded-lg sm:col-span-2'>
             <h3 className='text-lg font-semibold mb-4 text-blue-300'>Application Status</h3>
             <LabeledField label='Created Date' value={formatDate(job.createdDate || job.applicationDate, false, false)} />
             <LabeledField label='Last Updated Date' value={formatDate(job.lastUpdatedDate, false, false)} />
@@ -117,32 +143,6 @@ const ViewJobSBContent = ({job}: ViewJobSBContentProps) => {
             <LabeledField label='Have Referral' value={job.haveReferral ? 'Yes' : 'No'} />
             <LabeledField label='Interview Round' value={job.interviewRound} />
           </div>
-        </div>
-        
-        <div className='bg-gray-800 p-4 rounded-lg mb-6'>
-          <h3 className='text-lg font-semibold mb-4 text-blue-300'>Contact Information</h3>
-          <LabeledField label='Hiring Manager' value={job.hiringManager} />
-          <div className='mb-2'>
-            <div className='text-sm text-gray-400'>Hiring Manager Contact Info</div>
-            <div className='flex items-center mt-1'>
-                <div className='bg-gray-700 p-2 rounded flex-grow flex mr-auto'>
-                  {job.hmContactInfo ? <CopyClipboard text={job.hmContactInfo} textClass='bg-none ml-2 flex mr-2'/> : '-'}
-                </div>
-            </div>
-          </div>
-        </div>
-        
-        <div className='bg-gray-800 p-4 rounded-lg mb-6'>
-          <h3 className='text-lg font-semibold mb-4 text-blue-300'>Links</h3>
-          <LabeledField 
-            label='Job Link' 
-            value={
-              <a href={job.jobLink} target='_blank' rel='noopener noreferrer' className='text-blue-400 hover:underline'>
-                Job Link
-              </a>
-            } 
-          />
-          <LabeledField label='Application Site' value={job.applicationSite} />
         </div>
 
         <div className='bg-gray-800 p-4 rounded-lg'>

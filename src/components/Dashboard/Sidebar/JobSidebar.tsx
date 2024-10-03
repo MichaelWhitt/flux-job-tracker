@@ -69,7 +69,7 @@ const JobSidebar = ({ job, sidebarOpen, setSidebarOpen, type }: JobSidebar) => {
       shouldCloseOnOverlayClick={type === 'view' ? true : false}
       isShown={sidebarOpen}
       onCloseComplete={() => setSidebarOpen(false)}
-      width={isMobile ? 300 : 600}
+      width={isMobile ? 350 : 600}
     >
       {renderSidebarContext()}
     </SideSheet>
