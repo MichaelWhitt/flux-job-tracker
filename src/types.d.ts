@@ -54,13 +54,13 @@ interface AppContextType {
     meta_unid?: string
     interviewRound?: number
     salary: string
+    salaryFrequency: string
     jobLink: string
-    employmentType: 'Full-time' | 'Part-time' | 'Contract'
+    employmentType: 'Full-time' | 'Part-time' | 'Contract' | 'Temporary'
     haveReferral: boolean
     offerDate?: string | Date
     hiringManager?: string
     interestLevel?: 'Low' | 'Medium' | 'High'
-    location: string
     officeLocation: 'Office' | 'Hybrid' | 'Remote' | 'Unknown'
     skills?: string[]
     qualificationMatch?: 'No' | 'Low' | 'Medium' | 'High' | 'Perfect'

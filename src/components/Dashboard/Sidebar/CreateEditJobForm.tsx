@@ -53,7 +53,7 @@ const CreateEditJobForm: React.FC<CreateEditJobSBContentProps> = (props) => {
                             ...prev,
                             jobCity: '',
                         }))
-                        break;
+                        break
                 }
                 
             } else {
@@ -118,18 +118,43 @@ const CreateEditJobForm: React.FC<CreateEditJobSBContentProps> = (props) => {
         }))
     }
 
-    const defaultFormData = {
+    const handleSalaryBlur = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target?.value) {
+            if (typeof e.target.value === 'string') {
+                const v = e.target.value
+                // Remove all non-digit characters except the first period
+                let sanitized = v.replace(/[^\d.]/g, '').replace(/(\..*)\./g, '$1')
+                
+                // Split the string into parts by the period
+                let parts = sanitized.split('.')
+                
+                if (parts.length > 1) {
+                    // If there's a decimal part, limit it to two places
+                    sanitized = parts[0] + '.' + parts[1].slice(0, 2)
+                }
+                
+                // Ensure we don't have a lone decimal point
+                if (sanitized === '.') {
+                    sanitized = ''
+                }
+                setFormData({...formData, salary: sanitized})
+            }
+        }
+    }
+
+    const defaultFormData : JobEntry = {
         company: '',
         title: '',
-        location: '',
         status: 'Not Applied',
         description: '',
         applicationDate: '',
         offerDate: '',
         lastCommunication: '',
         hiringManager: '',
+        jobRegion: 'North America',
         notes: '',
         salary: '',
+        salaryFrequency: 'yearly',
         employmentType: 'Full-time',
         skills: [],
         jobLevel: 'Mid',
@@ -246,19 +271,6 @@ const CreateEditJobForm: React.FC<CreateEditJobSBContentProps> = (props) => {
                         />
                     </div>
 
-                    {/* <div className='flex flex-col '>
-                        <label htmlFor='location' className='text-white'>Job Location</label>
-                        <TextInputField
-                            label=''
-                            isInvalid={!formData.location}
-                            name='location'
-                            placeholder='Location'
-                            value={formData.location}
-                            onChange={handleChange}
-                            style={{background: '#1F2937', color: '#fff'}}
-                        />
-                    </div> */}
-
                     <RegionSelect handleChange={handleChange} formData={formData} />
 
                     <div className='flex flex-col gap-2 mb-5'>
@@ -297,9 +309,23 @@ const CreateEditJobForm: React.FC<CreateEditJobSBContentProps> = (props) => {
                             name='salary'
                             placeholder='Salary'
                             value={formData.salary}
+                            onBlur={handleSalaryBlur}
                             onChange={handleChange}
                             style={{background: '#1F2937', color: '#fff'}}
                         />
+                    </div>
+                    <div className='flex flex-col '>
+                        <label htmlFor='salaryFrequency' className='text-white'>Salary Frequency</label>
+                        <select
+                            name='salaryFrequency'
+                            value={formData.salaryFrequency}
+                            onChange={handleChange}
+                            className='h-[34px] bg-gray-800 rounded-md p-2 w-fit text-sm'
+                        >
+                            <option value='yearly'>Yearly</option>
+                            <option value='hourly'>Hourly</option>
+                            <option value='once'>Once</option>
+                        </select>
                     </div>
                     <div className='flex flex-col gap-2 mb-5'>
                         <label htmlFor='employmentType' className='text-white'>Employment Type</label>
@@ -312,6 +338,7 @@ const CreateEditJobForm: React.FC<CreateEditJobSBContentProps> = (props) => {
                             <option value='Full-time'>Full-time</option>
                             <option value='Part-time'>Part-time</option>
                             <option value='Contract'>Contract</option>
+                            <option value='Temporary'>Temporary</option>
                         </select>
                     </div>
 
