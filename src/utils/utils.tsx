@@ -192,12 +192,19 @@ export const convertToFirebaseTimestamp = (d: string) => {
 }
 
 export const convertToDateStringFromFBTimestamp = (d: any): string | null => {
+    console.log({d})
+    
     // Check if d is a Firebase Timestamp
     if (d instanceof Timestamp) {
-        const dateObject = d.toDate()// Convert Timestamp to Date
-        // Format the Date to MM/DD/YYYY
-        const formattedDate = `${dateObject.getFullYear()}-${String(dateObject.getMonth() + 1).padStart(2, '0')}-${String(dateObject.getDate()).padStart(2, '0')}` 
-        return formattedDate // Return formatted date string
+        console.log('is timestamp')
+        return dayjs(d.toDate()).format('YYYY-MM-DD')
+    } else if (d && typeof d === 'object' && 'seconds' in d) {
+        return dayjs(d.seconds * 1000).format('YYYY-MM-DD')
+    }
+    
+    // If d is already a string, return it as is
+    if (typeof d === 'string') {
+        return d
     }
     return d
 }
