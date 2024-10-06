@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import JobSidebar from './Sidebar/JobSidebar'
-import { formatDate, isOnMobile, renderLocation} from '../../utils/utils'
+import { formatDate, isOnMobile, renderLocation, renderSalary} from '../../utils/utils'
 import { IconArmchair, IconMapPin, IconMoneybag, IconBuilding } from '@tabler/icons-react'
 
 interface JobCardProps {
@@ -61,7 +61,7 @@ const JobCard: React.FC<JobCardProps> = ({ job }) => {
       onClick={handleClick}
     >
       <div className='flex justify-between items-center'>
-        <h2 className='text-md sm:text-md font-bold'>{renderText(job.title, isOnMobile ? 20 : 45) || 'N/A'}</h2>
+        <h2 className='text-sm sm:text-md font-bold'>{renderText(job.title, isOnMobile ? 20 : 45) || 'N/A'}</h2>
         {job.lastUpdatedDate ? (
           <p className='text-xs sm:text-md text-gray-400'>
             
@@ -88,7 +88,7 @@ const JobCard: React.FC<JobCardProps> = ({ job }) => {
         <div className='flex gap-1'>
           <IconMoneybag size={15} />
           <span className='flex text-xs sm:text-md text-gray-400 mb-2'>
-            {renderText(job.salary, 14) || '0'}
+            ${renderSalary(job.salary)}
           </span>
           {job.salaryFrequency && (
               <span className='flex text-xs sm:text-md text-gray-400 mb-2'>
