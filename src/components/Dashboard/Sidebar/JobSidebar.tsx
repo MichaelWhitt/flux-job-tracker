@@ -50,7 +50,7 @@ const JobSidebar = ({ job, sidebarOpen, setSidebarOpen, type }: JobSidebar) => {
               employmentType: 'Full-time',
               skills: [],
               jobLevel: 'Entry',
-              jobRegion: userObj?.defaultLocation?.jobRegion || '',
+              jobRegion: userObj?.defaultLocation?.jobRegion || 'North America',
               jobCountry: userObj?.defaultLocation?.jobCountry || '',
               jobState: userObj?.defaultLocation?.jobState || '',
               jobCity: userObj?.defaultLocation?.jobCity || '',
