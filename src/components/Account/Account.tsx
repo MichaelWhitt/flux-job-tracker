@@ -5,15 +5,19 @@ import {SimpleGrid, Stack} from '@mantine/core'
 import {Button} from '../Buttons/Button'
 import {updateUserFields} from '../../utils/api'
 import { fireToast } from '../Toasts/fireToast'
+import RegionSelect from '../Inputs/RegionSelect'
 
 const Settings: React.FC = () => {
   const globalContext = useContext(AppContext)
   const userObj = globalContext?.user || {email: '', id: ''}
   const [fieldsToUpdate, setFieldsToUpdate] = useState<UserObject>({
     email: '',
-    id: ''
+    id: ''    
   })
-
+  const [newLocation, setNewLocation] = useState({
+    ...userObj.defaultLocation
+  })
+console.log({userObj, newLocation, fieldsToUpdate})
   useEffect(() => {
     if (userObj !== null && userObj !== undefined && 'id' in userObj) {
       setFieldsToUpdate(userObj)
@@ -21,7 +25,7 @@ const Settings: React.FC = () => {
   }, [userObj])
 
   const handleSubmission = () => {
-    if (fieldsToUpdate) {
+      console.log({fieldsToUpdate})
       updateUserFields(userObj.id, fieldsToUpdate).then(x => {
         if (x) {
           globalContext?.getUserDataObj(userObj.id) // refresh global user context data
@@ -32,15 +36,48 @@ const Settings: React.FC = () => {
           fireToast({type: 'error', content: 'Failed to update profile'})
         }
       })
-    }
   }
+
+  const handleRegionChange = (value: string, type: string) => {
+    console.log('change', value, type)
+  
+    let updatedLocation = { ...newLocation, [type]: value }
+  
+    if (!value) {
+      switch (type) {
+        case 'jobRegion':
+          updatedLocation = { jobRegion: '', jobCountry: '', jobState: '', jobCity: '' }
+          break
+        case 'jobCountry':
+          updatedLocation = { ...updatedLocation, jobCountry: '', jobState: '', jobCity: '' }
+          break
+        case 'jobState':
+          updatedLocation = { ...updatedLocation, jobState: '', jobCity: '' }
+          break
+        case 'jobCity':
+          updatedLocation = { ...updatedLocation, jobCity: '' }
+          break
+      }
+    }
+  
+    setNewLocation(updatedLocation)
+  
+    setFieldsToUpdate(prev => ({
+      ...prev,
+      defaultLocation: updatedLocation
+    }))
+  }
+
+  useEffect(() => {
+    
+    console.log(2, fieldsToUpdate)
+  }, [fieldsToUpdate])
 
   const settingsObjsAreSame = () => {
     const dbObj = userObj
     const stateObj = fieldsToUpdate
     let favJobsMatch = false
     if (Object.keys(dbObj)?.length === Object.keys(stateObj)?.length) {
-      // check favGenre entries
       // stringify everything but favJobs
       if (dbObj.favJobs?.length && stateObj.favJobs?.length && dbObj.favJobs?.length === stateObj.favJobs?.length) {
         if (stateObj !== null && stateObj !== undefined) {
@@ -91,7 +128,11 @@ const Settings: React.FC = () => {
             spacing={'sm'} 
             className=' ml-5 bg-bg3 p-5 rounded-md'   
           >
-            Coming Soon!
+            <RegionSelect 
+                handleChange={handleRegionChange} 
+                formData={{...newLocation || {jobRegion:'', jobCountry: '', jobState: '', jobCity: ''}}}
+                label='Default Location'
+              />
           </SimpleGrid>
         </SimpleGrid>
       </Stack>

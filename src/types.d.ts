@@ -23,7 +23,7 @@ interface AppContextType {
     email: string
     id: string
     emailVerified?: boolean
-    jobs: Array<JobEntry>,
+    jobs?: Array<JobEntry>,
     notifications?: boolean
     darkMode?: boolean
     profilePic?: string
@@ -32,6 +32,12 @@ interface AppContextType {
     subscriptionStart?: string,
     subscriptionEnd?: string,
     favJobs?: Array<JobEntry>
+    defaultLocation?: {
+      jobRegion: string,
+      jobCountry: string,
+      jobState: string,
+      jobCity: string
+    }
   }
 
   type JobEntry = {

@@ -15,6 +15,7 @@ interface JobEntry {
 interface RegionSelectProps {
   handleChange: (value: string, type: string) => void
   formData: JobEntry
+  label?: string
 }
 
 interface Country {
@@ -34,7 +35,7 @@ interface City {
   name: string;
 }
 
-const RegionSelect: React.FC<RegionSelectProps> = ({ handleChange, formData }) => {
+const RegionSelect: React.FC<RegionSelectProps> = ({ handleChange, formData, label = 'Location'}) => {
   const [regionName, setRegionName] = useState(formData?.jobRegion || '')
   const [countryName, setCountryName] = useState(formData?.jobCountry || '')
   const [stateName, setStateName] = useState(formData?.jobState || '')
@@ -215,7 +216,7 @@ const RegionSelect: React.FC<RegionSelectProps> = ({ handleChange, formData }) =
 
   return (
     <div className='flex flex-col gap-2'>
-      <label htmlFor='' className='text-white'>Location</label>
+      <label htmlFor='' className='text-white'>{label}</label>
       {renderAutocomplete(regions, regionName, (value) => handleLocationChange(value, 'jobRegion'), 'Select Region', 'region')}
       {regionName && renderAutocomplete(countryList.map(x => x.name), countryName, (value) => handleLocationChange(value, 'jobCountry'), 'Select Country', 'country')}
       {countryName && renderAutocomplete(stateList.map(x => x.name), stateName, (value) => handleLocationChange(value, 'jobState'), 'Select State', 'state')}
