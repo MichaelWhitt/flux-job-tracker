@@ -16,6 +16,7 @@ interface RegionSelectProps {
   handleChange: (value: string, type: string) => void
   formData: JobEntry
   label?: string
+  bypassValidation?: boolean
 }
 
 interface Country {
@@ -35,7 +36,7 @@ interface City {
   name: string;
 }
 
-const RegionSelect: React.FC<RegionSelectProps> = ({ handleChange, formData, label = 'Location'}) => {
+const RegionSelect: React.FC<RegionSelectProps> = ({ handleChange, formData, label = 'Location', bypassValidation}) => {
   const [regionName, setRegionName] = useState(formData?.jobRegion || '')
   const [countryName, setCountryName] = useState(formData?.jobCountry || '')
   const [stateName, setStateName] = useState(formData?.jobState || '')
@@ -204,8 +205,8 @@ const RegionSelect: React.FC<RegionSelectProps> = ({ handleChange, formData, lab
       styles={autoCompleteStyle}
       rightSection={value && <IconSquareX onClick={() => clearSelection(type)} size={25} className="text-red-300 font-thin cursor-pointer" />}
       placeholder={placeholder}
-      required={type === 'region'}
-      error={type === 'region' && !value}
+      required={bypassValidation ? false : type === 'region'}
+      error={bypassValidation ? false : type === 'region' && !value}
       classNames={{
         option: 'mantine-autocomplete-option'
       }}

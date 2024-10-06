@@ -1,5 +1,6 @@
 import { SideSheet } from 'evergreen-ui'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
+import { AppContext } from '../../../auth/AppContext'
 import ViewJobSBContent from './ViewJobSBContent'
 // import NewJobSBContent from './NewJobSBContent'
 // import EditJobSBContent from './EditJobSBContent'
@@ -16,6 +17,8 @@ interface JobSidebar {
 const JobSidebar = ({ job, sidebarOpen, setSidebarOpen, type }: JobSidebar) => {
 
     const [isMobile, setIsMobile] = useState(false)
+    const globalContext = useContext(AppContext)
+    const userObj = globalContext?.user
 
     useEffect(() => {
       const checkIfMobile = () => {
@@ -47,7 +50,10 @@ const JobSidebar = ({ job, sidebarOpen, setSidebarOpen, type }: JobSidebar) => {
               employmentType: 'Full-time',
               skills: [],
               jobLevel: 'Entry',
-              jobRegion: 'North America',
+              jobRegion: userObj?.defaultLocation?.jobRegion || '',
+              jobCountry: userObj?.defaultLocation?.jobCountry || '',
+              jobState: userObj?.defaultLocation?.jobState || '',
+              jobCity: userObj?.defaultLocation?.jobCity || '',
               meta_unid: generateUnid(),
               applicationSite: '',
               jobLink: '',

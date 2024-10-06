@@ -132,6 +132,7 @@ console.log({userObj, newLocation, fieldsToUpdate})
                 handleChange={handleRegionChange} 
                 formData={{...newLocation || {jobRegion:'', jobCountry: '', jobState: '', jobCity: ''}}}
                 label='Default Location'
+                bypassValidation
               />
           </SimpleGrid>
         </SimpleGrid>
