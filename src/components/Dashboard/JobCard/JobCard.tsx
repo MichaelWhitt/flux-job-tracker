@@ -55,7 +55,7 @@ const JobCard: React.FC<JobCardProps> = ({ job }) => {
         w-full sm:h-[120px]
         transition-all duration-300 ease-in-out
         ${isHovered ? 'bg-gray-900 transform -translate-y-1' : ''}
-        overflow-hidden cursor-pointer
+        overflow-hidden cursor-pointer flex flex-col
       `}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
@@ -96,7 +96,7 @@ const JobCard: React.FC<JobCardProps> = ({ job }) => {
             )}
         </div>
       </div>
-      <div className='flex gap-5 items-center sm:mb-2 text-xs sm:text-md'>
+      <div className='flex gap-5 items-center sm:mb-2 text-xs sm:text-md text-gray-400'>
         <div className='flex gap-1'>
           <IconMapPin size={15} />
           {renderText(renderLocation(job.jobCountry, job.jobState, job.jobCity, job.jobRegion), isOnMobile ? 30 : 100) || 'N/A'}
