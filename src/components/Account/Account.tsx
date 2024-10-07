@@ -17,7 +17,7 @@ const Settings: React.FC = () => {
   const [newLocation, setNewLocation] = useState({
     ...userObj.defaultLocation
   })
-console.log({userObj, newLocation, fieldsToUpdate})
+
   useEffect(() => {
     if (userObj !== null && userObj !== undefined && 'id' in userObj) {
       setFieldsToUpdate(userObj)
@@ -25,7 +25,6 @@ console.log({userObj, newLocation, fieldsToUpdate})
   }, [userObj])
 
   const handleSubmission = () => {
-      console.log({fieldsToUpdate})
       updateUserFields(userObj.id, fieldsToUpdate).then(x => {
         if (x) {
           globalContext?.getUserDataObj(userObj.id) // refresh global user context data
@@ -39,7 +38,6 @@ console.log({userObj, newLocation, fieldsToUpdate})
   }
 
   const handleRegionChange = (value: string, type: string) => {
-    console.log('change', value, type)
   
     let updatedLocation = { ...newLocation, [type]: value }
   
@@ -67,11 +65,6 @@ console.log({userObj, newLocation, fieldsToUpdate})
       defaultLocation: updatedLocation
     }))
   }
-
-  useEffect(() => {
-    
-    console.log(2, fieldsToUpdate)
-  }, [fieldsToUpdate])
 
   const settingsObjsAreSame = () => {
     const dbObj = userObj

@@ -6,7 +6,6 @@ interface InterestLevelProps {
 }
 
 const InterestLevel = ({level} : InterestLevelProps) => {
-    console.log(level)
 
     if (level?.toLowerCase() === 'low') {
         return <IconAntennaBars2 color={'red'} size={25} />
