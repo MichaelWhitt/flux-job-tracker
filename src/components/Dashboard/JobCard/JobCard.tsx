@@ -82,9 +82,9 @@ const JobCard: React.FC<JobCardProps> = ({ job }) => {
         
         <div className='flex gap-1'>
           <IconBuilding size={15} />
-          <span className='text-xs sm:text-md text-gray-400 mb-2'>{renderText(job.company, isOnMobile ? 15 : 35) || 'N/A'}</span>
+          <span className='text-xs sm:text-md text-gray-400 mb-2'>{renderText(job.company, isOnMobile ? 25 : 35) || 'N/A'}</span>
         </div>
-        <div className='flex gap-1'>
+        <div className='flex gap-1 ml-auto'>
           <IconMoneybag size={15} />
           <span className='flex text-xs sm:text-md text-gray-400 mb-2'>
             ${renderSalary(job.salary)}
