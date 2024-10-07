@@ -99,7 +99,7 @@ const JobCard: React.FC<JobCardProps> = ({ job }) => {
       <div className='flex gap-5 items-center sm:mb-2 text-xs sm:text-md text-gray-400'>
         <div className='flex gap-1'>
           <IconMapPin size={15} />
-          {renderText(renderLocation(job.jobCountry, job.jobState, job.jobCity, job.jobRegion), isOnMobile ? 30 : 100) || 'N/A'}
+          {renderText(renderLocation(job.jobCountry || '', job.jobState || '', job.jobCity || '', job.jobRegion), isOnMobile ? 30 : 100) || 'N/A'}
         </div>
         
         <div className='flex gap-1 ml-auto'>
