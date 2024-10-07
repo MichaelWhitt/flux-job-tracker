@@ -1,4 +1,4 @@
-import JobCard from './JobCard'
+import JobCard from './JobCard/JobCard'
 import Loader from './Loader'
 import JobSidebar from './Sidebar/JobSidebar'
 import { useState, useContext } from 'react'

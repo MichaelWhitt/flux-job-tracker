@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
-import JobSidebar from './Sidebar/JobSidebar'
-import { formatDate, isOnMobile, renderLocation, renderSalary} from '../../utils/utils'
+import JobSidebar from '../Sidebar/JobSidebar'
+import { formatDate, isOnMobile, renderLocation, renderSalary} from '../../../utils/utils'
 import { IconArmchair, IconMapPin, IconMoneybag, IconBuilding } from '@tabler/icons-react'
+import InterestLevel from './InterestLevel'
 
 interface JobCardProps {
   job: JobEntry
@@ -51,7 +52,7 @@ const JobCard: React.FC<JobCardProps> = ({ job }) => {
     <div 
       className={`
         bg-gray-800 text-white p-2 rounded-lg shadow-md
-        w-full sm:h-[120px] h-fit
+        w-full sm:h-[120px]
         transition-all duration-300 ease-in-out
         ${isHovered ? 'bg-gray-900 transform -translate-y-1' : ''}
         overflow-hidden cursor-pointer
@@ -76,14 +77,12 @@ const JobCard: React.FC<JobCardProps> = ({ job }) => {
             Created: {formatDate(job.createdDate, false, false) || 'N/A'}
           </p>
         )}
-
-        
       </div>
-      <div className='flex gap-3'>
+      <div className='flex gap-3 mt-1'>
         
         <div className='flex gap-1'>
           <IconBuilding size={15} />
-          <span className='text-xs sm:text-md text-gray-400 mb-2'>{renderText(job.company, 30) || 'N/A'}</span>
+          <span className='text-xs sm:text-md text-gray-400 mb-2'>{renderText(job.company, isOnMobile ? 15 : 35) || 'N/A'}</span>
         </div>
         <div className='flex gap-1'>
           <IconMoneybag size={15} />
@@ -96,21 +95,30 @@ const JobCard: React.FC<JobCardProps> = ({ job }) => {
               </span>
             )}
         </div>
-        <div className={`ml-auto p-1 text-xs sm: text-md  ` + statusColorMap[job.status?.toLowerCase()]}>{renderText(job.status, 20) || 'N/A'}</div>
       </div>
-      <div className='flex gap-5 items-center sm:mb-2 text-xs sm:text-md mt-1'>
+      <div className='flex gap-5 items-center sm:mb-2 text-xs sm:text-md'>
         <div className='flex gap-1'>
           <IconMapPin size={15} />
           {renderText(renderLocation(job.jobCountry, job.jobState, job.jobCity, job.jobRegion), isOnMobile ? 30 : 100) || 'N/A'}
         </div>
         
-        <div className='flex gap-1'>
+        <div className='flex gap-1 ml-auto'>
           <IconArmchair size={15} />
           {renderText(job.officeLocation, 20) || 'N/A'}
         </div>
-  
       </div>
-      <p className='text-xs sm:text-md overflow-hidden text-ellipsis hidden sm:flex'>{renderText(job.description, 100) || 'N/A'}</p>
+      <div className='flex gap-1 mt-2'>
+        <div className='flex gap-1 text-xs items-center'>
+          Interest:<InterestLevel level={job.interestLevel || ''} /> 
+        </div>
+        <div className='flex gap-1 text-xs items-center'>
+          Qualified:<InterestLevel level={job.qualificationMatch || ''} /> 
+        </div>
+        
+        <div className={`ml-auto p-1 text-xs sm:text-md  ` + statusColorMap[job.status?.toLowerCase()]}>
+          {renderText(job.status, 20) || 'N/A'}
+        </div>
+      </div>
       <JobSidebar job={job} setSidebarOpen={setSidebarOpen} sidebarOpen={sidebarOpen} type={'view'} />
     </div>
   )
