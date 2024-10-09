@@ -7,7 +7,6 @@ import DashHeader from './DashHeader/DashHeader'
 
 interface JobListingProps {
     originalJobs: Array<JobEntry>
-    filteredJobs: Array<JobEntry>
 }
 
 const JobListing = (props: JobListingProps) => {
@@ -16,9 +15,7 @@ const JobListing = (props: JobListingProps) => {
     const [mounted, setMounted] = useState(false)
     
     let jobsToDisplay = props.originalJobs
-    if (props.filteredJobs.length) {
-        jobsToDisplay = props.filteredJobs
-    }
+
 
     setTimeout(() => {
         if (jobsToDisplay.length === 0) {
@@ -31,7 +28,6 @@ const JobListing = (props: JobListingProps) => {
             <DashHeader 
                 sideBarOpen={sidebarOpen}
                 setSidebarOpen={setSidebarOpen} 
-                filteredJobs={props.filteredJobs} 
                 originalJobs={props.originalJobs} 
             />
             {jobsToDisplay?.length > 0 && jobsToDisplay?.map((job, idx) => {

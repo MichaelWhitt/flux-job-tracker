@@ -5,6 +5,8 @@ interface JobFiltersProps {
     setFilteredJobs: (jobs: Array<JobEntry>) => void
     originalJobs: Array<JobEntry>
     filteredJobs: Array<JobEntry>
+    jobFilters: {[key: string]: Array<string>}
+    setJobFilters: (filter: {[key: string]: Array<string>}) => void
 }
 
 interface StatusType {
@@ -16,8 +18,6 @@ interface RegionType {
 }
 
 const JobFilters = (props: JobFiltersProps) => {
-    const [statusFilter, setStatusFilter] = useState<StatusType['status']>('All Jobs')
-    const [regionFilter, setRegionFilter] = useState<RegionType['region']>('All Regions')
 
     const statusFilterOptions: StatusType['status'][] = [
         'All Jobs',
@@ -40,39 +40,12 @@ const JobFilters = (props: JobFiltersProps) => {
         'Oceania'
     ]
 
-    const changeStatusFilter = (status: StatusType['status']) => {
-        setStatusFilter(status)
-
-        // Filter jobs based on the selected status (case-insensitive)
-        const filteredJobs =
-            status === 'All Jobs'
-                ? props.originalJobs // Show all jobs if "All" is selected
-                : props.originalJobs.filter(job => job.status?.toLowerCase() === status.toLowerCase())
-
-        if (filteredJobs.length) {
-            props.setFilteredJobs(filteredJobs)
+    const handleFilterChange = (type: string, value: string) => {
+        if (props.jobFilters[type].includes(value)) {
+            // if included in array, remove it, otherwise add it
+            props.setJobFilters({...props.jobFilters, [type]: props.jobFilters[type].filter( filters => filters !== value)})
         } else {
-            fireToast({ type: 'error', content: 'No jobs match that filter, try another' })
-            setStatusFilter('All Jobs')
-            props.setFilteredJobs([])
-        }
-    }
-
-    const changeLocationFilter = (region: RegionType['region']) => {
-        setRegionFilter(region)
-
-        // Filter jobs based on the selected status (case-insensitive)
-        const filteredJobs =
-            region === 'All Regions'
-                ? props.originalJobs // Show all jobs if "All" is selected
-                : props.originalJobs.filter(job => job.jobRegion?.toLowerCase() === region.toLowerCase())
-
-        if (filteredJobs.length) {
-            props.setFilteredJobs(filteredJobs)
-        } else {
-            fireToast({ type: 'error', content: 'No jobs match that filter, try another' })
-            setStatusFilter('All Jobs')
-            props.setFilteredJobs([])
+            props.setJobFilters({...props.jobFilters, [type]: [...props.jobFilters[type], value]})
         }
     }
 
@@ -81,9 +54,9 @@ const JobFilters = (props: JobFiltersProps) => {
             {statusFilterOptions.map((status) => (
                 <button
                     key={status}
-                    onClick={() => changeStatusFilter(status)}
+                    onClick={() => handleFilterChange('status', status)}
                     className={`${
-                        statusFilter === status ? 'bg-green-600' : 'bg-gray-700'
+                        props.jobFilters.status.includes(status) ? 'bg-green-600' : 'bg-gray-700'
                     }
                     text-white
                     hover:bg-green-500
@@ -97,9 +70,9 @@ const JobFilters = (props: JobFiltersProps) => {
             {regionFilterOptions.map((region) => (
                 <button
                     key={region}
-                    onClick={() => changeLocationFilter(region)}
+                    onClick={() => handleFilterChange('jobRegion', region)}
                     className={`${
-                        regionFilter === region ? 'bg-green-600' : 'bg-gray-700'
+                        props.jobFilters.jobRegion.includes(region) ? 'bg-green-600' : 'bg-gray-700'
                     }
                     text-white
                     hover:bg-green-500
