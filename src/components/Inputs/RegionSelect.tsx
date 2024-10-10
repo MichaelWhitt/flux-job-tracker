@@ -89,8 +89,8 @@ const RegionSelect: React.FC<RegionSelectProps> = ({ handleChange, formData, lab
         return countries.filter(cs => cs.region?.toLowerCase().includes('africa'))
       case 'Oceania':
         return countries.filter(cs => cs.region?.toLowerCase().includes('oceania'))
-      case 'All':
-        return countries
+      // case 'All':
+      //   return countries
       default:
         return []
     }

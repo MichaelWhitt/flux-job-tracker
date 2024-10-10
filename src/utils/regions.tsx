@@ -1,5 +1,5 @@
 export const regions = [
-    'All',
+    //'All',
     'Africa',
     'Asia',
     'Europe',
