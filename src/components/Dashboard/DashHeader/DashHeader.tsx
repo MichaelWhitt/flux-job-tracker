@@ -1,5 +1,6 @@
 import { IconPlus } from '@tabler/icons-react'
 import SortJobs from './SortJobs'
+import { isOnMobile } from '../../../utils/utils'
 
 interface DashHeaderProps {
     sidebarOpen: boolean
@@ -13,9 +14,11 @@ const DashHeader = ({sidebarOpen, setSidebarOpen, filteredJobs, originalJobs}: D
     return (
         <div className='flex gap-3 w-full items-center mt-[20px] sm:mt-[-10px] flex-col'>
             <div className='grid grid-cols-2 sm:grid-cols-3 gap-1 items-end sm:items-center w-full'>
-                <div className='col-span-2 sm:col-span-1'>
-                    <SortJobs />
-                </div>
+                {!isOnMobile && (
+                    <div className='col-span-2 sm:col-span-1'>
+                        <SortJobs />
+                    </div>
+                )}
                 
                 <span className='flex text-gray-400 font-bold mr-auto'>
                     <span>

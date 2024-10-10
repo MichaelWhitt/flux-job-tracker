@@ -70,27 +70,35 @@ const Landing = (props: DashboardProps) => {
   return (
     <div className='p-2'>
       <>
-        <h1 className='text-white font-bold text-3xl flex justify-center sm:mb-[100px] pt-5 sm:pt-0'>
+        <h1 className='text-white font-bold text-3xl flex justify-center sm:mb-[100px] mb-[50px] pt-5 sm:pt-0'>
           {globalContext?.isLoggedIn ? 'Dashboard' : 'Public Dashboard'}
         </h1>
         <div className='flex sm:min-w-3/4 w-4/5 m-auto sm:flex-row flex-col'>
             <div className='flex sm:flex-col'>
                 {isOnMobile ? (
-                    <GenericModal
-                        title='Filters'
-                        trigger={<IconFilter />}
-                        showConfirm
-                        confirmText='Apply Filters'
-                    >
-                        <JobFilters
-                            filterCount={filterCount}
-                            clearFilters={clearFilters}
-                            originalJobs={dataToUse}
-                            setOriginalJobs={setoriginalJobs}
-                            setJobFilters={setJobFilters}
-                            jobFilters={jobFilters}
-                        />
-                    </GenericModal>
+                    <div className='flex justify-between w-full'>
+                        <div className='flex gap-1 items-center'>
+                            <GenericModal
+                                title='Filters'
+                                trigger={<IconFilter size={40} />}
+                                showConfirm
+                                confirmText='Apply Filters'
+                            >
+                                <JobFilters
+                                    filterCount={filterCount}
+                                    clearFilters={clearFilters}
+                                    originalJobs={dataToUse}
+                                    setOriginalJobs={setoriginalJobs}
+                                    setJobFilters={setJobFilters}
+                                    jobFilters={jobFilters}
+                                />
+                            </GenericModal>
+                            Filters
+                        </div>
+                        
+                        <SortJobs />
+                    </div>
+                    
                 ) : (
                 <div className='flex-shrink-0'>
                     <JobFilters
