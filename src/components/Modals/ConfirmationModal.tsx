@@ -21,7 +21,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
   confirmLabel = 'Confirm',
   cancelLabel = 'Cancel',
 }) => {
-  const handleClose = () => setIsOpen(false) // Function to close the modal
+  const handleClose = () => setIsOpen(false)
 
   return (
     <Modal
