@@ -1,7 +1,7 @@
 import JobCard from './JobCard/JobCard'
 import Loader from './Loader'
 import JobSidebar from './Sidebar/JobSidebar'
-import { useState, useContext } from 'react'
+import { useState, useContext, useEffect } from 'react'
 import { AppContext } from '../../auth/AppContext'
 import DashHeader from './DashHeader/DashHeader'
 
@@ -16,12 +16,17 @@ const JobListing = (props: JobListingProps) => {
     
     let jobsToDisplay = props.originalJobs
 
-
-    setTimeout(() => {
-        if (jobsToDisplay.length === 0) {
+    useEffect(() => {
+        if (jobsToDisplay.length) {
             setMounted(true)
+        } else {
+            setTimeout(() => {
+                if (jobsToDisplay.length === 0) {
+                    setMounted(true)
+                }
+            }, 1000)
         }
-    }, 1000)
+    }, [jobsToDisplay])
 
     return (
         <div className='flex gap-3 flex-col items-center'>
